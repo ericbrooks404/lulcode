@@ -24,32 +24,41 @@ VOTES[NAME] R CARD    BTW Direct dictionary access
 ## Research Phase
 
 ### Story 001.1: Research BUKKIT Syntax Proposals
-**Status**: Not Started
+**Status**: ✅ Complete (2026-05-15)
 
 Research how BUKKIT should work in LULCODE:
-- [ ] Review GitHub issue #11 on lolcode-spec for community proposals
-- [ ] Examine LCI's BUKKIT implementation (if available)
-- [ ] Study implementations that have BUKKIT support
-- [ ] Document proposed syntax patterns:
+- [x] Review GitHub issue #11 on lolcode-spec for community proposals
+- [x] Examine LCI's BUKKIT implementation (if available)
+- [x] Study implementations that have BUKKIT support
+- [x] Document proposed syntax patterns:
   - Creation: `I HAS A arr ITZ A BUKKIT`
   - Access: `arr'Z key` vs `arr[key]` vs other
   - Assignment: `PUTZ value INTA arr AT key`
   - Iteration: How to loop over BUKKIT contents
 
-**Output**: Document comparison of BUKKIT syntax options
+**Output**: ✅ [`specs/research/001.1-bukkit-design.md`](../research/001.1-bukkit-design.md)
+
+**Key Decisions Made**:
+1. **Hybrid semantics**: BUKKIT supports both array (numeric) and dictionary (string) keys
+2. **Bracket sugar**: `arr[key]` transpiles to `arr'Z key` or `arr'Z SRS index`
+3. **Standard creation**: `I HAS A arr ITZ A BUKKIT` (LCI-compatible)
+4. **Multiple access patterns**: Support both `'Z` (standard) and `[...]` (sugar)
+5. **FOREACH sugar**: Future enhancement for iteration (EPIC-003)
 
 ### Story 001.2: Research Array vs Dictionary Semantics
-**Status**: Not Started
+**Status**: ✅ Complete (2026-05-15) - Resolved in Story 001.1
 
 Determine if BUKKIT should be:
-- [ ] Pure arrays (integer-indexed only)
-- [ ] Pure dictionaries (string-keyed only)
-- [ ] Hybrid (both, like Lua tables or PHP arrays)
-- [ ] Research Lua's table implementation (universal data structure)
-- [ ] Research PHP's array implementation (auto-incrementing + associative)
-- [ ] Document tradeoffs and recommendation
+- [x] Pure arrays (integer-indexed only) - Rejected
+- [x] Pure dictionaries (string-keyed only) - Rejected
+- [x] **Hybrid (both, like Lua tables or PHP arrays)** - ✅ CHOSEN
+- [x] Research Lua's table implementation (universal data structure)
+- [x] Research PHP's array implementation (auto-incrementing + associative)
+- [x] Document tradeoffs and recommendation
 
-**Output**: Design decision document on BUKKIT semantics
+**Output**: ✅ See Decision 1 in [`specs/research/001.1-bukkit-design.md`](../research/001.1-bukkit-design.md)
+
+**Decision**: Hybrid array/dictionary following Lua-table semantics, matching LCI's implementation
 
 ### Story 001.3: Research Transpilation Strategy
 **Status**: Not Started

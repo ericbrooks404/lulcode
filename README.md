@@ -58,13 +58,22 @@ LULCODE/
 
 ## Current Status
 
-**Phase**: Research  
+**Phase**: Research → Specification  
 **Progress**: 
 - ✅ Project structure created
 - ✅ EPICs defined for all priorities
-- 🔄 Research phase for each feature in progress
-- ⏳ Language specification (pending research)
+- ✅ BUKKIT research complete (Story 001.1, 001.2)
+- ✅ BUKKIT design decisions made
+- 🔄 BUKKIT transpilation strategy (Story 001.3)
+- ⏳ Language specification (in progress)
 - ⏳ Transpiler implementation (pending spec)
+
+**Recent Milestones**:
+- **2026-05-15**: Completed BUKKIT syntax research
+  - Analyzed GitHub issue #11, LCI implementation, community proposals
+  - Decided on hybrid array/dictionary semantics (Lua-table-style)
+  - Defined bracket notation sugar: `arr[key]` → `arr'Z key`
+  - See: `specs/research/001.1-bukkit-design.md`
 
 ## Getting Started
 
