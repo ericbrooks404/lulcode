@@ -69,15 +69,63 @@ LULCODE/
 - ⏳ Transpiler implementation (pending spec)
 
 **Recent Milestones**:
-- **2026-05-15**: Completed BUKKIT syntax research
-  - Analyzed GitHub issue #11, LCI implementation, community proposals
-  - Decided on hybrid array/dictionary semantics (Lua-table-style)
-  - Defined bracket notation sugar: `arr[key]` → `arr'Z key`
-  - See: `specs/research/001.1-bukkit-design.md`
+- **2026-05-15**: ✅ **BUKKIT Transpiler Working!**
+  - Completed BUKKIT syntax research (Stories 001.1, 001.2)
+  - Implemented JavaScript bootstrap transpiler (Story 001.3)
+  - Bracket notation `arr[key]` → `arr'Z key` transpilation working
+  - All 10 test cases passing
+  - Successfully transpiled `bukkit-demo.lul` → `bukkit-demo.lol`
+  - See: `specs/research/001.1-bukkit-design.md` and `docs/BOOTSTRAP.md`
 
 ## Getting Started
 
-(TBD - Transpiler not yet implemented)
+### Installation
+
+```bash
+cd ~/Code/LULCODE
+# No npm dependencies required - pure Node.js
+```
+
+### Usage
+
+```bash
+# Transpile LULCODE to LOLCODE
+node src/transpiler.js input.lul output.lol
+
+# Or use via stdout
+node src/transpiler.js input.lul > output.lol
+
+# Use the bin wrapper
+./bin/lulcode examples/bukkit-demo.lul > output.lol
+```
+
+### Example
+
+**Input (LULCODE)**: `example.lul`
+```lulcode
+HAI 1.2
+I HAS A players ITZ A BUKKIT
+players["Alice"] = 100
+players["Bob"] = 85
+VISIBLE SMOOSH "Alice: " players["Alice"] MKAY
+KTHXBYE
+```
+
+**Output (LOLCODE)**: `example.lol`
+```lolcode
+HAI 1.2
+I HAS A players ITZ A BUKKIT
+players'Z Alice R 100
+players'Z Bob R 85
+VISIBLE SMOOSH "Alice: " players'Z Alice MKAY
+KTHXBYE
+```
+
+### Running Tests
+
+```bash
+node tests/transform.test.js
+```
 
 ## References
 

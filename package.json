@@ -1,0 +1,25 @@
+{
+  "name": "lulcode",
+  "version": "0.1.0",
+  "description": "LULCODE transpiler - A superset language that transpiles to LOLCODE",
+  "main": "src/transpiler.js",
+  "bin": {
+    "lulcode": "./bin/lulcode"
+  },
+  "scripts": {
+    "test": "node tests/transform.test.js",
+    "transpile": "node src/transpiler.js"
+  },
+  "keywords": [
+    "lolcode",
+    "lulcode",
+    "transpiler",
+    "esoteric",
+    "compiler"
+  ],
+  "author": "LULCODE Project",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
