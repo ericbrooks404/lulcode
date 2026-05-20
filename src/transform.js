@@ -6,12 +6,36 @@
  */
 
 /**
+ * Generate LULCODE runtime library functions
+ * @returns {string} - LOLCODE function definitions
+ */
+function generateRuntimeLibrary() {
+  return `
+BTW === LULCODE Runtime Library ===
+
+BTW String slice function: str[start:end]
+HOW IZ I __LULCODE_SLICE YR str AN YR start AN YR end
+  I HAS A result ITZ ""
+  I HAS A i ITZ start
+  IM IN YR __slice_loop UPPIN YR i TIL BOTH SAEM i AN end
+    I HAS A char ITZ str AT i
+    result R SMOOSH result AN char MKAY
+  IM OUTTA YR __slice_loop
+  FOUND YR result
+IF U SAY SO
+
+BTW === End LULCODE Runtime ===
+`;
+}
+
+/**
  * Transform LULCODE source to LOLCODE
  * @param {string} source - LULCODE source code
  * @returns {string} - LOLCODE output
  */
 function transform(source) {
   let output = source;
+  let needsSliceFunction = false;
 
   // String Interpolation: {var} → :{var}
   // Match strings containing {var} and convert to LOLCODE :{var} syntax
@@ -30,6 +54,40 @@ function transform(source) {
                           .replace(/\x00RIGHTBRACE\x00/g, '}');
 
       return `"${processed}"`;
+    }
+  );
+
+  // String Slice: str[start:end] → function call
+  // Must come BEFORE BUKKIT patterns (which don't have colons)
+  // Handles: [start:end], [start:], [:end], [:]
+  output = output.replace(
+    /(\w+)\[(-?\d+|\w*):(-?\d+|\w*)\]/g,
+    (match, str, start, end) => {
+      needsSliceFunction = true;
+
+      // Handle omitted start (defaults to 0)
+      const startExpr = start === '' ? '0' : start;
+
+      // Handle omitted end (use string length)
+      const endExpr = end === '' ? `LENGZ OF ${str}` : end;
+
+      // Handle negative indices by converting to positive
+      let finalStart = startExpr;
+      let finalEnd = endExpr;
+
+      if (startExpr.startsWith('-')) {
+        // Negative start: convert to (LENGZ OF str) + start
+        const offset = startExpr.substring(1);
+        finalStart = `DIFF OF LENGZ OF ${str} AN ${offset}`;
+      }
+
+      if (endExpr.startsWith('-')) {
+        // Negative end: convert to (LENGZ OF str) + end
+        const offset = endExpr.substring(1);
+        finalEnd = `DIFF OF LENGZ OF ${str} AN ${offset}`;
+      }
+
+      return `I IZ __LULCODE_SLICE YR ${str} AN YR ${finalStart} AN YR ${finalEnd} MKAY`;
     }
   );
 
@@ -74,6 +132,15 @@ function transform(source) {
     /(\w+)\[(\w+)\]/g,
     "$1'Z SRS $2"
   );
+
+  // Inject runtime library if needed
+  if (needsSliceFunction) {
+    // Insert runtime library after HAI line
+    output = output.replace(
+      /(HAI\s+[\d.]+)/,
+      `$1${generateRuntimeLibrary()}`
+    );
+  }
 
   return output;
 }

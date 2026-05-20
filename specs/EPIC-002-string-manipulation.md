@@ -53,24 +53,28 @@ Add ability to split strings into arrays:
 
 **Output**: Deferred pending EPIC-006 (True Arrays)
 
-### Story 002.3: Research String Substring/Slice Operation
+### Story 002.3: Research & Implement String Substring/Slice Operation
 **Status**: ✅ Complete (2026-05-19)
 
 Add substring extraction beyond single-character AT:
 - [x] Reviewed lol-coffee's `AT` operator (single char access)
 - [x] Researched 5 syntax options (verbose, property-style, extended AT, SLICE, brackets)
-- [x] Chose hybrid: LULCODE `str[start:end]` → LOLCODE inline loops
+- [x] Chose hybrid: LULCODE `str[start:end]` → LOLCODE runtime function
 - [x] Designed negative indices support: `str[-5:]` for last 5 chars
-- [x] Documented transpilation strategy (inline loops using AT)
+- [x] Documented transpilation strategy (runtime function using AT)
 - [x] Defined edge cases (bounds, negative indices, invalid ranges)
+- [x] **IMPLEMENTED** in `src/transform.js`
+- [x] **TESTED**: 20/20 tests passing (5 new slice tests)
+- [x] **EXAMPLE**: `examples/string-slice.lul` demonstrating all patterns
 
 **Output**: ✅ [`specs/research/002.3-substring-design.md`](../research/002.3-substring-design.md)
 
-**Key Design**:
-- LULCODE syntax: `str[start:end]` (Python-style)
-- Transpiles to: Character-by-character loop using `AT` operator
-- Supports negative indices, optional start/end
-- MVP: Inline generation, future: runtime library function
+**Implementation**:
+- LULCODE syntax: `str[start:end]`, `str[5:]`, `str[:10]`, `str[-5:]`
+- Transpiles to: Runtime function `__LULCODE_SLICE` (injected once per file)
+- Function uses character-by-character loop with `AT` operator
+- Negative indices convert to `DIFF OF LENGZ OF str AN offset`
+- Optional bounds: missing start defaults to 0, missing end uses `LENGZ OF str`
 
 ### Story 002.4: Research Additional String Operations
 **Status**: Not Started

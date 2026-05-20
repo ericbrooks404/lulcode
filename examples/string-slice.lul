@@ -1,0 +1,62 @@
+HAI 1.2
+BTW String Slice Demo - LULCODE Sugar
+
+BTW ===== BASIC SLICING =====
+VISIBLE "=== Basic Slicing ==="
+I HAS A text ITZ "HELLO WORLD"
+
+BTW Extract "HELLO" (indices 0-5)
+I HAS A word1 ITZ text[0:5]
+VISIBLE "First word: {word1}"
+
+BTW Extract "WORLD" (indices 6-11)
+I HAS A word2 ITZ text[6:11]
+VISIBLE "Second word: {word2}"
+
+BTW ===== OPEN-ENDED SLICING =====
+VISIBLE ""
+VISIBLE "=== Open-ended Slicing ==="
+
+BTW From index to end
+I HAS A rest ITZ text[6:]
+VISIBLE "From index 6 to end: {rest}"
+
+BTW From beginning to index
+I HAS A start ITZ text[:5]
+VISIBLE "From start to index 5: {start}"
+
+BTW ===== NEGATIVE INDICES =====
+VISIBLE ""
+VISIBLE "=== Negative Indices ==="
+
+BTW Last 5 characters
+I HAS A last5 ITZ text[-5:]
+VISIBLE "Last 5 chars: {last5}"
+
+BTW All but last 6 characters
+I HAS A first5 ITZ text[:-6]
+VISIBLE "All but last 6: {first5}"
+
+BTW ===== PRACTICAL EXAMPLES =====
+VISIBLE ""
+VISIBLE "=== Practical Examples ==="
+
+BTW Extract filename from path
+I HAS A path ITZ "/home/user/file.txt"
+I HAS A filename ITZ path[-8:]
+VISIBLE "Filename: {filename}"
+
+BTW Truncate for preview (first 10 chars)
+I HAS A title ITZ "This is a very long title"
+I HAS A preview ITZ title[:10]
+VISIBLE "Preview: {preview}..."
+
+BTW ===== COMPARISON =====
+VISIBLE ""
+VISIBLE "=== Old vs New ==="
+VISIBLE "Old: Manual character-by-character extraction with loops"
+VISIBLE "New: Clean Python-style slice syntax"
+VISIBLE ""
+VISIBLE "String slice demo complete!"
+
+KTHXBYE

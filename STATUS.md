@@ -7,8 +7,8 @@
 
 ## 🎯 Current Work
 
-**JUST COMPLETED**: EPIC-002 Story 002.3 - Substring/Slice Research ✅  
-**NEXT**: Implement Story 002.3 OR continue with 002.4/002.5
+**JUST COMPLETED**: EPIC-002 Story 002.3 - Substring/Slice Implementation ✅  
+**NEXT**: Continue EPIC-002 (002.4/002.5) OR move to EPIC-003
 
 ---
 
@@ -57,16 +57,17 @@
 - ✅ Story 002.1: String Interpolation (COMPLETE)
   - Syntax: `{var}` transpiles to `:{var}`
   - Escaped braces: `{{` → `{`, `}}` → `}`
-  - Tests: 15/15 passing
+  - Tests: 15/15 passing (now 20/20 with slice)
   - Tested with LCI: Working!
 - ⏸️ Story 002.2: String Split (DEFERRED - requires EPIC-006 arrays)
-- ✅ Story 002.3: Substring/Slice Research (COMPLETE)
-  - Designed Python-style syntax: `str[start:end]`
-  - Transpiles to inline loops using `AT` operator
+- ✅ Story 002.3: Substring/Slice (COMPLETE - Research + Implementation)
+  - Python-style syntax: `str[start:end]`, `str[5:]`, `str[:10]`, `str[-5:]`
+  - Transpiles to runtime function using `AT` operator
   - Supports negative indices, optional bounds
-  - Ready for implementation
+  - Tests: 20/20 passing (5 new slice tests)
+  - Example: `examples/string-slice.lul`
 
-**Next Story**: 002.3 Implementation OR 002.4/002.5 Research
+**Next Story**: 002.4/002.5 Research OR move to EPIC-003
 
 ---
 
@@ -102,9 +103,9 @@
 **EPICs**: 6 defined, 1 complete, 1 in progress  
 **Stories Complete**: 5 (001.1, 001.2, 001.3, 002.1, 002.3)  
 **Stories Deferred**: 2 (001.4, 002.2)  
-**Tests**: 15/15 passing  
-**Documentation**: 4,500+ lines  
-**Commits**: 7
+**Tests**: 20/20 passing  
+**Documentation**: 5,000+ lines  
+**Commits**: 8 (about to be 9)
 
 ---
 

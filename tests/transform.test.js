@@ -139,6 +139,41 @@ test(
   'arr\'Z key R "Value: :{val}"'
 );
 
+// Test 16: String slice - basic
+test(
+  'String slice - basic range',
+  'HAI 1.2\nI HAS A sub ITZ str[0:5]',
+  'HAI 1.2\nBTW === LULCODE Runtime Library ===\n\nBTW String slice function: str[start:end]\nHOW IZ I __LULCODE_SLICE YR str AN YR start AN YR end\n  I HAS A result ITZ ""\n  I HAS A i ITZ start\n  IM IN YR __slice_loop UPPIN YR i TIL BOTH SAEM i AN end\n    I HAS A char ITZ str AT i\n    result R SMOOSH result AN char MKAY\n  IM OUTTA YR __slice_loop\n  FOUND YR result\nIF U SAY SO\n\nBTW === End LULCODE Runtime ===\n\nI HAS A sub ITZ I IZ __LULCODE_SLICE YR str AN YR 0 AN YR 5 MKAY'
+);
+
+// Test 17: String slice - from start
+test(
+  'String slice - from index to end',
+  'HAI 1.2\nI HAS A sub ITZ str[5:]',
+  'HAI 1.2\nBTW === LULCODE Runtime Library ===\n\nBTW String slice function: str[start:end]\nHOW IZ I __LULCODE_SLICE YR str AN YR start AN YR end\n  I HAS A result ITZ ""\n  I HAS A i ITZ start\n  IM IN YR __slice_loop UPPIN YR i TIL BOTH SAEM i AN end\n    I HAS A char ITZ str AT i\n    result R SMOOSH result AN char MKAY\n  IM OUTTA YR __slice_loop\n  FOUND YR result\nIF U SAY SO\n\nBTW === End LULCODE Runtime ===\n\nI HAS A sub ITZ I IZ __LULCODE_SLICE YR str AN YR 5 AN YR LENGZ OF str MKAY'
+);
+
+// Test 18: String slice - to end
+test(
+  'String slice - from beginning to index',
+  'HAI 1.2\nI HAS A sub ITZ str[:5]',
+  'HAI 1.2\nBTW === LULCODE Runtime Library ===\n\nBTW String slice function: str[start:end]\nHOW IZ I __LULCODE_SLICE YR str AN YR start AN YR end\n  I HAS A result ITZ ""\n  I HAS A i ITZ start\n  IM IN YR __slice_loop UPPIN YR i TIL BOTH SAEM i AN end\n    I HAS A char ITZ str AT i\n    result R SMOOSH result AN char MKAY\n  IM OUTTA YR __slice_loop\n  FOUND YR result\nIF U SAY SO\n\nBTW === End LULCODE Runtime ===\n\nI HAS A sub ITZ I IZ __LULCODE_SLICE YR str AN YR 0 AN YR 5 MKAY'
+);
+
+// Test 19: String slice - negative index
+test(
+  'String slice - negative index (last N chars)',
+  'HAI 1.2\nI HAS A sub ITZ str[-5:]',
+  'HAI 1.2\nBTW === LULCODE Runtime Library ===\n\nBTW String slice function: str[start:end]\nHOW IZ I __LULCODE_SLICE YR str AN YR start AN YR end\n  I HAS A result ITZ ""\n  I HAS A i ITZ start\n  IM IN YR __slice_loop UPPIN YR i TIL BOTH SAEM i AN end\n    I HAS A char ITZ str AT i\n    result R SMOOSH result AN char MKAY\n  IM OUTTA YR __slice_loop\n  FOUND YR result\nIF U SAY SO\n\nBTW === End LULCODE Runtime ===\n\nI HAS A sub ITZ I IZ __LULCODE_SLICE YR str AN YR DIFF OF LENGZ OF str AN 5 AN YR LENGZ OF str MKAY'
+);
+
+// Test 20: String slice - no injection when no slice used
+test(
+  'No runtime library when no slice',
+  'HAI 1.2\nVISIBLE "Hello"',
+  'HAI 1.2\nVISIBLE "Hello"'
+);
+
 // Summary
 console.log(`\n${passed} passed, ${failed} failed`);
 process.exit(failed > 0 ? 1 : 0);
