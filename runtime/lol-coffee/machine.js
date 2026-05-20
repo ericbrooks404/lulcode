@@ -513,6 +513,7 @@ Requires:
       for (_ = i = 0, ref = this.args_count; 0 <= ref ? i < ref : i > ref; _ = 0 <= ref ? ++i : --i) {
         machine.getStack().push(old_stack.pop());
       }
+      machine.getStack().reverse();
       return machine.instruction_ptr = machine.functions[this.func_name];
     };
 

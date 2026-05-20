@@ -197,7 +197,7 @@ HOW DUZ I indexOf YR str AN YR pattern
   I HAS A i ITZ 0
   IM IN YR search UPPIN YR i TIL BOTH SAEM i AN SUM OF maxPos AN 1
     I HAS A endPos ITZ SUM OF i AN patLen
-    I HAS A sub ITZ I IZ LULCODE_SLICE YR str AN YR i AN YR endPos MKAY
+    I HAS A sub ITZ LULCODE_SLICE str i endPos
     BOTH SAEM sub AN pattern, O RLY?
       YA RLY
         FOUND YR i
@@ -222,7 +222,7 @@ HOW DUZ I startsWith YR str AN YR prefix
       FOUND YR FAIL
   OIC
 
-  I HAS A sub ITZ I IZ LULCODE_SLICE YR str AN YR 0 AN YR prefixLen MKAY
+  I HAS A sub ITZ LULCODE_SLICE str 0 prefixLen
   BOTH SAEM sub AN prefix, O RLY?
     YA RLY
       FOUND YR WIN
@@ -237,7 +237,7 @@ IF U SAY SO
     library += `
 BTW Check if pattern exists in string
 HOW DUZ I contains YR str AN YR pattern
-  I HAS A pos ITZ I IZ indexOf YR str AN YR pattern MKAY
+  I HAS A pos ITZ indexOf str pattern
   BOTH SAEM pos AN -1, O RLY?
     YA RLY
       FOUND YR FAIL
@@ -253,18 +253,18 @@ IF U SAY SO
     library += `
 BTW Replace first occurrence of substring
 HOW DUZ I replace YR str AN YR old AN YR new
-  I HAS A pos ITZ I IZ indexOf YR str AN YR old MKAY
+  I HAS A pos ITZ indexOf str old
 
   BOTH SAEM pos AN -1, O RLY?
     YA RLY
       FOUND YR str
   OIC
 
-  I HAS A before ITZ I IZ LULCODE_SLICE YR str AN YR 0 AN YR pos MKAY
+  I HAS A before ITZ LULCODE_SLICE str 0 pos
   I HAS A oldLen ITZ LENGZ OF old
   I HAS A afterPos ITZ SUM OF pos AN oldLen
   I HAS A strLen ITZ LENGZ OF str
-  I HAS A after ITZ I IZ LULCODE_SLICE YR str AN YR afterPos AN YR strLen MKAY
+  I HAS A after ITZ LULCODE_SLICE str afterPos strLen
   I HAS A result ITZ SMOOSH before AN new AN after MKAY
 
   FOUND YR result
@@ -288,13 +288,13 @@ HOW DUZ I replaceAll YR str AN YR old AN YR new
   I HAS A maxIterations ITZ 1000
   I HAS A iterations ITZ 0
   IM IN YR replaceLoop
-    I HAS A pos ITZ I IZ indexOf YR result AN YR old MKAY
+    I HAS A pos ITZ indexOf result old
     BOTH SAEM pos AN -1, O RLY?
       YA RLY
         GTFO
     OIC
 
-    result R I IZ replace YR result AN YR old AN YR new MKAY
+    result R replace result old new
     iterations R SUM OF iterations AN 1
     BOTH SAEM iterations AN maxIterations, O RLY?
       YA RLY
@@ -417,7 +417,7 @@ function transform(source) {
         finalEnd = `DIFF OF LENGZ OF ${str} AN ${offset}`;
       }
 
-      return `I IZ LULCODE_SLICE YR ${str} AN YR ${finalStart} AN YR ${finalEnd} MKAY`;
+      return `LULCODE_SLICE ${str} ${finalStart} ${finalEnd}`;
     }
   );
 
@@ -427,7 +427,7 @@ function transform(source) {
     /\bSPLIT\s+(.+?)\s+BY\s+(.+?)(?=\n|$)/gm,
     (match, str, delim) => {
       needsStringSplit = true;
-      return `I IZ LULCODE_SPLIT YR ${str} AN YR ${delim} MKAY`;
+      return `LULCODE_SPLIT ${str} ${delim}`;
     }
   );
 
@@ -662,7 +662,7 @@ function transform(source) {
     /\bPUSH\s+(.+?)\s+TO\s+(\w+)/g,
     (match, value, arr) => {
       needsArrayPush = true;
-      return `I IZ LULCODE_ARRAY_PUSH YR ${arr} AN YR ${value} MKAY`;
+      return `LULCODE_ARRAY_PUSH ${arr} ${value}`;
     }
   );
 
@@ -673,7 +673,7 @@ function transform(source) {
     /\bPOP\s+FROM\s+(\w+)/g,
     (match, arr) => {
       needsArrayPop = true;
-      return `I IZ LULCODE_ARRAY_POP YR ${arr} MKAY`;
+      return `LULCODE_ARRAY_POP ${arr}`;
     }
   );
 
@@ -682,7 +682,7 @@ function transform(source) {
     /\bSHIFT\s+FROM\s+(\w+)/g,
     (match, arr) => {
       needsArrayShift = true;
-      return `I IZ LULCODE_ARRAY_SHIFT YR ${arr} MKAY`;
+      return `LULCODE_ARRAY_SHIFT ${arr}`;
     }
   );
 
@@ -760,11 +760,11 @@ function transform(source) {
   // We can't distinguish strings from arrays at transpile time without type tracking
 
   // Detect string operations usage (BEFORE runtime injection so dependencies work)
-  let needsIndexOf = /I IZ indexOf\b/.test(output);
-  let needsStartsWith = /I IZ startsWith\b/.test(output);
-  let needsContains = /I IZ contains\b/.test(output);
-  let needsReplace = /I IZ replace\b/.test(output);
-  let needsReplaceAll = /I IZ replaceAll\b/.test(output);
+  let needsIndexOf = /\bindexOf\b/.test(output);
+  let needsStartsWith = /\bstartsWith\b/.test(output);
+  let needsContains = /\bcontains\b/.test(output);
+  let needsReplace = /\breplace\b/.test(output);
+  let needsReplaceAll = /\breplaceAll\b/.test(output);
 
   // Auto-enable dependencies
   if (needsContains) needsIndexOf = true;

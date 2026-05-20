@@ -604,17 +604,19 @@ Requires:
     };
 
     Parser.prototype._createStringLiteral = function(str) {
-      var buffer, chr, hex, i, index, len, parts, variable;
+      var buffer, chr, hex, index, parts, variable;
       if (!/^".*"$/.test(str)) {
         this._error('Invalid string literal: ' + str);
       }
       str = str.slice(1, -1);
       parts = [];
       buffer = [];
-      for (index = i = 0, len = str.length; i < len; index = ++i) {
+      index = 0;
+      while (index < str.length) {
         chr = str[index];
         if (chr === ':') {
-          chr = str[++index];
+          index++;
+          chr = str[index];
           switch (chr) {
             case ')':
               buffer.push('\n');
@@ -651,6 +653,7 @@ Requires:
         } else {
           buffer.push(chr);
         }
+        index++;
       }
       if (parts.length) {
         if (buffer.length) {
