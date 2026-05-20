@@ -1,12 +1,16 @@
-# EPIC-001: Arrays and Dictionaries (BUKKIT Implementation)
+# EPIC-001: Dictionaries (BUKKIT Implementation)
 
 **Priority**: 1 (Highest)  
-**Status**: Not Started  
+**Status**: In Progress (75% complete)  
 **Goal**: Tier 2 - Genuinely Useful
+
+**Note**: Based on LCI testing (2026-05-15), BUKKIT is **dictionary-only** with named keys. True numeric arrays deferred to EPIC-006.
 
 ## Overview
 
-Implement arrays and dictionaries using the reserved BUKKIT type. This is the most requested feature in the LOLCODE community (GitHub issue #11 since 2018) and would eliminate ~40% of string manipulation workarounds in real-world code.
+Implement dictionaries using the reserved BUKKIT type. This is the most requested feature in the LOLCODE community (GitHub issue #11 since 2018) and would eliminate ~40% of string manipulation workarounds in real-world code.
+
+**Scope**: Dictionary with named keys only. Numeric arrays deferred to EPIC-006 due to LCI limitations.
 
 ## Why This Matters
 
