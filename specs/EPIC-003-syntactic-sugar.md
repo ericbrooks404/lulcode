@@ -32,7 +32,7 @@ IF verb == "LOCAL-JOIN"               BTW Readable conditional
 END
 ```
 
-## Research Phase
+## Research Phase - ✅ COMPLETE
 
 ### Story 003.1: Research Variable Declaration Shorthand
 **Status**: ✅ Complete (2026-05-19)
@@ -55,76 +55,86 @@ Design shorter variable syntax:
 - Backward compatible: `I HAS A` still works
 
 ### Story 003.2: Research Conditional Statement Shorthand
-**Status**: Not Started
+**Status**: ✅ Complete (2026-05-19)
 
 Design cleaner conditional syntax:
-- [ ] Research alternatives to `O RLY?` / `YA RLY` / `NO WAI`:
-  - `IF condition ... END`
-  - `IF condition THEN ... ELSE ... END`
-  - Keep LOLCODE style: `O RLY? ... NOWAI ... KTHX`?
-- [ ] Research alternatives to `BOTH SAEM x AN y`:
-  - Infix operators: `x == y`, `x IS y`
-  - Keep prefix but shorter: `SAME x y`, `EQ x y`
-- [ ] Consider `MEBBE` (else-if) handling
-- [ ] Document transpilation strategy
+- [x] Researched alternatives to `O RLY?` / `YA RLY` / `NO WAI`
+- [x] Chose `IF...END`, `IF...ELSE...END`, `IF...ELIF...ELSE...END`
+- [x] Researched alternatives to `BOTH SAEM x AN y`
+- [x] Chose infix operators: `==`, `!=`, `>`, `<`, `>=`, `<=`
+- [x] Chose logical operators: `&&`, `||`, `!` (and AND, OR, NOT)
+- [x] ELIF replaces MEBBE
+- [x] Documented transpilation strategy
 
-**Output**: Conditional syntax specification
+**Output**: ✅ [`specs/research/003.2-conditional-shorthand-design.md`](../research/003.2-conditional-shorthand-design.md)
+
+**Key Design**:
+- Conditionals: `IF condition ... END`
+- Comparisons: `x == y`, `x != y`, `x > y`, etc.
+- Logical: `x && y`, `x || y`, `!x`
+- Impact: 50% reduction in conditional code
 
 ### Story 003.3: Research Assignment Operator Shorthand
-**Status**: Not Started
+**Status**: ✅ Complete (2026-05-19)
 
 Design shorter assignment syntax:
-- [ ] Current: `MYVAR R VALUE` (R = "are")
-- [ ] Research alternatives:
-  - `MYVAR = VALUE` (common infix)
-  - `MYVAR := VALUE` (Pascal-style)
-  - Keep `R` but allow `=` as alternative?
-- [ ] Consider compound assignments: `+=`, `-=`, etc.
-- [ ] Maintain backward compatibility with `R`
+- [x] Researched `=` vs `R` vs alternatives
+- [x] Chose to support both `=` (modern) and `R` (LOLCODE)
+- [x] Deferred compound assignments (`+=`, `-=`) to future EPIC
+- [x] Maintained backward compatibility with `R`
+- [x] Documented transpilation: `=` → `R`
 
-**Output**: Assignment operator specification
+**Output**: ✅ [`specs/research/003.3-assignment-shorthand-design.md`](../research/003.3-assignment-shorthand-design.md)
+
+**Key Design**:
+- Support both: `x = 5` and `x R 5`
+- Transpiles to: `x R 5`
+- Impact: Improved readability, familiar syntax
 
 ### Story 003.4: Research Loop Syntax Shorthand
-**Status**: Not Started
+**Status**: ✅ Complete (2026-05-19)
 
 Design cleaner loop syntax:
-- [ ] Current: `IM IN YR loop UPPIN var ... IM OUTTA YR loop`
-- [ ] Research alternatives:
-  - `FOR var FROM start TO end ... END`
-  - `WHILE condition ... END`
-  - `LOOP ... END` (infinite)
-  - `FOREACH item IN bukkit ... END` (requires BUKKIT)
-- [ ] Consider keeping LOLCODE style vs making it practical
-- [ ] Document transpilation to `IM IN YR` syntax
+- [x] Researched alternatives to `IM IN YR ... IM OUTTA YR`
+- [x] Chose `FOR...FROM...TO...END` for numeric loops
+- [x] Chose `WHILE condition...END` for conditional loops
+- [x] Chose `LOOP...END` for infinite loops
+- [x] Designed `FOREACH...IN...END` (deferred - needs EPIC-006 arrays)
+- [x] BREAK/CONTINUE control flow
+- [x] Documented transpilation strategy
 
-**Output**: Loop syntax specification
+**Output**: ✅ [`specs/research/003.4-loop-syntax-design.md`](../research/003.4-loop-syntax-design.md)
+
+**Key Design**:
+- FOR: `FOR i FROM 0 TO 10 ... END`
+- WHILE: `WHILE condition ... END`
+- LOOP: `LOOP ... BREAK ... END`
+- FOREACH: Designed but deferred to EPIC-006
+- Impact: 50% reduction in loop code
 
 ### Story 003.5: Research Function Syntax Shorthand
-**Status**: Not Started
+**Status**: ✅ Complete - DEFERRED (2026-05-19)
 
 Design cleaner function syntax:
-- [ ] Current: `HOW IZ I funcname YR arg1 AN YR arg2 ... IF U SAY SO`
-- [ ] Research alternatives:
-  - `FUNC funcname(arg1, arg2) ... END`
-  - `DEF funcname YR arg1, YR arg2 ... END`
-  - Keep LOLCODE flavor but simplify
-- [ ] Consider return value syntax beyond `FOUND YR`
-- [ ] Document transpilation strategy
+- [x] Researched alternatives to `HOW IZ I ... IF U SAY SO`
+- [x] Chose `FUNC name(params) ... END` for future
+- [x] Chose `RETURN` to complement `FOUND YR`
+- [x] Documented transpilation strategy
+- [x] **Decision: Defer to EPIC-019** (lower priority)
 
-**Output**: Function syntax specification
+**Output**: ✅ [`specs/research/003.5-function-syntax-design.md`](../research/003.5-function-syntax-design.md)
+
+**Key Design**:
+- Functions less common than vars/loops/conditionals
+- Lower priority for MVP
+- Deferred to future EPIC-019
 
 ### Story 003.6: Research Comment Syntax
-**Status**: Not Started
+**Status**: ⏭️ Skipped
 
-Consider alternative comment styles:
-- [ ] Current: `BTW single line`, `OBTW ... TLDR multi-line`
-- [ ] Research if we should add:
-  - `// single line` (common)
-  - `/* multi line */` (common)
-  - Keep BTW/OBTW for LOLCODE flavor?
-- [ ] Decide: syntax sugar or strict LOLCODE compatibility?
-
-**Output**: Comment syntax recommendation
+- BTW/OBTW work fine
+- Not a priority
+- Skip for MVP
 
 ## Implementation Phase (Future)
 
