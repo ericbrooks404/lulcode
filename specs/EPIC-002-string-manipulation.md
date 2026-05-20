@@ -40,18 +40,28 @@ Design string interpolation to replace SMOOSH:
 **Tests**: 15/15 passing (5 new string interpolation tests)  
 **Example**: `examples/string-interpolation.lul` - Tested with LCI ✅
 
-### Story 002.2: Research String Split Operation
-**Status**: ⏸️ Deferred (requires arrays from EPIC-006)
+### Story 002.2: Implement String Split Operation
+**Status**: ✅ Complete (2026-05-20) - Unblocked by EPIC-006
 
 Add ability to split strings into arrays:
-- [ ] Research split syntax options:
-  - `SPLIT str BY delimiter` → BUKKIT
-  - `str'Z SPLIT delimiter` → BUKKIT
-- [ ] Determine edge cases (empty string, no match, etc.)
-- [ ] Requires true arrays (EPIC-006), not just BUKKIT dictionaries
-- [ ] Document transpilation strategy
+- [x] Chose syntax: `SPLIT str BY delimiter` → array
+- [x] Implemented runtime function `__LULCODE_SPLIT`
+- [x] Handles single-character delimiters
+- [x] Handles empty delimiter (splits every character)
+- [x] Returns proper array with __length and __is_array metadata
+- [x] Compatible with FOREACH iteration
+- [x] Edge cases: empty strings, delimiter not found
+- [x] **TESTED**: 47/47 tests passing (3 new split tests)
+- [x] **EXAMPLE**: `examples/string-split.lul` with 5 use cases
 
-**Output**: Deferred pending EPIC-006 (True Arrays)
+**Output**: ✅ String split feature complete
+
+**Implementation**:
+- LULCODE syntax: `SPLIT str BY delim`
+- Transpiles to: `I IZ __LULCODE_SPLIT YR str AN YR delim MKAY`
+- Runtime function (~60 lines) injected when used
+- Returns array compatible with all array operations
+- Works seamlessly with FOREACH loops
 
 ### Story 002.3: Research & Implement String Substring/Slice Operation
 **Status**: ✅ Complete (2026-05-19)

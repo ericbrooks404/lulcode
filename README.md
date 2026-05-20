@@ -61,23 +61,28 @@ LULCODE/
 **Phase**: Distribution & Packaging (EPIC-005)  
 **Progress**: 
 - ✅ EPIC-001: Arrays/Dictionaries (BUKKIT) - COMPLETE
-- ✅ EPIC-002: String Manipulation - COMPLETE (Core Features)
+- ✅ EPIC-002: String Manipulation - COMPLETE
 - ✅ EPIC-003: Syntactic Sugar - COMPLETE
+- ✅ EPIC-006: True Arrays - COMPLETE
 - 🔄 EPIC-005: Distribution & Packaging - IN PROGRESS
-  - ✅ Story 005.1: CLI Design complete
-  - 🔄 Story 005.7: Enhanced CLI implementation (in progress)
+  - ✅ Story 005.1: CLI Design
+  - ✅ Story 005.7: Enhanced CLI Implementation
+  - 🔄 Story 005.8: npm Package Setup (current)
 
 **Recent Milestones**:
-- **2026-05-19**: ✅ **Syntactic Sugar Complete (EPIC-003)**
-  - VAR declarations: `VAR x, y, z` → 60% reduction
-  - Modern operators: `=`, `==`, `!=`, `&&`, `||`, `>=`, `<=`
-  - Clean conditionals: `IF/ELIF/ELSE` blocks
-  - Readable loops: `FOR/WHILE/LOOP` statements
-  - All 30 tests passing!
+- **2026-05-20**: ✅ **EPIC-006: True Arrays Complete!**
+  - Array literals: `VAR nums ITZ [1, 2, 3]`
+  - Numeric indexing: `arr[0]`, `arr[i]`
+  - Array operations: `PUSH`, `POP`, `SHIFT`
+  - FOREACH iteration: `FOREACH i, element IN arr`
+  - String Split: `SPLIT str BY delim`
+  - All 47 tests passing!
   
-- **2026-05-19**: ✅ **Enhanced CLI Designed (Story 005.1)**
+- **2026-05-20**: ✅ **Enhanced CLI Complete (Story 005.7)**
   - Professional command structure (compile, run, init, check)
   - Watch mode for development
+  - Colored output and progress indicators
+  - Error formatting with suggestions
   - Colored output and progress indicators
   - LCI integration for execution
 
@@ -90,15 +95,23 @@ LULCODE/
 
 ### Installation
 
-See [INSTALLATION.md](INSTALLATION.md) for detailed installation instructions.
-
-**Quick start**:
+**Via npm** (recommended):
 ```bash
-cd ~/Code/LULCODE
+npm install -g lulcode
+```
+
+This installs the `lulcode` command globally. Note: You'll need to install LCI separately if you want to execute programs (see [INSTALLATION.md](INSTALLATION.md)).
+
+**From source** (for development):
+```bash
+git clone https://github.com/lulcode/lulcode.git
+cd lulcode
 npm install          # Install CLI dependencies
 ./install.sh         # Install LCI interpreter (optional, for --run)
-npm link            # Make lulcode command globally available
+npm link             # Make lulcode command globally available
 ```
+
+See [INSTALLATION.md](INSTALLATION.md) for detailed installation instructions including LCI setup.
 
 ### Usage
 

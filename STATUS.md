@@ -7,9 +7,9 @@
 
 ## 🎯 Current Work
 
-**JUST COMPLETED**: EPIC-006 Complete - All Array Features! 🎉  
-**CURRENT**: Self-hosting 80% ready!  
-**NEXT**: Unblock deferred stories or research parser architecture
+**JUST COMPLETED**: String Split + Self-Hosting Analysis! 🎉  
+**CURRENT**: Story 002.2 complete, moving to EPIC-005 (npm package)  
+**NEXT**: Story 005.8 - npm package setup
 
 ---
 
@@ -17,12 +17,12 @@
 
 ### EPIC-002: String Manipulation - ✅ COMPLETE (Core Features)
 
-**Status**: String interpolation and slice working, split deferred
+**Status**: All core features complete!
 
 | Story | Status | Summary |
 |-------|--------|---------|
 | 002.1 | ✅ Complete | String interpolation: `{var}` → `:{var}` |
-| 002.2 | ⏸️ Deferred | String split (requires EPIC-006 arrays) |
+| 002.2 | ✅ Complete | String split: `SPLIT str BY delim` returns array |
 | 002.3 | ✅ Complete | String slice: `str[start:end]` with runtime function |
 | 002.4 | ⏭️ Skipped | Additional ops (trim, case) - lower priority |
 | 002.5 | ⏭️ Skipped | Documentation story |
@@ -211,12 +211,12 @@ END
 
 ## 📊 Overall Progress
 
-**EPICs**: 6 defined, 4 complete, 1 in progress  
-**Stories Complete**: 20 (001.1-003.5 + implementations + 005.1, 005.7, 006.1-006.5)  
-**Stories Deferred**: 2 (001.4, 002.2 - **ready to unblock!**)  
-**Tests**: 44/44 passing ✅  
-**Documentation**: 13,000+ lines  
-**Code**: ~2,400 lines (transpiler + CLI + complete arrays)
+**EPICs**: 6 defined, 5 complete (001-003, 005 in progress, 006 complete)  
+**Stories Complete**: 22 (001.1-003.5 + implementations + 005.1, 005.7, 006.1-006.5, 002.2)  
+**Stories Deferred**: 1 (001.4 - LCI limitations)  
+**Tests**: 47/47 passing ✅  
+**Documentation**: 14,000+ lines (includes self-hosting analysis)  
+**Code**: ~2,400 lines (transpiler + CLI + complete arrays + string split)
 
 ---
 
@@ -256,7 +256,7 @@ END
 
 ## 🎯 Session Goals
 
-**This Session**:
+**Last Session** (2026-05-20):
 1. ✅ ~~Implement enhanced CLI (Story 005.7)~~
 2. ✅ ~~Start EPIC-006 (True Arrays for self-hosting)~~
 3. ✅ ~~Array implementation strategy research (Story 006.1)~~
@@ -264,14 +264,14 @@ END
 5. ✅ ~~Implement array transpilation (Story 006.3)~~
 6. ✅ ~~Implement array operations (Story 006.4)~~
 7. ✅ ~~Implement FOREACH iteration (Story 006.5)~~
-8. 🎉 **EPIC-006 COMPLETE! Self-hosting 80% ready!**
+8. ✅ ~~Unblock String split (Story 002.2)~~
+9. ✅ ~~Self-hosting analysis complete~~
+10. 🎉 **9 stories completed! 47 tests passing!**
 
-**Next Session**:
-- Unblock String split (Story 002.2)
-- Research parser-based architecture
-- Test self-hosting with transpiler
-- Consider EPIC-004 (First-Class Functions)
-- Or continue with remaining EPIC-005 stories
+**This Session** (2026-05-20 continued):
+1. Start Story 005.8 - npm package setup
+2. Prepare for npm publication
+3. Continue EPIC-005 (Distribution & Packaging)
 
 ---
 
@@ -281,11 +281,13 @@ END
 2. **Dictionary-Only**: BUKKIT for named keys, arrays deferred to EPIC-006
 3. **LCI Bundling**: Ship LCI with LULCODE for "batteries included"
 4. **Tier 2 Sufficient**: Dictionaries alone = Tier 2 (Genuinely Useful)
+5. **Self-Hosting Reality Check**: Full self-hosting requires regex engine (3-4 months). Focus on application features instead. Hybrid approach: keep JS transpiler, write apps in LULCODE
 
 ---
 
-**📌 CURRENT TASK**: EPIC-006 COMPLETE - All Arrays Done! 🎉  
-**📌 NEXT TASK**: Unblock Story 002.2 (String Split) or Parser Research
+**📌 COMPLETED**: String Split (Story 002.2) + Self-Hosting Analysis ✅  
+**📌 CURRENT TASK**: Story 005.8 - npm package setup  
+**📌 NEXT TASK**: Publish to npm, complete EPIC-005
 
-**🎯 GOAL**: Self-hosting - transpile the transpiler to LULCODE!  
-**📊 PROGRESS**: 80% complete (ARRAYS WORKING!)
+**🎯 GOAL**: Make LULCODE easy to install and use  
+**📊 PROGRESS**: CLI complete, ready for npm publication

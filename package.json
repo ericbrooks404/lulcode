@@ -1,11 +1,19 @@
 {
   "name": "lulcode",
   "version": "0.2.0",
-  "description": "LULCODE transpiler - A superset language that transpiles to LOLCODE",
+  "description": "LULCODE transpiler - A superset language that transpiles to LOLCODE with modern syntax, arrays, and string operations",
   "main": "src/transpiler.js",
   "bin": {
     "lulcode": "./bin/lulcode"
   },
+  "files": [
+    "src/",
+    "bin/",
+    "examples/",
+    "README.md",
+    "LICENSE",
+    "INSTALLATION.md"
+  ],
   "scripts": {
     "test": "node tests/transform.test.js",
     "transpile": "node src/transpiler.js"
@@ -15,10 +23,21 @@
     "lulcode",
     "transpiler",
     "esoteric",
-    "compiler"
+    "compiler",
+    "arrays",
+    "string-manipulation",
+    "syntactic-sugar"
   ],
   "author": "LULCODE Project",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lulcode/lulcode.git"
+  },
+  "homepage": "https://github.com/lulcode/lulcode#readme",
+  "bugs": {
+    "url": "https://github.com/lulcode/lulcode/issues"
+  },
   "engines": {
     "node": ">=14.0.0"
   },

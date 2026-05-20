@@ -1,0 +1,34 @@
+# Development files
+.git
+.gitignore
+*.log
+npm-debug.log*
+
+# Test files (keep tests/ for transparency, but can exclude if desired)
+test-*.sh
+coverage/
+
+# Research and planning documents
+specs/
+docs/LCI-BUKKIT-FINDINGS.md
+docs/SELF-HOSTING-ANALYSIS.md
+docs/BOOTSTRAP.md
+
+# Build artifacts
+*.tmp
+*.bak
+*~
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Scripts and tools not needed for end users
+install.sh
+test-lci-capabilities.sh
+
+# Example files that demonstrate usage (KEEP these in package)
+# examples/ - intentionally kept for users to learn from
