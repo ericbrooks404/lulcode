@@ -3,7 +3,7 @@ BTW Comprehensive array demonstration
 BTW Shows all array features working together
 
 VISIBLE "=== Array Creation ==="
-VAR numbers ITZ [5, 10, 15]
+WTV numbers ITZ [5, 10, 15]
 VISIBLE "Created array with 3 elements"
 
 VISIBLE ""
@@ -29,7 +29,7 @@ VISIBLE numbers[3]
 
 VISIBLE ""
 VISIBLE "=== POP Operation ==="
-VAR popped ITZ POP FROM numbers
+WTV popped ITZ POP FROM numbers
 VISIBLE "Popped value:"
 VISIBLE popped
 VISIBLE "New length:"
@@ -37,7 +37,7 @@ VISIBLE numbers'Z __length
 
 VISIBLE ""
 VISIBLE "=== SHIFT Operation ==="
-VAR shifted ITZ SHIFT FROM numbers
+WTV shifted ITZ SHIFT FROM numbers
 VISIBLE "Shifted value:"
 VISIBLE shifted
 VISIBLE "New first element:"
@@ -47,23 +47,23 @@ VISIBLE numbers'Z __length
 
 VISIBLE ""
 VISIBLE "=== Variable Index Access ==="
-VAR i ITZ 0
+WTV i ITZ 0
 VISIBLE "numbers[i] where i=0:"
 VISIBLE numbers[i]
 
-VAR j ITZ 1
+WTV j ITZ 1
 VISIBLE "numbers[j] where j=1:"
 VISIBLE numbers[j]
 
 VISIBLE ""
 VISIBLE "=== Empty Array ==="
-VAR empty ITZ []
+WTV empty ITZ []
 VISIBLE "Empty array length:"
 VISIBLE empty'Z __length
 
 VISIBLE ""
 VISIBLE "=== Building Array with PUSH ==="
-VAR built ITZ AN ARRAY
+WTV built ITZ AN ARRAY
 PUSH 100 TO built
 PUSH 200 TO built
 PUSH 300 TO built

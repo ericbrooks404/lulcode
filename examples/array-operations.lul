@@ -2,7 +2,7 @@ HAI 1.2
 BTW Array operations demonstration
 
 BTW Create array
-VAR stack ITZ [10, 20, 30]
+WTV stack ITZ [10, 20, 30]
 VISIBLE "Initial: "
 VISIBLE stack[0]
 VISIBLE stack[1]
@@ -15,14 +15,14 @@ VISIBLE stack[3]
 VISIBLE stack'Z __length
 
 BTW POP - remove from end
-VAR last ITZ POP FROM stack
+WTV last ITZ POP FROM stack
 VISIBLE "Popped:"
 VISIBLE last
 VISIBLE "Length after POP:"
 VISIBLE stack'Z __length
 
 BTW SHIFT - remove from beginning
-VAR first ITZ SHIFT FROM stack
+WTV first ITZ SHIFT FROM stack
 VISIBLE "Shifted:"
 VISIBLE first
 VISIBLE "After SHIFT, first element is:"

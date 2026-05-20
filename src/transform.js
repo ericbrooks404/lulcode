@@ -285,9 +285,8 @@ HOW DUZ I replaceAll YR str AN YR old AN YR new
       FOUND YR result
   OIC
 
-  I HAS A maxIterations ITZ 1000
   I HAS A iterations ITZ 0
-  IM IN YR replaceLoop
+  IM IN YR replaceLoop UPPIN YR iterations TIL BOTH SAEM iterations AN 1000
     I HAS A pos ITZ indexOf result old
     BOTH SAEM pos AN -1, O RLY?
       YA RLY
@@ -295,11 +294,6 @@ HOW DUZ I replaceAll YR str AN YR old AN YR new
     OIC
 
     result R replace result old new
-    iterations R SUM OF iterations AN 1
-    BOTH SAEM iterations AN maxIterations, O RLY?
-      YA RLY
-        GTFO
-    OIC
   IM OUTTA YR replaceLoop
 
   FOUND YR result
@@ -421,10 +415,10 @@ function transform(source) {
     }
   );
 
-  // String SPLIT: SPLIT str BY delim → function call
+  // String UNSMOOSH: UNSMOOSH str BY delim → function call
   let needsStringSplit = false;
   output = output.replace(
-    /\bSPLIT\s+(.+?)\s+BY\s+(.+?)(?=\n|$)/gm,
+    /\bUNSMOOSH\s+(.+?)\s+BY\s+(.+?)(?=\n|$)/gm,
     (match, str, delim) => {
       needsStringSplit = true;
       return `LULCODE_SPLIT ${str} ${delim}`;
@@ -436,51 +430,7 @@ function transform(source) {
   // === BLOCK STATEMENTS (must come before simple operators) ===
   let loopCounter = 0;
 
-  // FOR loops: FOR i FROM start TO end ... END
-  output = output.replace(
-    /FOR\s+(\w+)\s+FROM\s+(.+?)\s+TO\s+(.+?)(?:\s+STEP\s+(.+?))?\n([\s\S]*?)END/gm,
-    (match, varName, start, end, step, body) => {
-      loopCounter++;
-      const loopLabel = `__for_loop_${loopCounter}`;
-
-      if (step) {
-        // With STEP: manual loop
-        return `${varName} R ${start}\n` +
-               `IM IN YR ${loopLabel}\n` +
-               `  BOTH SAEM ${varName} AN BIGGR OF ${varName} AN ${end}, O RLY?\n` +
-               `    YA RLY\n` +
-               `      GTFO\n` +
-               `  OIC\n` +
-               body +
-               `  ${varName} R SUM OF ${varName} AN ${step}\n` +
-               `IM OUTTA YR ${loopLabel}`;
-      } else {
-        // Simple UPPIN
-        return `${varName} R ${start}\n` +
-               `IM IN YR ${loopLabel} UPPIN YR ${varName} TIL BOTH SAEM ${varName} AN ${end}\n` +
-               body +
-               `IM OUTTA YR ${loopLabel}`;
-      }
-    }
-  );
-
-  // WHILE loops: WHILE condition ... END
-  output = output.replace(
-    /WHILE\s+(.+?)\n([\s\S]*?)END/gm,
-    (match, condition, body) => {
-      loopCounter++;
-      const loopLabel = `__while_loop_${loopCounter}`;
-      return `IM IN YR ${loopLabel}\n` +
-             `  NOT ${condition}, O RLY?\n` +
-             `    YA RLY\n` +
-             `      GTFO\n` +
-             `  OIC\n` +
-             body +
-             `IM OUTTA YR ${loopLabel}`;
-    }
-  );
-
-  // LOOP (infinite): LOOP ... END
+  // LOOP (infinite): LOOP ... KTHX
   output = output.replace(
     /LOOP\n([\s\S]*?)END/gm,
     (match, body) => {
@@ -492,11 +442,11 @@ function transform(source) {
     }
   );
 
-  // FOREACH loops: Iterate over arrays
-  // Pattern 1: FOREACH i, element IN arr ... END (with index)
+  // IM CHECKIN YR: Iterate over arrays
+  // Pattern 1: IM CHECKIN YR arr FER element AT index ... KTHX (with index)
   output = output.replace(
-    /FOREACH\s+(\w+)\s*,\s*(\w+)\s+IN\s+(\w+)\n([\s\S]*?)END/gm,
-    (match, indexVar, elementVar, arrayVar, body) => {
+    /IM\s+CHECKIN\s+YR\s+(\w+)\s+FER\s+(\w+)\s+AT\s+(\w+)\n([\s\S]*?)KTHX/gm,
+    (match, arrayVar, elementVar, indexVar, body) => {
       loopCounter++;
       const loopLabel = `__foreach_loop_${loopCounter}`;
       const lenVar = `__foreach_len_${loopCounter}`;
@@ -512,10 +462,10 @@ function transform(source) {
     }
   );
 
-  // Pattern 2: FOREACH element IN arr ... END (without index)
+  // Pattern 2: IM CHECKIN YR arr FER element ... KTHX (without index)
   output = output.replace(
-    /FOREACH\s+(\w+)\s+IN\s+(\w+)\n([\s\S]*?)END/gm,
-    (match, elementVar, arrayVar, body) => {
+    /IM\s+CHECKIN\s+YR\s+(\w+)\s+FER\s+(\w+)\n([\s\S]*?)KTHX/gm,
+    (match, arrayVar, elementVar, body) => {
       loopCounter++;
       const loopLabel = `__foreach_loop_${loopCounter}`;
       const indexVar = `__foreach_idx_${loopCounter}`;
@@ -532,58 +482,58 @@ function transform(source) {
     }
   );
 
-  // IF statements: Handle simple IF first, then IF/ELSE, then IF/ELIF/ELSE
-  // Simple IF...END (no else)
+  // ORLY statements: Handle simple ORLY first, then ORLY/NOWAI, then ORLY/MEBE/NOWAI
+  // Simple ORLY...KTHX (no else)
   output = output.replace(
-    /^IF\s+(.+?)\n([\s\S]*?)^END$/gm,
+    /^ORLY\s+(.+?)\n([\s\S]*?)^KTHX$/gm,
     (match, condition, body) => {
-      // Check if body contains ELSE or ELIF - if so, don't match (let other patterns handle it)
-      if (body.match(/^(ELSE|ELIF)\b/m)) {
+      // Check if body contains NOWAI or MEBE - if so, don't match (let other patterns handle it)
+      if (body.match(/^(NOWAI|MEBE)\b/m)) {
         return match; // Don't transform, let other patterns handle it
       }
       return `${condition}, O RLY?\n  YA RLY\n${body}OIC`;
     }
   );
 
-  // IF...ELSE...END
+  // ORLY...NOWAI...KTHX
   output = output.replace(
-    /^IF\s+(.+?)\n([\s\S]*?)^ELSE\n([\s\S]*?)^END$/gm,
+    /^ORLY\s+(.+?)\n([\s\S]*?)^NOWAI\n([\s\S]*?)^KTHX$/gm,
     (match, condition, ifBody, elseBody) => {
-      // Check if contains ELIF - if so, let ELIF pattern handle it
-      if (ifBody.match(/^ELIF\b/m) || elseBody.match(/^ELIF\b/m)) {
+      // Check if contains MEBE - if so, let MEBE pattern handle it
+      if (ifBody.match(/^MEBE\b/m) || elseBody.match(/^MEBE\b/m)) {
         return match;
       }
       return `${condition}, O RLY?\n  YA RLY\n${ifBody}  NO WAI\n${elseBody}OIC`;
     }
   );
 
-  // IF...ELIF...ELSE...END (most complex)
+  // ORLY...MEBE...NOWAI...KTHX (most complex)
   output = output.replace(
-    /^IF\s+(.+?)\n([\s\S]*?)^END$/gm,
+    /^ORLY\s+(.+?)\n([\s\S]*?)^KTHX$/gm,
     (match, condition, body) => {
-      // This handles cases with ELIF
-      if (!body.match(/^ELIF\b/m)) {
+      // This handles cases with MEBE
+      if (!body.match(/^MEBE\b/m)) {
         return match; // Already handled by simpler patterns
       }
 
       let result = `${condition}, O RLY?\n  YA RLY\n`;
 
-      // Split body by ELIF and ELSE
-      const parts = body.split(/^(ELIF|ELSE)\b/m);
+      // Split body by MEBE and NOWAI
+      const parts = body.split(/^(MEBE|NOWAI)\b/m);
       let currentSection = 'if';
 
       for (let i = 0; i < parts.length; i++) {
         const part = parts[i];
-        if (part === 'ELIF' && i + 1 < parts.length) {
-          const elifLine = parts[i + 1].split('\n')[0];
-          const elifBody = parts[i + 1].substring(elifLine.length + 1);
-          result += `  MEBBE ${elifLine.trim()}\n${elifBody}`;
+        if (part === 'MEBE' && i + 1 < parts.length) {
+          const mebeLine = parts[i + 1].split('\n')[0];
+          const mebeBody = parts[i + 1].substring(mebeLine.length + 1);
+          result += `  MEBBE ${mebeLine.trim()}\n${mebeBody}`;
           i++; // Skip next part (already processed)
-        } else if (part === 'ELSE' && i + 1 < parts.length) {
+        } else if (part === 'NOWAI' && i + 1 < parts.length) {
           result += `  NO WAI\n${parts[i + 1]}`;
           i++; // Skip next part
         } else if (i === 0) {
-          // First part is the IF body
+          // First part is the ORLY body
           result += part;
         }
       }
@@ -593,10 +543,10 @@ function transform(source) {
     }
   );
 
-  // VAR declarations: VAR x, y, z → I HAS A x \n I HAS A y \n I HAS A z
-  // Must handle: VAR x, VAR x ITZ value, VAR x, y, z
+  // WTV declarations: WTV x, y, z → I HAS A x \n I HAS A y \n I HAS A z
+  // Must handle: WTV x, WTV x ITZ value, WTV x, y, z
   output = output.replace(
-    /\bVAR\s+((?:\w+(?:\s+ITZ\s+[^\n,]+)?(?:\s*,\s*)?)+)(?=\n|$)/gm,
+    /\bWTV\s+((?:\w+(?:\s+ITZ\s+[^\n,]+)?(?:\s*,\s*)?)+)(?=\n|$)/gm,
     (match, varList) => {
       // Split by comma
       const vars = varList.split(',').map(v => v.trim());
@@ -611,9 +561,6 @@ function transform(source) {
       }).join('\n');
     }
   );
-
-  // BREAK → GTFO
-  output = output.replace(/\bBREAK\b/g, 'GTFO');
 
   // ARRAY/BUKKIT NUMERIC ACCESS PATTERNS
   // Using __n encoding for numeric indices (array encoding)
@@ -657,29 +604,29 @@ function transform(source) {
   let needsArrayPop = false;
   let needsArrayShift = false;
 
-  // PUSH operation: PUSH value TO arr
+  // YEET operation: YEET value INTO arr (add to end)
   output = output.replace(
-    /\bPUSH\s+(.+?)\s+TO\s+(\w+)/g,
+    /\bYEET\s+(.+?)\s+INTO\s+(\w+)/g,
     (match, value, arr) => {
       needsArrayPush = true;
       return `LULCODE_ARRAY_PUSH ${arr} ${value}`;
     }
   );
 
-  // POP operation: POP FROM arr (returns value)
-  // Can be used as: VAR x ITZ POP FROM arr
-  // Or standalone: POP FROM arr
+  // YOINK LAST operation: YOINK LAST FROM arr (returns value from end)
+  // Can be used as: WTV x ITZ YOINK LAST FROM arr
+  // Or standalone: YOINK LAST FROM arr
   output = output.replace(
-    /\bPOP\s+FROM\s+(\w+)/g,
+    /\bYOINK\s+LAST\s+FROM\s+(\w+)/g,
     (match, arr) => {
       needsArrayPop = true;
       return `LULCODE_ARRAY_POP ${arr}`;
     }
   );
 
-  // SHIFT operation: SHIFT FROM arr (returns value)
+  // YOINK FIRST operation: YOINK FIRST FROM arr (returns value from start)
   output = output.replace(
-    /\bSHIFT\s+FROM\s+(\w+)/g,
+    /\bYOINK\s+FIRST\s+FROM\s+(\w+)/g,
     (match, arr) => {
       needsArrayShift = true;
       return `LULCODE_ARRAY_SHIFT ${arr}`;

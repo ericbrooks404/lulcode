@@ -436,7 +436,9 @@ Requires:
         context.emit(new Instructions.Cast('bool'));
         context.emit(new Instructions.JumpIfZero(end_label));
       }
+      context.pushBreakLabel(end_label);
       this.body.codegen(context);
+      context.popBreakLabel();
       if (this.step) {
         this.step.codegen(context);
       }

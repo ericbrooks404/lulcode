@@ -22,7 +22,7 @@ LULCODE (.lul) → LOLCODE (.lol) → JavaScript (via lol-coffee) → Execution
 ```
 
 **What Works**:
-- ✅ VAR declarations transpile correctly
+- ✅ WTV declarations transpile correctly
 - ✅ String operations (indexOf, replace, etc.) with runtime library injection
 - ✅ BUKKIT property access (`scores'Z Alice`)
 - ✅ Function parameters (2, 3, and more arguments)
@@ -109,8 +109,8 @@ LULCODE (.lul) → LOLCODE (.lol) → JavaScript (via lol-coffee) → Execution
 **Impact**: 50-60% code reduction in typical programs
 
 **Research Complete** (Stories 003.1-003.5):
-- ✅ Story 003.1: Variable Declaration (VAR keyword)
-  - Syntax: `VAR x, y, z` instead of `I HAS A x; I HAS A y; I HAS A z`
+- ✅ Story 003.1: Variable Declaration (WTV keyword)
+  - Syntax: `WTV x, y, z` instead of `I HAS A x; I HAS A y; I HAS A z`
   - 60% reduction in declaration code
 - ✅ Story 003.2: Conditionals (IF/ELIF/ELSE)
   - Syntax: `IF x == y ... END` instead of `BOTH SAEM x AN y, O RLY? ... OIC`
@@ -196,7 +196,7 @@ and manipulate collections with numeric indices (strings[], comments[], etc.)
 
 **Array Syntax Designed**:
 ```lulcode
-VAR nums ITZ [1, 2, 3]            BTW Array literal
+WTV nums ITZ [1, 2, 3]            BTW Array literal
 nums[0] = 10                      BTW Numeric access
 PUSH 4 TO nums                    BTW Operations
 FOREACH i, num IN nums            BTW Iteration

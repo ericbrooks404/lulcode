@@ -6,25 +6,25 @@ VISIBLE ""
 
 BTW Test 1: indexOf
 VISIBLE "Test 1: indexOf"
-VAR text ITZ "hello world"
-VAR pos ITZ I IZ indexOf YR text AN YR "world" MKAY
+WTV text ITZ "hello world"
+WTV pos ITZ I IZ indexOf YR text AN YR "world" MKAY
 VISIBLE "Position of 'world' in 'hello world': {pos}"
 VISIBLE ""
 
 BTW Test 2: startsWith
 VISIBLE "Test 2: startsWith"
-VAR line ITZ "VAR x ITZ 5"
-I IZ startsWith YR line AN YR "VAR " MKAY, O RLY?
+WTV line ITZ "WTV x ITZ 5"
+I IZ startsWith YR line AN YR "WTV " MKAY, O RLY?
   YA RLY
-    VISIBLE "Line starts with 'VAR ' - YES"
+    VISIBLE "Line starts with 'WTV ' - YES"
   NO WAI
-    VISIBLE "Line starts with 'VAR ' - NO"
+    VISIBLE "Line starts with 'WTV ' - NO"
 OIC
 VISIBLE ""
 
 BTW Test 3: contains
 VISIBLE "Test 3: contains"
-VAR code ITZ "x == y"
+WTV code ITZ "x == y"
 I IZ contains YR code AN YR "==" MKAY, O RLY?
   YA RLY
     VISIBLE "Code contains '==' - YES"
@@ -35,16 +35,16 @@ VISIBLE ""
 
 BTW Test 4: replace
 VISIBLE "Test 4: replace"
-VAR original ITZ "VAR x"
-VAR transformed ITZ I IZ replace YR original AN YR "VAR " AN YR "I HAS A " MKAY
+WTV original ITZ "WTV x"
+WTV transformed ITZ I IZ replace YR original AN YR "WTV " AN YR "I HAS A " MKAY
 VISIBLE "Original: {original}"
 VISIBLE "Transformed: {transformed}"
 VISIBLE ""
 
 BTW Test 5: replaceAll
 VISIBLE "Test 5: replaceAll"
-VAR expr ITZ "x + x + x"
-VAR result ITZ I IZ replaceAll YR expr AN YR "x" AN YR "y" MKAY
+WTV expr ITZ "x + x + x"
+WTV result ITZ I IZ replaceAll YR expr AN YR "x" AN YR "y" MKAY
 VISIBLE "Original: {expr}"
 VISIBLE "Result: {result}"
 VISIBLE ""

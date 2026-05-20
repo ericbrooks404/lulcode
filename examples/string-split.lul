@@ -5,29 +5,29 @@ VISIBLE "=== String Split Demo ==="
 
 VISIBLE ""
 VISIBLE "1. Split by comma"
-VAR csv ITZ "apple,banana,cherry"
-VAR fruits ITZ SPLIT csv BY ","
+WTV csv ITZ "apple,banana,cherry"
+WTV fruits ITZ SPLIT csv BY ","
 
 VISIBLE "Parts:"
 FOREACH fruit IN fruits
   VISIBLE fruit
-END
+KTHX
 
 VISIBLE ""
 VISIBLE "2. Split by space"
-VAR sentence ITZ "Hello World From LULCODE"
-VAR words ITZ SPLIT sentence BY " "
+WTV sentence ITZ "Hello World From LULCODE"
+WTV words ITZ SPLIT sentence BY " "
 
 VISIBLE "Words:"
 FOREACH i, word IN words
   VISIBLE i
   VISIBLE word
-END
+KTHX
 
 VISIBLE ""
 VISIBLE "3. Split by dash"
-VAR date ITZ "2026-05-20"
-VAR parts ITZ SPLIT date BY "-"
+WTV date ITZ "2026-05-20"
+WTV parts ITZ SPLIT date BY "-"
 
 VISIBLE "Date parts:"
 VISIBLE "Year:"
@@ -39,18 +39,18 @@ VISIBLE parts[2]
 
 VISIBLE ""
 VISIBLE "4. Split every character (empty delimiter)"
-VAR name ITZ "LULCODE"
-VAR chars ITZ SPLIT name BY ""
+WTV name ITZ "LULCODE"
+WTV chars ITZ SPLIT name BY ""
 
 VISIBLE "Characters:"
 FOREACH char IN chars
   VISIBLE char
-END
+KTHX
 
 VISIBLE ""
 VISIBLE "5. Array length after split"
-VAR data ITZ "a:b:c:d:e"
-VAR items ITZ SPLIT data BY ":"
+WTV data ITZ "a:b:c:d:e"
+WTV items ITZ SPLIT data BY ":"
 VISIBLE "Split into parts:"
 VISIBLE items'Z __length
 

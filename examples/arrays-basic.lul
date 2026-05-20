@@ -2,11 +2,11 @@ HAI 1.2
 BTW Basic array demonstration
 
 BTW Create empty array
-VAR empty ITZ []
+WTV empty ITZ []
 VISIBLE "Empty array length: {LENGZ OF empty}"
 
 BTW Create array with literals
-VAR numbers ITZ [10, 20, 30]
+WTV numbers ITZ [10, 20, 30]
 VISIBLE "Numbers length: {LENGZ OF numbers}"
 
 BTW Access by literal index
@@ -19,14 +19,14 @@ numbers[1] = 25
 VISIBLE "After update: {numbers[1]}"
 
 BTW Access by variable index
-VAR i ITZ 0
+WTV i ITZ 0
 VISIBLE "Index 0: {numbers[i]}"
 
-VAR j ITZ 2
+WTV j ITZ 2
 VISIBLE "Index 2: {numbers[j]}"
 
 BTW Create array with LOLCODE style
-VAR list ITZ AN ARRAY
+WTV list ITZ AN ARRAY
 VISIBLE "List length: {LENGZ OF list}"
 
 KTHXBYE

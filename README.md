@@ -71,7 +71,7 @@ LULCODE/
 
 **Recent Milestones**:
 - **2026-05-20**: ✅ **EPIC-006: True Arrays Complete!**
-  - Array literals: `VAR nums ITZ [1, 2, 3]`
+  - Array literals: `WTV nums ITZ [1, 2, 3]`
   - Numeric indexing: `arr[0]`, `arr[i]`
   - Array operations: `PUSH`, `POP`, `SHIFT`
   - FOREACH iteration: `FOREACH i, element IN arr`
@@ -154,7 +154,7 @@ lulcode compile --help
 **Input (LULCODE)**: `example.lul`
 ```lulcode
 HAI 1.2
-VAR players ITZ A BUKKIT
+WTV players ITZ A BUKKIT
 players["Alice"] = 100
 players["Bob"] = 85
 

@@ -143,28 +143,28 @@ test(
 test(
   'String slice - basic range',
   'HAI 1.2\nI HAS A sub ITZ str[0:5]',
-  'HAI 1.2\nBTW === LULCODE Runtime Library ===\n\nBTW String slice function: str[start:end]\nHOW IZ I __LULCODE_SLICE YR str AN YR start AN YR end\n  I HAS A result ITZ ""\n  I HAS A i ITZ start\n  IM IN YR __slice_loop UPPIN YR i TIL BOTH SAEM i AN end\n    I HAS A char ITZ str AT i\n    result R SMOOSH result AN char MKAY\n  IM OUTTA YR __slice_loop\n  FOUND YR result\nIF U SAY SO\n\nBTW === End LULCODE Runtime ===\n\nI HAS A sub ITZ I IZ __LULCODE_SLICE YR str AN YR 0 AN YR 5 MKAY'
+  'HAI 1.2\nBTW === LULCODE Runtime Library ===\n\nBTW String slice function: str[start:end]\nHOW DUZ I LULCODE_SLICE YR str AN YR start AN YR end\n  I HAS A result ITZ ""\n  I HAS A i ITZ start\n  IM IN YR sliceLoop UPPIN YR i TIL BOTH SAEM i AN end\n    I HAS A char ITZ str AT i\n    result R SMOOSH result AN char MKAY\n  IM OUTTA YR sliceLoop\n  FOUND YR result\nIF U SAY SO\n\nBTW === End LULCODE Runtime ===\n\nI HAS A sub ITZ LULCODE_SLICE str 0 5'
 );
 
 // Test 17: String slice - from start
 test(
   'String slice - from index to end',
   'HAI 1.2\nI HAS A sub ITZ str[5:]',
-  'HAI 1.2\nBTW === LULCODE Runtime Library ===\n\nBTW String slice function: str[start:end]\nHOW IZ I __LULCODE_SLICE YR str AN YR start AN YR end\n  I HAS A result ITZ ""\n  I HAS A i ITZ start\n  IM IN YR __slice_loop UPPIN YR i TIL BOTH SAEM i AN end\n    I HAS A char ITZ str AT i\n    result R SMOOSH result AN char MKAY\n  IM OUTTA YR __slice_loop\n  FOUND YR result\nIF U SAY SO\n\nBTW === End LULCODE Runtime ===\n\nI HAS A sub ITZ I IZ __LULCODE_SLICE YR str AN YR 5 AN YR LENGZ OF str MKAY'
+  'HAI 1.2\nBTW === LULCODE Runtime Library ===\n\nBTW String slice function: str[start:end]\nHOW DUZ I LULCODE_SLICE YR str AN YR start AN YR end\n  I HAS A result ITZ ""\n  I HAS A i ITZ start\n  IM IN YR sliceLoop UPPIN YR i TIL BOTH SAEM i AN end\n    I HAS A char ITZ str AT i\n    result R SMOOSH result AN char MKAY\n  IM OUTTA YR sliceLoop\n  FOUND YR result\nIF U SAY SO\n\nBTW === End LULCODE Runtime ===\n\nI HAS A sub ITZ LULCODE_SLICE str 5 LENGZ OF str'
 );
 
 // Test 18: String slice - to end
 test(
   'String slice - from beginning to index',
   'HAI 1.2\nI HAS A sub ITZ str[:5]',
-  'HAI 1.2\nBTW === LULCODE Runtime Library ===\n\nBTW String slice function: str[start:end]\nHOW IZ I __LULCODE_SLICE YR str AN YR start AN YR end\n  I HAS A result ITZ ""\n  I HAS A i ITZ start\n  IM IN YR __slice_loop UPPIN YR i TIL BOTH SAEM i AN end\n    I HAS A char ITZ str AT i\n    result R SMOOSH result AN char MKAY\n  IM OUTTA YR __slice_loop\n  FOUND YR result\nIF U SAY SO\n\nBTW === End LULCODE Runtime ===\n\nI HAS A sub ITZ I IZ __LULCODE_SLICE YR str AN YR 0 AN YR 5 MKAY'
+  'HAI 1.2\nBTW === LULCODE Runtime Library ===\n\nBTW String slice function: str[start:end]\nHOW DUZ I LULCODE_SLICE YR str AN YR start AN YR end\n  I HAS A result ITZ ""\n  I HAS A i ITZ start\n  IM IN YR sliceLoop UPPIN YR i TIL BOTH SAEM i AN end\n    I HAS A char ITZ str AT i\n    result R SMOOSH result AN char MKAY\n  IM OUTTA YR sliceLoop\n  FOUND YR result\nIF U SAY SO\n\nBTW === End LULCODE Runtime ===\n\nI HAS A sub ITZ LULCODE_SLICE str 0 5'
 );
 
 // Test 19: String slice - negative index
 test(
   'String slice - negative index (last N chars)',
   'HAI 1.2\nI HAS A sub ITZ str[-5:]',
-  'HAI 1.2\nBTW === LULCODE Runtime Library ===\n\nBTW String slice function: str[start:end]\nHOW IZ I __LULCODE_SLICE YR str AN YR start AN YR end\n  I HAS A result ITZ ""\n  I HAS A i ITZ start\n  IM IN YR __slice_loop UPPIN YR i TIL BOTH SAEM i AN end\n    I HAS A char ITZ str AT i\n    result R SMOOSH result AN char MKAY\n  IM OUTTA YR __slice_loop\n  FOUND YR result\nIF U SAY SO\n\nBTW === End LULCODE Runtime ===\n\nI HAS A sub ITZ I IZ __LULCODE_SLICE YR str AN YR DIFF OF LENGZ OF str AN 5 AN YR LENGZ OF str MKAY'
+  'HAI 1.2\nBTW === LULCODE Runtime Library ===\n\nBTW String slice function: str[start:end]\nHOW DUZ I LULCODE_SLICE YR str AN YR start AN YR end\n  I HAS A result ITZ ""\n  I HAS A i ITZ start\n  IM IN YR sliceLoop UPPIN YR i TIL BOTH SAEM i AN end\n    I HAS A char ITZ str AT i\n    result R SMOOSH result AN char MKAY\n  IM OUTTA YR sliceLoop\n  FOUND YR result\nIF U SAY SO\n\nBTW === End LULCODE Runtime ===\n\nI HAS A sub ITZ LULCODE_SLICE str DIFF OF LENGZ OF str AN 5 LENGZ OF str'
 );
 
 // Test 20: String slice - no injection when no slice used
@@ -174,33 +174,27 @@ test(
   'HAI 1.2\nVISIBLE "Hello"'
 );
 
-// Test 21: VAR declaration - single
+// Test 21: WTV declaration - single
 test(
-  'VAR single declaration',
-  'VAR x',
+  'WTV single declaration',
+  'WTV x',
   'I HAS A x'
 );
 
-// Test 22: VAR declaration - with initialization
+// Test 22: WTV declaration - with initialization
 test(
-  'VAR with ITZ initialization',
-  'VAR age ITZ 30',
+  'WTV with ITZ initialization',
+  'WTV age ITZ 30',
   'I HAS A age ITZ 30'
 );
 
-// Test 23: VAR declaration - multiple
+// Test 23: WTV declaration - multiple
 test(
-  'VAR multiple declarations',
-  'VAR x, y, z',
+  'WTV multiple declarations',
+  'WTV x, y, z',
   'I HAS A x\nI HAS A y\nI HAS A z'
 );
 
-// Test 24: BREAK statement
-test(
-  'BREAK to GTFO',
-  'BREAK',
-  'GTFO'
-);
 
 // Test 25: Assignment operator
 test(
@@ -247,28 +241,28 @@ test(
 // Test 31: Empty array literal
 test(
   'Empty array literal',
-  'VAR arr ITZ []',
+  'WTV arr ITZ []',
   'I HAS A arr ITZ A BUKKIT\narr HAS A __length ITZ 0\narr HAS A __is_array ITZ WIN'
 );
 
 // Test 32: Array literal with elements
 test(
   'Array literal with elements',
-  'VAR nums ITZ [1, 2, 3]',
+  'WTV nums ITZ [1, 2, 3]',
   'I HAS A nums ITZ A BUKKIT\nnums HAS A __length ITZ 3\nnums HAS A __is_array ITZ WIN\nnums HAS A __0 ITZ 1\nnums HAS A __1 ITZ 2\nnums HAS A __2 ITZ 3'
 );
 
 // Test 33: Array literal with strings
 test(
   'Array literal with strings',
-  'VAR names ITZ ["Alice", "Bob"]',
+  'WTV names ITZ ["Alice", "Bob"]',
   'I HAS A names ITZ A BUKKIT\nnames HAS A __length ITZ 2\nnames HAS A __is_array ITZ WIN\nnames HAS A __0 ITZ "Alice"\nnames HAS A __1 ITZ "Bob"'
 );
 
 // Test 34: ITZ AN ARRAY syntax
 test(
   'ITZ AN ARRAY',
-  'VAR list ITZ AN ARRAY',
+  'WTV list ITZ AN ARRAY',
   'I HAS A list ITZ A BUKKIT\nlist HAS A __length ITZ 0\nlist HAS A __is_array ITZ WIN'
 );
 
@@ -289,78 +283,78 @@ test(
 // Test 37: PUSH operation
 test(
   'PUSH TO array',
-  'PUSH 42 TO arr',
-  'I IZ __LULCODE_ARRAY_PUSH YR arr AN YR 42 MKAY'
+  'YEET 42 INTO arr',
+  'LULCODE_ARRAY_PUSH arr 42'
 );
 
 // Test 38: POP operation
 test(
-  'POP FROM array',
-  'POP FROM arr',
-  'I IZ __LULCODE_ARRAY_POP YR arr MKAY'
+  'YOINK LAST FROM array',
+  'YOINK LAST FROM arr',
+  'LULCODE_ARRAY_POP arr'
 );
 
 // Test 39: POP with assignment
 test(
   'POP with variable assignment',
-  'VAR x ITZ POP FROM arr',
-  'I HAS A x ITZ I IZ __LULCODE_ARRAY_POP YR arr MKAY'
+  'WTV x ITZ YOINK LAST FROM arr',
+  'I HAS A x ITZ LULCODE_ARRAY_POP arr'
 );
 
 // Test 40: SHIFT operation
 test(
-  'SHIFT FROM array',
-  'SHIFT FROM arr',
-  'I IZ __LULCODE_ARRAY_SHIFT YR arr MKAY'
+  'YOINK FIRST FROM array',
+  'YOINK FIRST FROM arr',
+  'LULCODE_ARRAY_SHIFT arr'
 );
 
 // Test 41: Array operations with runtime injection
 test(
   'Array operations inject runtime',
-  'HAI 1.2\nPUSH 1 TO arr',
-  'HAI 1.2\nBTW === LULCODE Runtime Library ===\n\nBTW Array PUSH: Add element to end\nHOW IZ I __LULCODE_ARRAY_PUSH YR arr AN YR value\n  I HAS A len ITZ arr\'Z __length\n  I HAS A key ITZ SMOOSH "__" AN len MKAY\n  arr\'Z SRS key R value\n  arr\'Z __length R SUM OF len AN 1\nIF U SAY SO\n\nBTW === End LULCODE Runtime ===\n\nI IZ __LULCODE_ARRAY_PUSH YR arr AN YR 1 MKAY'
+  'HAI 1.2\nYEET 1 INTO arr',
+  'HAI 1.2\nBTW === LULCODE Runtime Library ===\n\nBTW Array PUSH: Add element to end\nHOW DUZ I LULCODE_ARRAY_PUSH YR arr AN YR value\n  I HAS A len ITZ arr\'Z __length\n  I HAS A key ITZ SMOOSH "__" AN len MKAY\n  arr\'Z SRS key R value\n  arr\'Z __length R SUM OF len AN 1\nIF U SAY SO\n\nBTW === End LULCODE Runtime ===\n\nLULCODE_ARRAY_PUSH arr 1'
 );
 
 // Test 42: FOREACH without index
 test(
-  'FOREACH element IN array',
-  'FOREACH x IN arr\n  VISIBLE x\nEND',
+  'IM CHECKIN YR array FER element',
+  'IM CHECKIN YR arr FER x\n  VISIBLE x\nKTHX',
   'I HAS A __foreach_idx_1 ITZ 0\nI HAS A __foreach_len_1 ITZ arr\'Z __length\nIM IN YR __foreach_loop_1 UPPIN YR __foreach_idx_1 TIL BOTH SAEM __foreach_idx_1 AN __foreach_len_1\n  I HAS A __foreach_key_1 ITZ SMOOSH "__" AN __foreach_idx_1 MKAY\n  I HAS A x ITZ arr\'Z SRS __foreach_key_1\n  VISIBLE x\nIM OUTTA YR __foreach_loop_1'
 );
 
 // Test 43: FOREACH with index
 test(
-  'FOREACH i, element IN array',
-  'FOREACH i, x IN arr\n  VISIBLE i\n  VISIBLE x\nEND',
+  'IM CHECKIN YR array FER element AT i',
+  'IM CHECKIN YR arr FER x AT i\n  VISIBLE i\n  VISIBLE x\nKTHX',
   'I HAS A i ITZ 0\nI HAS A __foreach_len_1 ITZ arr\'Z __length\nIM IN YR __foreach_loop_1 UPPIN YR i TIL BOTH SAEM i AN __foreach_len_1\n  I HAS A __foreach_key_1 ITZ SMOOSH "__" AN i MKAY\n  I HAS A x ITZ arr\'Z SRS __foreach_key_1\n  VISIBLE i\n  VISIBLE x\nIM OUTTA YR __foreach_loop_1'
 );
 
 // Test 44: FOREACH with array literal
 test(
   'FOREACH with inline array',
-  'VAR arr ITZ [1, 2, 3]\nFOREACH num IN arr\n  VISIBLE num\nEND',
+  'WTV arr ITZ [1, 2, 3]\nIM CHECKIN YR arr FER num\n  VISIBLE num\nKTHX',
   'I HAS A arr ITZ A BUKKIT\narr HAS A __length ITZ 3\narr HAS A __is_array ITZ WIN\narr HAS A __0 ITZ 1\narr HAS A __1 ITZ 2\narr HAS A __2 ITZ 3\nI HAS A __foreach_idx_1 ITZ 0\nI HAS A __foreach_len_1 ITZ arr\'Z __length\nIM IN YR __foreach_loop_1 UPPIN YR __foreach_idx_1 TIL BOTH SAEM __foreach_idx_1 AN __foreach_len_1\n  I HAS A __foreach_key_1 ITZ SMOOSH "__" AN __foreach_idx_1 MKAY\n  I HAS A num ITZ arr\'Z SRS __foreach_key_1\n  VISIBLE num\nIM OUTTA YR __foreach_loop_1'
 );
 
 // Test 45: String SPLIT operation
 test(
-  'SPLIT string BY delimiter',
-  'SPLIT "a,b,c" BY ","',
-  'I IZ __LULCODE_SPLIT YR "a,b,c" AN YR "," MKAY'
+  'UNSMOOSH string BY delimiter',
+  'UNSMOOSH "a,b,c" BY ","',
+  'LULCODE_SPLIT "a,b,c" ","'
 );
 
 // Test 46: SPLIT with variable
 test(
   'SPLIT with variable',
-  'VAR parts ITZ SPLIT str BY ","',
-  'I HAS A parts ITZ I IZ __LULCODE_SPLIT YR str AN YR "," MKAY'
+  'WTV parts ITZ UNSMOOSH str BY ","',
+  'I HAS A parts ITZ LULCODE_SPLIT str ","'
 );
 
 // Test 47: SPLIT and FOREACH together
 test(
   'SPLIT with FOREACH',
-  'VAR parts ITZ SPLIT "a:b" BY ":"\nFOREACH part IN parts\n  VISIBLE part\nEND',
-  'I HAS A parts ITZ I IZ __LULCODE_SPLIT YR "a:b" AN YR ":" MKAY\nI HAS A __foreach_idx_1 ITZ 0\nI HAS A __foreach_len_1 ITZ parts\'Z __length\nIM IN YR __foreach_loop_1 UPPIN YR __foreach_idx_1 TIL BOTH SAEM __foreach_idx_1 AN __foreach_len_1\n  I HAS A __foreach_key_1 ITZ SMOOSH "__" AN __foreach_idx_1 MKAY\n  I HAS A part ITZ parts\'Z SRS __foreach_key_1\n  VISIBLE part\nIM OUTTA YR __foreach_loop_1'
+  'WTV parts ITZ UNSMOOSH "a:b" BY ":"\nIM CHECKIN YR parts FER part\n  VISIBLE part\nKTHX',
+  'I HAS A parts ITZ LULCODE_SPLIT "a:b" ":"\nI HAS A __foreach_idx_1 ITZ 0\nI HAS A __foreach_len_1 ITZ parts\'Z __length\nIM IN YR __foreach_loop_1 UPPIN YR __foreach_idx_1 TIL BOTH SAEM __foreach_idx_1 AN __foreach_len_1\n  I HAS A __foreach_key_1 ITZ SMOOSH "__" AN __foreach_idx_1 MKAY\n  I HAS A part ITZ parts\'Z SRS __foreach_key_1\n  VISIBLE part\nIM OUTTA YR __foreach_loop_1'
 );
 
 // Summary

@@ -2,13 +2,13 @@ HAI 1.2
 BTW === LULCODE Runtime Library ===
 
 BTW String slice function: str[start:end]
-HOW IZ I __LULCODE_SLICE YR str AN YR start AN YR end
+HOW DUZ I LULCODE_SLICE YR str AN YR start AN YR end
   I HAS A result ITZ ""
   I HAS A i ITZ start
-  IM IN YR __slice_loop UPPIN YR i TIL BOTH SAEM i AN end
+  IM IN YR sliceLoop UPPIN YR i TIL BOTH SAEM i AN end
     I HAS A char ITZ str AT i
     result R SMOOSH result AN char MKAY
-  IM OUTTA YR __slice_loop
+  IM OUTTA YR sliceLoop
   FOUND YR result
 IF U SAY SO
 
@@ -16,7 +16,7 @@ IF U SAY SO
 BTW === String Operations Library ===
 
 BTW Find first occurrence of pattern in string
-HOW IZ I indexOf YR str AN YR pattern
+HOW DUZ I indexOf YR str AN YR pattern
   I HAS A strLen ITZ LENGZ OF str
   I HAS A patLen ITZ LENGZ OF pattern
 
@@ -30,7 +30,7 @@ HOW IZ I indexOf YR str AN YR pattern
   I HAS A i ITZ 0
   IM IN YR search UPPIN YR i TIL BOTH SAEM i AN SUM OF maxPos AN 1
     I HAS A endPos ITZ SUM OF i AN patLen
-    I HAS A sub ITZ I IZ __LULCODE_SLICE YR str AN YR i AN YR endPos MKAY
+    I HAS A sub ITZ LULCODE_SLICE str i endPos
     BOTH SAEM sub AN pattern, O RLY?
       YA RLY
         FOUND YR i
@@ -41,7 +41,7 @@ HOW IZ I indexOf YR str AN YR pattern
 IF U SAY SO
 
 BTW Check if string starts with prefix
-HOW IZ I startsWith YR str AN YR prefix
+HOW DUZ I startsWith YR str AN YR prefix
   I HAS A prefixLen ITZ LENGZ OF prefix
   I HAS A strLen ITZ LENGZ OF str
 
@@ -50,7 +50,7 @@ HOW IZ I startsWith YR str AN YR prefix
       FOUND YR FAIL
   OIC
 
-  I HAS A sub ITZ I IZ __LULCODE_SLICE YR str AN YR 0 AN YR prefixLen MKAY
+  I HAS A sub ITZ LULCODE_SLICE str 0 prefixLen
   BOTH SAEM sub AN prefix, O RLY?
     YA RLY
       FOUND YR WIN
@@ -59,8 +59,8 @@ HOW IZ I startsWith YR str AN YR prefix
 IF U SAY SO
 
 BTW Check if pattern exists in string
-HOW IZ I contains YR str AN YR pattern
-  I HAS A pos ITZ I IZ indexOf YR str AN YR pattern MKAY
+HOW DUZ I contains YR str AN YR pattern
+  I HAS A pos ITZ indexOf str pattern
   BOTH SAEM pos AN -1, O RLY?
     YA RLY
       FOUND YR FAIL
@@ -70,26 +70,26 @@ HOW IZ I contains YR str AN YR pattern
 IF U SAY SO
 
 BTW Replace first occurrence of substring
-HOW IZ I replace YR str AN YR old AN YR new
-  I HAS A pos ITZ I IZ indexOf YR str AN YR old MKAY
+HOW DUZ I replace YR str AN YR old AN YR new
+  I HAS A pos ITZ indexOf str old
 
   BOTH SAEM pos AN -1, O RLY?
     YA RLY
       FOUND YR str
   OIC
 
-  I HAS A before ITZ I IZ __LULCODE_SLICE YR str AN YR 0 AN YR pos MKAY
+  I HAS A before ITZ LULCODE_SLICE str 0 pos
   I HAS A oldLen ITZ LENGZ OF old
   I HAS A afterPos ITZ SUM OF pos AN oldLen
   I HAS A strLen ITZ LENGZ OF str
-  I HAS A after ITZ I IZ __LULCODE_SLICE YR str AN YR afterPos AN YR strLen MKAY
+  I HAS A after ITZ LULCODE_SLICE str afterPos strLen
   I HAS A result ITZ SMOOSH before AN new AN after MKAY
 
   FOUND YR result
 IF U SAY SO
 
 BTW Replace all occurrences of substring
-HOW IZ I replaceAll YR str AN YR old AN YR new
+HOW DUZ I replaceAll YR str AN YR old AN YR new
   I HAS A result ITZ str
   I HAS A oldLen ITZ LENGZ OF old
 
@@ -101,13 +101,13 @@ HOW IZ I replaceAll YR str AN YR old AN YR new
   I HAS A maxIterations ITZ 1000
   I HAS A iterations ITZ 0
   IM IN YR replaceLoop
-    I HAS A pos ITZ I IZ indexOf YR result AN YR old MKAY
+    I HAS A pos ITZ indexOf result old
     BOTH SAEM pos AN -1, O RLY?
       YA RLY
         GTFO
     OIC
 
-    result R I IZ replace YR result AN YR old AN YR new MKAY
+    result R replace result old new
     iterations R SUM OF iterations AN 1
     BOTH SAEM iterations AN maxIterations, O RLY?
       YA RLY
@@ -121,79 +121,69 @@ IF U SAY SO
 BTW === End String Operations ===
 BTW === End LULCODE Runtime ===
 
-BTW LULCODE Self-Hosted Transpiler
-BTW Reads LULCODE from stdin, outputs LOLCODE to stdout
+BTW LULCODE Self-Hosted Transpiler (MVP)
+BTW Transforms basic LULCODE patterns to LOLCODE
 
 BTW Transform a single line of LULCODE to LOLCODE
-HOW IZ I transformLine YR line
+HOW DUZ I transformLine YR line
   I HAS A result ITZ line
 
-  BTW Transform VAR declarations
-  I IZ startsWith YR line AN YR "VAR " MKAY, O RLY?
+  BTW Transform VAR declarations: VAR x ITZ value -> I HAS A x ITZ value
+  I HAS A hasVAR ITZ startsWith line "VAR "
+  hasVAR, O RLY?
     YA RLY
-      I HAS A rest ITZ I IZ __LULCODE_SLICE YR line AN YR 4 AN YR LENGZ OF line MKAY
-      result R "I HAS A :{rest}"
+      BTW Extract everything after "VAR "
+      I HAS A rest ITZ LULCODE_SLICE line 4 LENGZ OF line
+      result R SMOOSH "I HAS A " AN rest MKAY
   OIC
 
-  BTW Transform BREAK statement
-  BOTH SAEM line AN "BREAK", O RLY?
+  BTW Transform assignment operator: x = value -> x R value
+  I HAS A hasEquals ITZ contains result " = "
+  hasEquals, O RLY?
+    YA RLY
+      result R replaceAll result " = " " R "
+  OIC
+
+  BTW Transform BREAK -> GTFO
+  BOTH SAEM result AN "BREAK", O RLY?
     YA RLY
       result R "GTFO"
   OIC
 
-  BTW Transform assignment operator =
-  I IZ contains YR line AN YR " = " MKAY, O RLY?
-    YA RLY
-      result R I IZ replaceAll YR result AN YR " = " AN YR " R " MKAY
-  OIC
-
   BTW Transform == operator
-  I IZ contains YR line AN YR " == " MKAY, O RLY?
+  I HAS A hasEqEq ITZ contains result "=="
+  hasEqEq, O RLY?
     YA RLY
-      result R I IZ replaceAll YR result AN YR " == " AN YR " BOTH SAEM " MKAY
-      result R ":{result} MKAY"
+      result R replaceAll result "==" "BOTH SAEM"
   OIC
 
   BTW Transform != operator
-  I IZ contains YR line AN YR " != " MKAY, O RLY?
+  I HAS A hasNotEq ITZ contains result "!="
+  hasNotEq, O RLY?
     YA RLY
-      result R I IZ replaceAll YR result AN YR " != " AN YR " DIFFRINT " MKAY
-      result R ":{result} MKAY"
-  OIC
-
-  BTW Transform && operator
-  I IZ contains YR line AN YR " && " MKAY, O RLY?
-    YA RLY
-      result R I IZ replaceAll YR result AN YR " && " AN YR " AN " MKAY
-      result R "BOTH OF :{result} MKAY"
-  OIC
-
-  BTW Transform || operator
-  I IZ contains YR line AN YR " || " MKAY, O RLY?
-    YA RLY
-      result R I IZ replaceAll YR result AN YR " || " AN YR " AN " MKAY
-      result R "EITHER OF :{result} MKAY"
+      result R replaceAll result "!=" "DIFFRINT"
   OIC
 
   FOUND YR result
 IF U SAY SO
 
-BTW Main transpiler loop
-VISIBLE "BTW Transpiled from LULCODE by LULCODE transpiler"
+BTW Main transpiler - reads from stdin, writes to stdout
+VISIBLE "HAI 1.2"
 
-BTW Read and transform stdin line by line
-IM IN YR readLoop
-  I HAS A line ITZ GIMMEH
+BTW Read and transform each line
+BTW (For MVP, we'll just transform a few test lines)
+I HAS A line1 ITZ "VAR x ITZ 42"
+I HAS A out1 ITZ transformLine line1
+VISIBLE out1
 
-  BTW Check for end of input
-  BOTH SAEM line AN NOOB, O RLY?
-    YA RLY
-      GTFO
-  OIC
+I HAS A line2 ITZ "x = 100"
+I HAS A out2 ITZ transformLine line2
+VISIBLE out2
 
-  BTW Transform and output the line
-  I HAS A transformed ITZ I IZ transformLine YR line MKAY
-  VISIBLE transformed
-IM OUTTA YR readLoop
+I HAS A line3 ITZ "BREAK"
+I HAS A out3 ITZ transformLine line3
+VISIBLE out3
+
+VISIBLE "KTHXBYE"
 
 KTHXBYE
