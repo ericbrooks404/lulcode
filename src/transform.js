@@ -7,12 +7,15 @@
 
 /**
  * Generate LULCODE runtime library functions
+ * @param {Object} options - What functions to include
  * @returns {string} - LOLCODE function definitions
  */
-function generateRuntimeLibrary() {
-  return `
-BTW === LULCODE Runtime Library ===
+function generateRuntimeLibrary(options = {}) {
+  let library = '\nBTW === LULCODE Runtime Library ===\n';
 
+  // String slice function
+  if (options.slice) {
+    library += `
 BTW String slice function: str[start:end]
 HOW IZ I __LULCODE_SLICE YR str AN YR start AN YR end
   I HAS A result ITZ ""
@@ -23,9 +26,82 @@ HOW IZ I __LULCODE_SLICE YR str AN YR start AN YR end
   IM OUTTA YR __slice_loop
   FOUND YR result
 IF U SAY SO
-
-BTW === End LULCODE Runtime ===
 `;
+  }
+
+  // Array PUSH operation
+  if (options.arrayPush) {
+    library += `
+BTW Array PUSH: Add element to end
+HOW IZ I __LULCODE_ARRAY_PUSH YR arr AN YR value
+  I HAS A len ITZ arr'Z __length
+  I HAS A key ITZ SMOOSH "__" AN len MKAY
+  arr'Z SRS key R value
+  arr'Z __length R SUM OF len AN 1
+IF U SAY SO
+`;
+  }
+
+  // Array POP operation
+  if (options.arrayPop) {
+    library += `
+BTW Array POP: Remove and return last element
+HOW IZ I __LULCODE_ARRAY_POP YR arr
+  I HAS A len ITZ arr'Z __length
+  BOTH SAEM len AN 0, O RLY?
+    YA RLY
+      FOUND YR NOOB
+  OIC
+
+  I HAS A idx ITZ DIFF OF len AN 1
+  I HAS A key ITZ SMOOSH "__" AN idx MKAY
+  I HAS A value ITZ arr'Z SRS key
+
+  BTW Remove element
+  arr'Z SRS key R NOOB
+  arr'Z __length R idx
+
+  FOUND YR value
+IF U SAY SO
+`;
+  }
+
+  // Array SHIFT operation
+  if (options.arrayShift) {
+    library += `
+BTW Array SHIFT: Remove and return first element
+HOW IZ I __LULCODE_ARRAY_SHIFT YR arr
+  I HAS A len ITZ arr'Z __length
+  BOTH SAEM len AN 0, O RLY?
+    YA RLY
+      FOUND YR NOOB
+  OIC
+
+  BTW Get first element
+  I HAS A value ITZ arr'Z __0
+
+  BTW Shift all elements down by one
+  I HAS A i ITZ 0
+  IM IN YR shift_loop UPPIN YR i TIL BOTH SAEM i AN DIFF OF len AN 1
+    I HAS A next ITZ SUM OF i AN 1
+    I HAS A curr_key ITZ SMOOSH "__" AN i MKAY
+    I HAS A next_key ITZ SMOOSH "__" AN next MKAY
+    arr'Z SRS curr_key R arr'Z SRS next_key
+  IM OUTTA YR shift_loop
+
+  BTW Remove last element
+  I HAS A last_idx ITZ DIFF OF len AN 1
+  I HAS A last_key ITZ SMOOSH "__" AN last_idx MKAY
+  arr'Z SRS last_key R NOOB
+  arr'Z __length R last_idx
+
+  FOUND YR value
+IF U SAY SO
+`;
+  }
+
+  library += '\nBTW === End LULCODE Runtime ===\n';
+  return library;
 }
 
 /**
@@ -319,6 +395,40 @@ function transform(source) {
     }
   );
 
+  // === ARRAY OPERATIONS ===
+  let needsArrayPush = false;
+  let needsArrayPop = false;
+  let needsArrayShift = false;
+
+  // PUSH operation: PUSH value TO arr
+  output = output.replace(
+    /\bPUSH\s+(.+?)\s+TO\s+(\w+)/g,
+    (match, value, arr) => {
+      needsArrayPush = true;
+      return `I IZ __LULCODE_ARRAY_PUSH YR ${arr} AN YR ${value} MKAY`;
+    }
+  );
+
+  // POP operation: POP FROM arr (returns value)
+  // Can be used as: VAR x ITZ POP FROM arr
+  // Or standalone: POP FROM arr
+  output = output.replace(
+    /\bPOP\s+FROM\s+(\w+)/g,
+    (match, arr) => {
+      needsArrayPop = true;
+      return `I IZ __LULCODE_ARRAY_POP YR ${arr} MKAY`;
+    }
+  );
+
+  // SHIFT operation: SHIFT FROM arr (returns value)
+  output = output.replace(
+    /\bSHIFT\s+FROM\s+(\w+)/g,
+    (match, arr) => {
+      needsArrayShift = true;
+      return `I IZ __LULCODE_ARRAY_SHIFT YR ${arr} MKAY`;
+    }
+  );
+
   // === COMPARISON AND LOGICAL OPERATORS ===
   // Must come BEFORE general = operator to avoid confusing == with =
 
@@ -393,11 +503,20 @@ function transform(source) {
   // We can't distinguish strings from arrays at transpile time without type tracking
 
   // Inject runtime library if needed
-  if (needsSliceFunction) {
+  const needsRuntime = needsSliceFunction || needsArrayPush || needsArrayPop || needsArrayShift;
+
+  if (needsRuntime) {
     // Insert runtime library after HAI line
+    const runtimeOptions = {
+      slice: needsSliceFunction,
+      arrayPush: needsArrayPush,
+      arrayPop: needsArrayPop,
+      arrayShift: needsArrayShift
+    };
+
     output = output.replace(
       /(HAI\s+[\d.]+)/,
-      `$1${generateRuntimeLibrary()}`
+      `$1${generateRuntimeLibrary(runtimeOptions)}`
     );
   }
 

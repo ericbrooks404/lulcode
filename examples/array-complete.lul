@@ -1,0 +1,82 @@
+HAI 1.2
+BTW Comprehensive array demonstration
+BTW Shows all array features working together
+
+VISIBLE "=== Array Creation ==="
+VAR numbers ITZ [5, 10, 15]
+VISIBLE "Created array with 3 elements"
+
+VISIBLE ""
+VISIBLE "=== Array Access ==="
+VISIBLE "numbers[0]:"
+VISIBLE numbers[0]
+VISIBLE "numbers[1]:"
+VISIBLE numbers[1]
+
+VISIBLE ""
+VISIBLE "=== Array Length ==="
+VISIBLE "Length:"
+VISIBLE numbers'Z __length
+
+VISIBLE ""
+VISIBLE "=== PUSH Operation ==="
+PUSH 20 TO numbers
+VISIBLE "Pushed 20"
+VISIBLE "New length:"
+VISIBLE numbers'Z __length
+VISIBLE "numbers[3]:"
+VISIBLE numbers[3]
+
+VISIBLE ""
+VISIBLE "=== POP Operation ==="
+VAR popped ITZ POP FROM numbers
+VISIBLE "Popped value:"
+VISIBLE popped
+VISIBLE "New length:"
+VISIBLE numbers'Z __length
+
+VISIBLE ""
+VISIBLE "=== SHIFT Operation ==="
+VAR shifted ITZ SHIFT FROM numbers
+VISIBLE "Shifted value:"
+VISIBLE shifted
+VISIBLE "New first element:"
+VISIBLE numbers[0]
+VISIBLE "New length:"
+VISIBLE numbers'Z __length
+
+VISIBLE ""
+VISIBLE "=== Variable Index Access ==="
+VAR i ITZ 0
+VISIBLE "numbers[i] where i=0:"
+VISIBLE numbers[i]
+
+VAR j ITZ 1
+VISIBLE "numbers[j] where j=1:"
+VISIBLE numbers[j]
+
+VISIBLE ""
+VISIBLE "=== Empty Array ==="
+VAR empty ITZ []
+VISIBLE "Empty array length:"
+VISIBLE empty'Z __length
+
+VISIBLE ""
+VISIBLE "=== Building Array with PUSH ==="
+VAR built ITZ AN ARRAY
+PUSH 100 TO built
+PUSH 200 TO built
+PUSH 300 TO built
+VISIBLE "Built array length:"
+VISIBLE built'Z __length
+VISIBLE "built[0]:"
+VISIBLE built[0]
+VISIBLE "built[1]:"
+VISIBLE built[1]
+VISIBLE "built[2]:"
+VISIBLE built[2]
+
+VISIBLE ""
+VISIBLE "=== Array Complete! ==="
+
+KTHXBYE

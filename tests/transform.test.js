@@ -286,6 +286,41 @@ test(
   "arr'Z __0 R 10\nVISIBLE arr'Z __0"
 );
 
+// Test 37: PUSH operation
+test(
+  'PUSH TO array',
+  'PUSH 42 TO arr',
+  'I IZ __LULCODE_ARRAY_PUSH YR arr AN YR 42 MKAY'
+);
+
+// Test 38: POP operation
+test(
+  'POP FROM array',
+  'POP FROM arr',
+  'I IZ __LULCODE_ARRAY_POP YR arr MKAY'
+);
+
+// Test 39: POP with assignment
+test(
+  'POP with variable assignment',
+  'VAR x ITZ POP FROM arr',
+  'I HAS A x ITZ I IZ __LULCODE_ARRAY_POP YR arr MKAY'
+);
+
+// Test 40: SHIFT operation
+test(
+  'SHIFT FROM array',
+  'SHIFT FROM arr',
+  'I IZ __LULCODE_ARRAY_SHIFT YR arr MKAY'
+);
+
+// Test 41: Array operations with runtime injection
+test(
+  'Array operations inject runtime',
+  'HAI 1.2\nPUSH 1 TO arr',
+  'HAI 1.2\nBTW === LULCODE Runtime Library ===\n\nBTW Array PUSH: Add element to end\nHOW IZ I __LULCODE_ARRAY_PUSH YR arr AN YR value\n  I HAS A len ITZ arr\'Z __length\n  I HAS A key ITZ SMOOSH "__" AN len MKAY\n  arr\'Z SRS key R value\n  arr\'Z __length R SUM OF len AN 1\nIF U SAY SO\n\nBTW === End LULCODE Runtime ===\n\nI IZ __LULCODE_ARRAY_PUSH YR arr AN YR 1 MKAY'
+);
+
 // Summary
 console.log(`\n${passed} passed, ${failed} failed`);
 process.exit(failed > 0 ? 1 : 0);
