@@ -1,0 +1,29 @@
+HAI 1.2
+BTW Simple array test without string interpolation
+
+BTW Create array with literals
+VAR numbers ITZ [10, 20, 30]
+
+BTW Access and display
+VISIBLE numbers[0]
+VISIBLE numbers[1]
+VISIBLE numbers[2]
+
+BTW Assignment
+numbers[1] = 25
+VISIBLE numbers[1]
+
+BTW Variable index
+VAR i ITZ 0
+VISIBLE numbers[i]
+
+BTW Length (access metadata directly)
+VAR len ITZ numbers'Z __length
+VISIBLE len
+
+BTW Empty array
+VAR empty ITZ []
+VAR empty_len ITZ empty'Z __length
+VISIBLE empty_len
+
+KTHXBYE

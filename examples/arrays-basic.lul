@@ -1,0 +1,32 @@
+HAI 1.2
+BTW Basic array demonstration
+
+BTW Create empty array
+VAR empty ITZ []
+VISIBLE "Empty array length: {LENGZ OF empty}"
+
+BTW Create array with literals
+VAR numbers ITZ [10, 20, 30]
+VISIBLE "Numbers length: {LENGZ OF numbers}"
+
+BTW Access by literal index
+VISIBLE "First: {numbers[0]}"
+VISIBLE "Second: {numbers[1]}"
+VISIBLE "Third: {numbers[2]}"
+
+BTW Assignment by literal index
+numbers[1] = 25
+VISIBLE "After update: {numbers[1]}"
+
+BTW Access by variable index
+VAR i ITZ 0
+VISIBLE "Index 0: {numbers[i]}"
+
+VAR j ITZ 2
+VISIBLE "Index 2: {numbers[j]}"
+
+BTW Create array with LOLCODE style
+VAR list ITZ AN ARRAY
+VISIBLE "List length: {LENGZ OF list}"
+
+KTHXBYE

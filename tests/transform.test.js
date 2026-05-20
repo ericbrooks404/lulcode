@@ -40,39 +40,39 @@ test(
   'arr\'Z key R "value"'
 );
 
-// Test 3: Numeric literal key access
+// Test 3: Numeric literal array access (with array encoding)
 test(
-  'Numeric literal key access',
+  'Numeric literal array access',
   'arr[0]',
-  "arr'Z SRS 0"
+  "arr'Z __0"
 );
 
-// Test 4: Numeric literal key assignment
+// Test 4: Numeric literal array assignment (with array encoding)
 test(
-  'Numeric literal key assignment',
+  'Numeric literal array assignment',
   'arr[42] = "answer"',
-  'arr\'Z SRS 42 R "answer"'
+  'arr\'Z __42 R "answer"'
 );
 
-// Test 5: Variable key access
+// Test 5: Variable array access (runtime key generation)
 test(
-  'Variable key access',
+  'Variable array access',
   'arr[index]',
-  "arr'Z SRS index"
+  "arr'Z SRS SMOOSH \"__\" AN index MKAY"
 );
 
-// Test 6: Variable key assignment
+// Test 6: Variable array assignment (runtime key generation)
 test(
-  'Variable key assignment',
+  'Variable array assignment',
   'arr[key] = value',
-  "arr'Z SRS key R value"
+  "arr'Z SRS SMOOSH \"__\" AN key MKAY R value"
 );
 
-// Test 7: Multiple transformations
+// Test 7: Multiple array transformations
 test(
-  'Multiple transformations',
+  'Multiple array transformations',
   'arr[0] = "first"\narr[1] = "second"',
-  'arr\'Z SRS 0 R "first"\narr\'Z SRS 1 R "second"'
+  'arr\'Z __0 R "first"\narr\'Z __1 R "second"'
 );
 
 // Test 8: Mixed with standard LOLCODE
@@ -242,6 +242,48 @@ test(
   'Logical ||',
   'x || y',
   'EITHER OF x AN y'
+);
+
+// Test 31: Empty array literal
+test(
+  'Empty array literal',
+  'VAR arr ITZ []',
+  'I HAS A arr ITZ A BUKKIT\narr HAS A __length ITZ 0\narr HAS A __is_array ITZ WIN'
+);
+
+// Test 32: Array literal with elements
+test(
+  'Array literal with elements',
+  'VAR nums ITZ [1, 2, 3]',
+  'I HAS A nums ITZ A BUKKIT\nnums HAS A __length ITZ 3\nnums HAS A __is_array ITZ WIN\nnums HAS A __0 ITZ 1\nnums HAS A __1 ITZ 2\nnums HAS A __2 ITZ 3'
+);
+
+// Test 33: Array literal with strings
+test(
+  'Array literal with strings',
+  'VAR names ITZ ["Alice", "Bob"]',
+  'I HAS A names ITZ A BUKKIT\nnames HAS A __length ITZ 2\nnames HAS A __is_array ITZ WIN\nnames HAS A __0 ITZ "Alice"\nnames HAS A __1 ITZ "Bob"'
+);
+
+// Test 34: ITZ AN ARRAY syntax
+test(
+  'ITZ AN ARRAY',
+  'VAR list ITZ AN ARRAY',
+  'I HAS A list ITZ A BUKKIT\nlist HAS A __length ITZ 0\nlist HAS A __is_array ITZ WIN'
+);
+
+// Test 35: Array length via metadata
+test(
+  'Array length metadata',
+  "arr'Z __length",
+  "arr'Z __length"
+);
+
+// Test 36: Array access and assignment combined
+test(
+  'Array access and assignment',
+  'arr[0] = 10\nVISIBLE arr[0]',
+  "arr'Z __0 R 10\nVISIBLE arr'Z __0"
 );
 
 // Summary

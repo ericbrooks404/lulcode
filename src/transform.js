@@ -36,6 +36,7 @@ BTW === End LULCODE Runtime ===
 function transform(source) {
   let output = source;
   let needsSliceFunction = false;
+  let needsArrayHelpers = false;
 
   // BUKKIT string literal transformations FIRST (before extracting strings)
   // Pattern 1: Assignment with string literal key
@@ -52,11 +53,13 @@ function transform(source) {
     "$1'Z $2"
   );
 
-  // Store strings and comments to protect them from other transformations
+  // Store strings, comments, and arrays to protect them from other transformations
   const strings = [];
   const comments = [];
+  const arrayLiterals = [];
   const STRING_PLACEHOLDER = '__LULCODE_STRING_';
   const COMMENT_PLACEHOLDER = '__LULCODE_COMMENT_';
+  const ARRAY_PLACEHOLDER = '__LULCODE_ARRAY_';
 
   // Extract and store all single-line comments (BTW)
   output = output.replace(/BTW\s+([^\n]*)/g, (match, content) => {
@@ -70,6 +73,17 @@ function transform(source) {
     const index = strings.length;
     strings.push(content);
     return `${STRING_PLACEHOLDER}${index}__`;
+  });
+
+  // Extract and store array literals [1, 2, 3]
+  // Only extract array literals, NOT array access (identifier[index])
+  // Match: ITZ [...]  or  = [...]  or start of line [...]
+  // Don't match: identifier[...]
+  output = output.replace(/(?:ITZ|=|^|\s)\s*\[([^\[\]]*)\]/gm, (match, content) => {
+    const prefix = match.substring(0, match.indexOf('['));
+    const index = arrayLiterals.length;
+    arrayLiterals.push(content.trim());
+    return `${prefix}${ARRAY_PLACEHOLDER}${index}__`;
   });
 
   // String Interpolation: Process stored strings with {var} → :{var}
@@ -268,33 +282,41 @@ function transform(source) {
   // BREAK → GTFO
   output = output.replace(/\bBREAK\b/g, 'GTFO');
 
-  // BUKKIT patterns (non-string-literal) - after string protection
-  // Pattern 2: Assignment with numeric literal key
-  // arr[0] = value → arr'Z SRS 0 R value
+  // ARRAY/BUKKIT NUMERIC ACCESS PATTERNS
+  // Using __n encoding for numeric indices (array encoding)
+
+  // Pattern: Assignment with numeric literal index
+  // arr[0] = value → arr'Z __0 R value
   output = output.replace(
     /(\w+)\[(\d+)\]\s*=\s*(.+)/g,
-    "$1'Z SRS $2 R $3"
+    "$1'Z __$2 R $3"
   );
 
-  // Pattern 3: Assignment with variable key (must come after numeric)
-  // arr[key] = value → arr'Z SRS key R value
+  // Pattern: Assignment with variable index
+  // arr[i] = value → arr'Z SRS (SMOOSH "__" AN i) R value
   output = output.replace(
     /(\w+)\[(\w+)\]\s*=\s*(.+)/g,
-    "$1'Z SRS $2 R $3"
+    (match, arr, idx, value) => {
+      needsArrayHelpers = true;
+      return `${arr}'Z SRS SMOOSH "__" AN ${idx} MKAY R ${value}`;
+    }
   );
 
-  // Pattern 5: Access with numeric literal key
-  // arr[0] → arr'Z SRS 0
+  // Pattern: Access with numeric literal index
+  // arr[0] → arr'Z __0
   output = output.replace(
     /(\w+)\[(\d+)\]/g,
-    "$1'Z SRS $2"
+    "$1'Z __$2"
   );
 
-  // Pattern 6: Access with variable key (must come after numeric)
-  // arr[index] → arr'Z SRS index
+  // Pattern: Access with variable index
+  // arr[i] → arr'Z SRS (SMOOSH "__" AN i)
   output = output.replace(
     /(\w+)\[(\w+)\]/g,
-    "$1'Z SRS $2"
+    (match, arr, idx) => {
+      needsArrayHelpers = true;
+      return `${arr}'Z SRS SMOOSH "__" AN ${idx} MKAY`;
+    }
   );
 
   // === COMPARISON AND LOGICAL OPERATORS ===
@@ -327,6 +349,48 @@ function transform(source) {
   // Must use negative lookahead to avoid ==, !=, >=, <=
   // And must come AFTER BUKKIT assignments
   output = output.replace(/(\w+)\s*=\s+(?!=|!|>|<)(.+?)(?=\n|$)/gm, '$1 R $2');
+
+  // Process array literals before restoration
+  // Convert array placeholders in VAR declarations to BUKKIT initialization
+  output = output.replace(
+    /I HAS A (\w+) ITZ __LULCODE_ARRAY_(\d+)__/g,
+    (match, varName, arrayIndex) => {
+      const arrayContent = arrayLiterals[arrayIndex];
+
+      if (arrayContent === '') {
+        // Empty array: []
+        return `I HAS A ${varName} ITZ A BUKKIT\n` +
+               `${varName} HAS A __length ITZ 0\n` +
+               `${varName} HAS A __is_array ITZ WIN`;
+      } else {
+        // Array with elements: [1, 2, 3]
+        const elements = arrayContent.split(',').map(e => e.trim()).filter(e => e);
+        let result = `I HAS A ${varName} ITZ A BUKKIT\n`;
+        result += `${varName} HAS A __length ITZ ${elements.length}\n`;
+        result += `${varName} HAS A __is_array ITZ WIN`;
+
+        elements.forEach((element, i) => {
+          result += `\n${varName} HAS A __${i} ITZ ${element}`;
+        });
+
+        return result;
+      }
+    }
+  );
+
+  // Handle ITZ AN ARRAY syntax (alternative to [])
+  output = output.replace(
+    /I HAS A (\w+) ITZ AN ARRAY/g,
+    (match, varName) => {
+      return `I HAS A ${varName} ITZ A BUKKIT\n` +
+             `${varName} HAS A __length ITZ 0\n` +
+             `${varName} HAS A __is_array ITZ WIN`;
+    }
+  );
+
+  // Note: LENGZ OF is kept as-is for strings
+  // For arrays, users should access arr'Z __length directly
+  // We can't distinguish strings from arrays at transpile time without type tracking
 
   // Inject runtime library if needed
   if (needsSliceFunction) {
