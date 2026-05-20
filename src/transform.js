@@ -13,6 +13,26 @@
 function transform(source) {
   let output = source;
 
+  // String Interpolation: {var} → :{var}
+  // Match strings containing {var} and convert to LOLCODE :{var} syntax
+  output = output.replace(
+    /"([^"]*\{[^}]+\}[^"]*)"/g,
+    (match, content) => {
+      // First handle escaped braces: {{ → { and }} → }
+      let processed = content.replace(/\{\{/g, '\x00LEFTBRACE\x00')
+                             .replace(/\}\}/g, '\x00RIGHTBRACE\x00');
+
+      // Replace {var} with :{var}
+      processed = processed.replace(/\{(\w+)\}/g, ':{$1}');
+
+      // Restore escaped braces
+      processed = processed.replace(/\x00LEFTBRACE\x00/g, '{')
+                          .replace(/\x00RIGHTBRACE\x00/g, '}');
+
+      return `"${processed}"`;
+    }
+  );
+
   // Pattern 1: Assignment with string literal key
   // arr["key"] = value → arr'Z key R value
   output = output.replace(

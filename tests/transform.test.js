@@ -104,6 +104,41 @@ test(
   simpleExpected
 );
 
+// Test 11: String interpolation - simple
+test(
+  'String interpolation - simple variable',
+  'VISIBLE "Hello {name}"',
+  'VISIBLE "Hello :{name}"'
+);
+
+// Test 12: String interpolation - multiple variables
+test(
+  'String interpolation - multiple variables',
+  'VISIBLE "{x} + {y} = {result}"',
+  'VISIBLE ":{x} + :{y} = :{result}"'
+);
+
+// Test 13: String interpolation - escaped braces
+test(
+  'String interpolation - escaped braces',
+  'VISIBLE "Use {{braces}} like {this}"',
+  'VISIBLE "Use {braces} like :{this}"'
+);
+
+// Test 14: String interpolation - no interpolation
+test(
+  'String interpolation - plain string unchanged',
+  'VISIBLE "Hello World"',
+  'VISIBLE "Hello World"'
+);
+
+// Test 15: String interpolation - mixed with BUKKIT
+test(
+  'String interpolation with BUKKIT',
+  'arr["key"] = "Value: {val}"',
+  'arr\'Z key R "Value: :{val}"'
+);
+
 // Summary
 console.log(`\n${passed} passed, ${failed} failed`);
 process.exit(failed > 0 ? 1 : 0);

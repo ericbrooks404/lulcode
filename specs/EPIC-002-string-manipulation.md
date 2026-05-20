@@ -25,18 +25,20 @@ VISIBLE "STATE revealed={RTXT} votes={VOTES}"       BTW Clean and readable
 ## Research Phase
 
 ### Story 002.1: Research String Interpolation Syntax
-**Status**: Not Started
+**Status**: ✅ Complete (2026-05-15)
 
 Design string interpolation to replace SMOOSH:
-- [ ] Research interpolation syntax options:
-  - `"text {VAR} more"` (common in many languages)
-  - `"text :{VAR}: more"` (LOLCODE-style with colons)
-  - `"text ${VAR} more"` (shell/JS style)
-- [ ] Consider how to escape literal braces/syntax
-- [ ] Document how LOLCODE's existing `:{VAR}:` escape works in strings
-- [ ] Ensure backward compatibility with LOLCODE strings
+- [x] Research interpolation syntax options
+- [x] Discovered LOLCODE already has `:{VAR}` syntax
+- [x] Chose LULCODE sugar: `{VAR}` → `:{VAR}`
+- [x] Implemented escape handling: `{{` → `{`, `}}` → `}`
+- [x] Ensured backward compatibility
 
-**Output**: String interpolation syntax specification
+**Output**: ✅ [`specs/research/002.1-string-interpolation.md`](../research/002.1-string-interpolation.md)
+
+**Implementation**: Working in `src/transform.js`  
+**Tests**: 15/15 passing (5 new string interpolation tests)  
+**Example**: `examples/string-interpolation.lul` - Tested with LCI ✅
 
 ### Story 002.2: Research String Split Operation
 **Status**: Not Started
