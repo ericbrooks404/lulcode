@@ -7,12 +7,36 @@
 
 ## 🎯 Current Work
 
-**JUST COMPLETED**: EPIC-002 Story 002.3 - Substring/Slice Implementation ✅  
-**NEXT**: Continue EPIC-002 (002.4/002.5) OR move to EPIC-003
+**JUST COMPLETED**: EPIC-003 Research Phase - All Syntactic Sugar Research ✅  
+**NEXT**: Implement EPIC-003 syntactic sugar (VAR, IF/ELSE, =, FOR/WHILE)
 
 ---
 
 ## ✅ Completed EPICs & Stories
+
+### EPIC-002: String Manipulation - ✅ COMPLETE (Core Features)
+
+**Status**: String interpolation and slice working, split deferred
+
+| Story | Status | Summary |
+|-------|--------|---------|
+| 002.1 | ✅ Complete | String interpolation: `{var}` → `:{var}` |
+| 002.2 | ⏸️ Deferred | String split (requires EPIC-006 arrays) |
+| 002.3 | ✅ Complete | String slice: `str[start:end]` with runtime function |
+| 002.4 | ⏭️ Skipped | Additional ops (trim, case) - lower priority |
+| 002.5 | ⏭️ Skipped | Documentation story |
+
+**Key Achievements**:
+- ✅ String interpolation eliminates SMOOSH verbosity (22x in game.lol)
+- ✅ Python-style slice: `str[0:5]`, `str[-5:]`, `str[:]`
+- ✅ Runtime library auto-injection
+- ✅ 20/20 tests passing (5 slice + 15 previous)
+
+**Deliverables**:
+- Examples: `examples/string-interpolation.lul`, `examples/string-slice.lul`
+- Research: `specs/research/002.3-substring-design.md`
+
+---
 
 ### EPIC-001: Dictionaries (BUKKIT) - ✅ COMPLETE (MVP)
 
@@ -47,27 +71,34 @@
 
 ## 🔄 In Progress
 
-### EPIC-002: String Manipulation - 🔄 STARTING NOW
+### EPIC-003: Syntactic Sugar - 🔄 RESEARCH COMPLETE, READY TO IMPLEMENT
 
-**Goal**: Add string interpolation and manipulation to reduce SMOOSH verbosity
+**Goal**: Reduce verbosity with modern syntax sugar
 
-**Impact**: 22 SMOOSH operations in game.lol can be simplified
+**Impact**: 50-60% code reduction in typical programs
 
-**Progress**:
-- ✅ Story 002.1: String Interpolation (COMPLETE)
-  - Syntax: `{var}` transpiles to `:{var}`
-  - Escaped braces: `{{` → `{`, `}}` → `}`
-  - Tests: 15/15 passing (now 20/20 with slice)
-  - Tested with LCI: Working!
-- ⏸️ Story 002.2: String Split (DEFERRED - requires EPIC-006 arrays)
-- ✅ Story 002.3: Substring/Slice (COMPLETE - Research + Implementation)
-  - Python-style syntax: `str[start:end]`, `str[5:]`, `str[:10]`, `str[-5:]`
-  - Transpiles to runtime function using `AT` operator
-  - Supports negative indices, optional bounds
-  - Tests: 20/20 passing (5 new slice tests)
-  - Example: `examples/string-slice.lul`
+**Research Complete** (Stories 003.1-003.5):
+- ✅ Story 003.1: Variable Declaration (VAR keyword)
+  - Syntax: `VAR x, y, z` instead of `I HAS A x; I HAS A y; I HAS A z`
+  - 60% reduction in declaration code
+- ✅ Story 003.2: Conditionals (IF/ELIF/ELSE)
+  - Syntax: `IF x == y ... END` instead of `BOTH SAEM x AN y, O RLY? ... OIC`
+  - Infix operators: `==`, `!=`, `>`, `<`, `>=`, `<=`
+  - Logical operators: `&&`, `||`, `!`
+  - 50% reduction in conditional code
+- ✅ Story 003.3: Assignment (`=` operator)
+  - Support both `x = 5` and `x R 5`
+  - Familiar syntax for mainstream programmers
+- ✅ Story 003.4: Loops (FOR/WHILE/LOOP)
+  - `FOR i FROM 0 TO 10 ... END`
+  - `WHILE condition ... END`
+  - `LOOP ... BREAK ... END`
+  - 50% reduction in loop code
+  - FOREACH deferred (needs EPIC-006 arrays)
+- ✅ Story 003.5: Functions (DEFERRED to EPIC-019)
+  - Lower priority, defer for now
 
-**Next Story**: 002.4/002.5 Research OR move to EPIC-003
+**Next**: Implementation phase!
 
 ---
 
@@ -100,12 +131,12 @@
 
 ## 📊 Overall Progress
 
-**EPICs**: 6 defined, 1 complete, 1 in progress  
-**Stories Complete**: 5 (001.1, 001.2, 001.3, 002.1, 002.3)  
-**Stories Deferred**: 2 (001.4, 002.2)  
+**EPICs**: 6 defined, 2 complete, 1 ready for implementation  
+**Stories Complete**: 10 (001.1-003.5 research complete, 001.3, 002.1, 002.3 implemented)  
+**Stories Deferred**: 3 (001.4, 002.2, FOREACH until EPIC-006)  
 **Tests**: 20/20 passing  
-**Documentation**: 5,000+ lines  
-**Commits**: 8 (about to be 9)
+**Documentation**: 8,500+ lines  
+**Commits**: 11 (about to be 12)
 
 ---
 
