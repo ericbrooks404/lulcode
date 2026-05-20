@@ -1,8 +1,10 @@
-# EPIC-006: True Arrays (Future Enhancement)
+# EPIC-006: True Arrays
 
-**Priority**: Low (Future)  
-**Status**: Not Started  
+**Priority**: 1 (Critical for Self-Hosting)  
+**Status**: In Progress (2026-05-20)  
 **Goal**: Add numeric-indexed arrays separate from BUKKIT dictionaries
+
+**Why Now**: Arrays are essential for self-hosting the transpiler, which needs to store and manipulate collections with numeric indices.
 
 ## Overview
 
@@ -64,20 +66,92 @@ Add array support to lol-coffee VM directly
 - [ ] Iteration by index
 - [ ] Push/pop operations
 
-## Not Started
+## Stories
 
-This EPIC is for **future work**. BUKKIT (dictionaries) alone are sufficient for Tier 2 (Genuinely Useful).
+### Story 006.1: Array Implementation Strategy Research
+**Status**: Not Started
 
-Focus now on:
-- EPIC-001: Complete dictionary support ✓
-- EPIC-002: String manipulation (Tier 2)
+Research and choose implementation approach:
+- [ ] Evaluate Option 1: New LOLCODE type
+- [ ] Evaluate Option 2: String-encoded BUKKIT keys
+- [ ] Evaluate Option 3: LCI enhancement/fork
+- [ ] Evaluate Option 4: lol-coffee extension
+- [ ] Choose optimal approach for self-hosting goal
+- [ ] Design LULCODE array syntax
+- [ ] Document implementation strategy
+
+**Output**: Implementation strategy document
+
+### Story 006.2: Array Syntax Design
+**Status**: Not Started (after 006.1)
+
+Define LULCODE array syntax:
+- Array literals: `[1, 2, 3]` or `ITZ AN ARRAY`?
+- Access: `arr[index]`
+- Assignment: `arr[index] = value`
+- Operations: length, push, pop, shift
+- Iteration patterns
+
+**Output**: Array syntax specification
+
+### Story 006.3: Array Transpilation Implementation
+**Status**: Not Started (after 006.2)
+
+Implement array support in transpiler:
+- [ ] Parse array literals
+- [ ] Transpile array access/assignment
+- [ ] Generate array operation functions
+- [ ] Handle edge cases (bounds, empty arrays)
+
+**Output**: Working array transpilation
+
+### Story 006.4: Array Operations Library
+**Status**: Not Started (after 006.3)
+
+Implement essential array operations:
+- [ ] LENGZ OF array
+- [ ] PUSH element to array
+- [ ] POP from array
+- [ ] SHIFT from array
+- [ ] Iteration helpers
+
+**Output**: Array operations runtime library
+
+### Story 006.5: FOREACH Implementation
+**Status**: Not Started (after 006.4)
+
+Now that arrays exist, implement FOREACH:
+- [ ] FOREACH element IN array syntax
+- [ ] FOREACH index, element IN array syntax
+- [ ] Transpile to LOLCODE loops
+
+**Output**: FOREACH support for arrays
+
+## Implementation Priority
+
+**Phase 1: MVP** (Stories 006.1-006.3)
+- Research and choose approach
+- Design syntax
+- Basic array support
+
+**Phase 2: Operations** (Stories 006.4-006.5)
+- Array operations library
+- FOREACH loops
+
+## Success Criteria
+
+After EPIC-006, we should be able to:
+- [ ] Use numeric-indexed arrays: `arr[0]`, `arr[1]`
+- [ ] Create array literals: `[1, 2, 3]`
+- [ ] Iterate over arrays with FOREACH
+- [ ] Use arrays in transpiler for self-hosting
 
 ## References
 
 - EPIC-001: BUKKIT dictionaries (current)
 - LCI BUKKIT findings: `docs/LCI-BUKKIT-FINDINGS.md`
-- Minimal language research: Lua uses tables only, proves one structure sufficient
+- Self-hosting requirements (transpiler needs)
 
 ---
 
-**Epic Status**: Deferred to future based on need
+**Epic Status**: In Progress - Story 006.1 starting
