@@ -1,0 +1,77 @@
+HAI 1.2
+BTW LULCODE Self-Hosted Transpiler
+BTW Reads LULCODE from stdin, outputs LOLCODE to stdout
+
+BTW Transform a single line of LULCODE to LOLCODE
+HOW IZ I transformLine YR line
+  VAR result ITZ line
+
+  BTW Transform VAR declarations
+  I IZ startsWith YR line AN YR "VAR " MKAY, O RLY?
+    YA RLY
+      VAR rest ITZ line[4:]
+      result R "I HAS A {rest}"
+  OIC
+
+  BTW Transform BREAK statement
+  BOTH SAEM line AN "BREAK", O RLY?
+    YA RLY
+      result R "GTFO"
+  OIC
+
+  BTW Transform assignment operator =
+  I IZ contains YR line AN YR " = " MKAY, O RLY?
+    YA RLY
+      result R I IZ replaceAll YR result AN YR " = " AN YR " R " MKAY
+  OIC
+
+  BTW Transform == operator
+  I IZ contains YR line AN YR " == " MKAY, O RLY?
+    YA RLY
+      result R I IZ replaceAll YR result AN YR " == " AN YR " BOTH SAEM " MKAY
+      result R "{result} MKAY"
+  OIC
+
+  BTW Transform != operator
+  I IZ contains YR line AN YR " != " MKAY, O RLY?
+    YA RLY
+      result R I IZ replaceAll YR result AN YR " != " AN YR " DIFFRINT " MKAY
+      result R "{result} MKAY"
+  OIC
+
+  BTW Transform && operator
+  I IZ contains YR line AN YR " && " MKAY, O RLY?
+    YA RLY
+      result R I IZ replaceAll YR result AN YR " && " AN YR " AN " MKAY
+      result R "BOTH OF {result} MKAY"
+  OIC
+
+  BTW Transform || operator
+  I IZ contains YR line AN YR " || " MKAY, O RLY?
+    YA RLY
+      result R I IZ replaceAll YR result AN YR " || " AN YR " AN " MKAY
+      result R "EITHER OF {result} MKAY"
+  OIC
+
+  FOUND YR result
+IF U SAY SO
+
+BTW Main transpiler loop
+VISIBLE "BTW Transpiled from LULCODE by LULCODE transpiler"
+
+BTW Read and transform stdin line by line
+IM IN YR readLoop
+  I HAS A line ITZ GIMMEH
+
+  BTW Check for end of input
+  BOTH SAEM line AN NOOB, O RLY?
+    YA RLY
+      GTFO
+  OIC
+
+  BTW Transform and output the line
+  I HAS A transformed ITZ I IZ transformLine YR line MKAY
+  VISIBLE transformed
+IM OUTTA YR readLoop
+
+KTHXBYE
