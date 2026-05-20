@@ -41,31 +41,36 @@ Design string interpolation to replace SMOOSH:
 **Example**: `examples/string-interpolation.lul` - Tested with LCI ✅
 
 ### Story 002.2: Research String Split Operation
-**Status**: Not Started
+**Status**: ⏸️ Deferred (requires arrays from EPIC-006)
 
 Add ability to split strings into arrays:
 - [ ] Research split syntax options:
   - `SPLIT str BY delimiter` → BUKKIT
   - `str'Z SPLIT delimiter` → BUKKIT
 - [ ] Determine edge cases (empty string, no match, etc.)
-- [ ] Consider if this requires BUKKIT (EPIC-001) to be implemented first
+- [ ] Requires true arrays (EPIC-006), not just BUKKIT dictionaries
 - [ ] Document transpilation strategy
 
-**Output**: Split operation specification
+**Output**: Deferred pending EPIC-006 (True Arrays)
 
 ### Story 002.3: Research String Substring/Slice Operation
-**Status**: Not Started
+**Status**: ✅ Complete (2026-05-19)
 
 Add substring extraction beyond single-character AT:
-- [ ] Review lol-coffee's `AT` operator (single char access)
-- [ ] Research substring syntax options:
-  - `SUBSTRING str FROM start TO end`
-  - `str'Z SLICE start end`
-  - `str AT start LENGZ len`
-- [ ] Handle negative indices (end-relative)
-- [ ] Document relationship to existing `AT` operator
+- [x] Reviewed lol-coffee's `AT` operator (single char access)
+- [x] Researched 5 syntax options (verbose, property-style, extended AT, SLICE, brackets)
+- [x] Chose hybrid: LULCODE `str[start:end]` → LOLCODE inline loops
+- [x] Designed negative indices support: `str[-5:]` for last 5 chars
+- [x] Documented transpilation strategy (inline loops using AT)
+- [x] Defined edge cases (bounds, negative indices, invalid ranges)
 
-**Output**: Substring operation specification
+**Output**: ✅ [`specs/research/002.3-substring-design.md`](../research/002.3-substring-design.md)
+
+**Key Design**:
+- LULCODE syntax: `str[start:end]` (Python-style)
+- Transpiles to: Character-by-character loop using `AT` operator
+- Supports negative indices, optional start/end
+- MVP: Inline generation, future: runtime library function
 
 ### Story 002.4: Research Additional String Operations
 **Status**: Not Started

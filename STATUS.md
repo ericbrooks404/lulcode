@@ -7,8 +7,8 @@
 
 ## 🎯 Current Work
 
-**JUST COMPLETED**: EPIC-002 Story 002.1 - String Interpolation ✅  
-**NEXT**: EPIC-002 Story 002.2 - String Split Operation (or move to EPIC-003)
+**JUST COMPLETED**: EPIC-002 Story 002.3 - Substring/Slice Research ✅  
+**NEXT**: Implement Story 002.3 OR continue with 002.4/002.5
 
 ---
 
@@ -59,8 +59,14 @@
   - Escaped braces: `{{` → `{`, `}}` → `}`
   - Tests: 15/15 passing
   - Tested with LCI: Working!
+- ⏸️ Story 002.2: String Split (DEFERRED - requires EPIC-006 arrays)
+- ✅ Story 002.3: Substring/Slice Research (COMPLETE)
+  - Designed Python-style syntax: `str[start:end]`
+  - Transpiles to inline loops using `AT` operator
+  - Supports negative indices, optional bounds
+  - Ready for implementation
 
-**Next Story**: 002.2 - String Split (requires arrays, may defer)
+**Next Story**: 002.3 Implementation OR 002.4/002.5 Research
 
 ---
 
@@ -94,10 +100,11 @@
 ## 📊 Overall Progress
 
 **EPICs**: 6 defined, 1 complete, 1 in progress  
-**Stories Complete**: 4 (001.1, 001.2, 001.3, 002.1)  
+**Stories Complete**: 5 (001.1, 001.2, 001.3, 002.1, 002.3)  
+**Stories Deferred**: 2 (001.4, 002.2)  
 **Tests**: 15/15 passing  
-**Documentation**: 3,000+ lines  
-**Commits**: 6
+**Documentation**: 4,500+ lines  
+**Commits**: 7
 
 ---
 
