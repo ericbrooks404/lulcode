@@ -7,9 +7,9 @@
 
 ## 🎯 Current Work
 
-**JUST COMPLETED**: Story 005.7 Implementation - Enhanced CLI ✅  
-**CURRENT**: Testing and documenting enhanced CLI  
-**NEXT**: Story 005.8 - Create npm Package
+**JUST COMPLETED**: Stories 006.1 & 006.2 - Array Research & Design ✅  
+**CURRENT**: EPIC-006 True Arrays (for self-hosting)  
+**NEXT**: Story 006.3 - Array Transpilation Implementation
 
 ---
 
@@ -141,6 +141,54 @@
 
 ---
 
+### EPIC-006: True Arrays - 🔄 IN PROGRESS
+
+**Status**: Research complete, implementation pending
+
+**Goal**: Add numeric-indexed arrays for self-hosting the transpiler
+
+**Why Now**: Arrays are critical for self-hosting - the transpiler needs to store
+and manipulate collections with numeric indices (strings[], comments[], etc.)
+
+| Story | Status | Summary |
+|-------|--------|---------|
+| 006.1 | ✅ Complete | Array Implementation Strategy - Chose string-encoded BUKKIT |
+| 006.2 | ✅ Complete | Array Syntax Design - Comprehensive array syntax |
+| 006.3 | ⏳ Next | Array Transpilation Implementation - Basic arrays |
+| 006.4 | ⏳ Pending | Array Operations Library - PUSH, POP, SHIFT |
+| 006.5 | ⏳ Pending | FOREACH Implementation - Array iteration |
+
+**Implementation Strategy**:
+- ✅ **Chosen**: String-encoded BUKKIT keys (works with current LCI)
+- Encoding: `arr[0]` → `arr'Z __0` (double underscore prefix)
+- Metadata: `__length`, `__is_array` for tracking
+- No LCI modifications needed!
+
+**Array Syntax Designed**:
+```lulcode
+VAR nums ITZ [1, 2, 3]            BTW Array literal
+nums[0] = 10                      BTW Numeric access
+PUSH 4 TO nums                    BTW Operations
+FOREACH i, num IN nums            BTW Iteration
+  VISIBLE "Index {i}: {num}"
+END
+```
+
+**Key Achievements**:
+- ✅ Evaluated 4 implementation approaches
+- ✅ Chose practical solution (string-encoded BUKKIT)
+- ✅ Designed comprehensive array syntax
+- ✅ Planned runtime library functions
+- ✅ Identified edge cases (sparse, negative indices)
+
+**Deliverables**:
+- Strategy: `specs/research/006.1-array-implementation-strategy.md` (270 lines)
+- Syntax: `specs/research/006.2-array-syntax-design.md` (480 lines)
+
+**Timeline**: ~2 weeks for complete array support
+
+---
+
 ## 📋 Backlog (Prioritized)
 
 ### EPIC-004: First-Class Functions (Priority 4)
@@ -158,11 +206,11 @@
 
 ## 📊 Overall Progress
 
-**EPICs**: 6 defined, 3 complete, 1 in progress  
-**Stories Complete**: 15 (001.1-003.5 + implementations + 005.1, 005.7)  
-**Stories Deferred**: 3 (001.4, 002.2, FOREACH until EPIC-006)  
+**EPICs**: 6 defined, 3 complete, 2 in progress  
+**Stories Complete**: 17 (001.1-003.5 + implementations + 005.1, 005.7, 006.1, 006.2)  
+**Stories Deferred**: 2 (001.4, 002.2 - pending arrays)  
 **Tests**: 30/30 passing  
-**Documentation**: 11,000+ lines  
+**Documentation**: 12,500+ lines  
 **Code**: ~2,000 lines (transpiler + CLI + utilities)
 
 ---
@@ -204,16 +252,18 @@
 ## 🎯 Session Goals
 
 **This Session**:
-1. ✅ ~~Continue LULCODE development from EPIC-003~~
-2. ✅ ~~Design CLI interface (Story 005.1)~~
-3. ✅ ~~Implement enhanced CLI (Story 005.7)~~
-4. 🔄 **Document and prepare for npm package**
+1. ✅ ~~Implement enhanced CLI (Story 005.7)~~
+2. ✅ ~~Start EPIC-006 (True Arrays for self-hosting)~~
+3. ✅ ~~Array implementation strategy research (Story 006.1)~~
+4. ✅ ~~Array syntax design (Story 006.2)~~
+5. 🔄 **Ready to implement arrays (Story 006.3)**
 
 **Next Session**:
-- Install npm and dependencies
-- Test enhanced CLI functionality
-- Create npm package (Story 005.8)
-- Consider pre-built binaries or Homebrew formula
+- Implement array transpilation (Story 006.3)
+- Add array operations library (Story 006.4)
+- Integrate FOREACH with arrays (Story 006.5)
+- Test arrays with transpiler code
+- Move toward self-hosting capability
 
 ---
 
@@ -226,5 +276,7 @@
 
 ---
 
-**📌 CURRENT TASK**: Story 005.7 Complete - Enhanced CLI Implemented ✅  
-**📌 NEXT TASK**: Story 005.8 - Create npm Package
+**📌 CURRENT TASK**: Stories 006.1 & 006.2 Complete - Array Research Done ✅  
+**📌 NEXT TASK**: Story 006.3 - Array Transpilation Implementation
+
+**🎯 GOAL**: Self-hosting - transpile the transpiler to LULCODE!
