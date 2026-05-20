@@ -1,0 +1,54 @@
+HAI 1.2
+BTW String Operations Demo for Self-Hosting
+
+VISIBLE "=== String Operations Test ==="
+VISIBLE ""
+
+BTW Test 1: indexOf
+VISIBLE "Test 1: indexOf"
+VAR text ITZ "hello world"
+VAR pos ITZ I IZ indexOf YR text AN YR "world" MKAY
+VISIBLE "Position of 'world' in 'hello world': {pos}"
+VISIBLE ""
+
+BTW Test 2: startsWith
+VISIBLE "Test 2: startsWith"
+VAR line ITZ "VAR x ITZ 5"
+I IZ startsWith YR line AN YR "VAR " MKAY, O RLY?
+  YA RLY
+    VISIBLE "Line starts with 'VAR ' - YES"
+  NO WAI
+    VISIBLE "Line starts with 'VAR ' - NO"
+OIC
+VISIBLE ""
+
+BTW Test 3: contains
+VISIBLE "Test 3: contains"
+VAR code ITZ "x == y"
+I IZ contains YR code AN YR "==" MKAY, O RLY?
+  YA RLY
+    VISIBLE "Code contains '==' - YES"
+  NO WAI
+    VISIBLE "Code contains '==' - NO"
+OIC
+VISIBLE ""
+
+BTW Test 4: replace
+VISIBLE "Test 4: replace"
+VAR original ITZ "VAR x"
+VAR transformed ITZ I IZ replace YR original AN YR "VAR " AN YR "I HAS A " MKAY
+VISIBLE "Original: {original}"
+VISIBLE "Transformed: {transformed}"
+VISIBLE ""
+
+BTW Test 5: replaceAll
+VISIBLE "Test 5: replaceAll"
+VAR expr ITZ "x + x + x"
+VAR result ITZ I IZ replaceAll YR expr AN YR "x" AN YR "y" MKAY
+VISIBLE "Original: {expr}"
+VISIBLE "Result: {result}"
+VISIBLE ""
+
+VISIBLE "=== All Tests Complete! ==="
+
+KTHXBYE
