@@ -100,6 +100,73 @@ IF U SAY SO
 `;
   }
 
+  // String SPLIT operation
+  if (options.stringSplit) {
+    library += `
+BTW String SPLIT: Split string by delimiter into array
+HOW IZ I __LULCODE_SPLIT YR str AN YR delim
+  I HAS A result ITZ A BUKKIT
+  result HAS A __length ITZ 0
+  result HAS A __is_array ITZ WIN
+
+  I HAS A current ITZ ""
+  I HAS A str_len ITZ LENGZ OF str
+  I HAS A delim_len ITZ LENGZ OF delim
+  I HAS A i ITZ 0
+
+  BTW Handle empty delimiter (split every character)
+  BOTH SAEM delim_len AN 0, O RLY?
+    YA RLY
+      IM IN YR char_loop UPPIN YR i TIL BOTH SAEM i AN str_len
+        I HAS A char ITZ str AT i
+        I HAS A idx ITZ result'Z __length
+        I HAS A key ITZ SMOOSH "__" AN idx MKAY
+        result'Z SRS key R char
+        result'Z __length R SUM OF idx AN 1
+      IM OUTTA YR char_loop
+      FOUND YR result
+  OIC
+
+  BTW Loop through string looking for delimiter
+  IM IN YR split_loop UPPIN YR i TIL BOTH SAEM i AN str_len
+    I HAS A char ITZ str AT i
+
+    BTW Check if we found delimiter
+    I HAS A found_delim ITZ FAIL
+    BOTH SAEM delim_len AN 1, O RLY?
+      YA RLY
+        BTW Single char delimiter
+        BOTH SAEM char AN delim, O RLY?
+          YA RLY
+            found_delim R WIN
+        OIC
+    OIC
+
+    BTW If found delimiter, save current part and reset
+    found_delim, O RLY?
+      YA RLY
+        I HAS A idx ITZ result'Z __length
+        I HAS A key ITZ SMOOSH "__" AN idx MKAY
+        result'Z SRS key R current
+        result'Z __length R SUM OF idx AN 1
+        current R ""
+      NO WAI
+        BTW Add character to current part
+        current R SMOOSH current AN char MKAY
+    OIC
+  IM OUTTA YR split_loop
+
+  BTW Add final part
+  I HAS A idx ITZ result'Z __length
+  I HAS A key ITZ SMOOSH "__" AN idx MKAY
+  result'Z SRS key R current
+  result'Z __length R SUM OF idx AN 1
+
+  FOUND YR result
+IF U SAY SO
+`;
+  }
+
   library += '\nBTW === End LULCODE Runtime ===\n';
   return library;
 }
@@ -211,6 +278,16 @@ function transform(source) {
       }
 
       return `I IZ __LULCODE_SLICE YR ${str} AN YR ${finalStart} AN YR ${finalEnd} MKAY`;
+    }
+  );
+
+  // String SPLIT: SPLIT str BY delim → function call
+  let needsStringSplit = false;
+  output = output.replace(
+    /\bSPLIT\s+(.+?)\s+BY\s+(.+?)(?=\n|$)/gm,
+    (match, str, delim) => {
+      needsStringSplit = true;
+      return `I IZ __LULCODE_SPLIT YR ${str} AN YR ${delim} MKAY`;
     }
   );
 
@@ -543,7 +620,7 @@ function transform(source) {
   // We can't distinguish strings from arrays at transpile time without type tracking
 
   // Inject runtime library if needed
-  const needsRuntime = needsSliceFunction || needsArrayPush || needsArrayPop || needsArrayShift;
+  const needsRuntime = needsSliceFunction || needsArrayPush || needsArrayPop || needsArrayShift || needsStringSplit;
 
   if (needsRuntime) {
     // Insert runtime library after HAI line
@@ -551,7 +628,8 @@ function transform(source) {
       slice: needsSliceFunction,
       arrayPush: needsArrayPush,
       arrayPop: needsArrayPop,
-      arrayShift: needsArrayShift
+      arrayShift: needsArrayShift,
+      stringSplit: needsStringSplit
     };
 
     output = output.replace(

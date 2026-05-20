@@ -342,6 +342,27 @@ test(
   'I HAS A arr ITZ A BUKKIT\narr HAS A __length ITZ 3\narr HAS A __is_array ITZ WIN\narr HAS A __0 ITZ 1\narr HAS A __1 ITZ 2\narr HAS A __2 ITZ 3\nI HAS A __foreach_idx_1 ITZ 0\nI HAS A __foreach_len_1 ITZ arr\'Z __length\nIM IN YR __foreach_loop_1 UPPIN YR __foreach_idx_1 TIL BOTH SAEM __foreach_idx_1 AN __foreach_len_1\n  I HAS A __foreach_key_1 ITZ SMOOSH "__" AN __foreach_idx_1 MKAY\n  I HAS A num ITZ arr\'Z SRS __foreach_key_1\n  VISIBLE num\nIM OUTTA YR __foreach_loop_1'
 );
 
+// Test 45: String SPLIT operation
+test(
+  'SPLIT string BY delimiter',
+  'SPLIT "a,b,c" BY ","',
+  'I IZ __LULCODE_SPLIT YR "a,b,c" AN YR "," MKAY'
+);
+
+// Test 46: SPLIT with variable
+test(
+  'SPLIT with variable',
+  'VAR parts ITZ SPLIT str BY ","',
+  'I HAS A parts ITZ I IZ __LULCODE_SPLIT YR str AN YR "," MKAY'
+);
+
+// Test 47: SPLIT and FOREACH together
+test(
+  'SPLIT with FOREACH',
+  'VAR parts ITZ SPLIT "a:b" BY ":"\nFOREACH part IN parts\n  VISIBLE part\nEND',
+  'I HAS A parts ITZ I IZ __LULCODE_SPLIT YR "a:b" AN YR ":" MKAY\nI HAS A __foreach_idx_1 ITZ 0\nI HAS A __foreach_len_1 ITZ parts\'Z __length\nIM IN YR __foreach_loop_1 UPPIN YR __foreach_idx_1 TIL BOTH SAEM __foreach_idx_1 AN __foreach_len_1\n  I HAS A __foreach_key_1 ITZ SMOOSH "__" AN __foreach_idx_1 MKAY\n  I HAS A part ITZ parts\'Z SRS __foreach_key_1\n  VISIBLE part\nIM OUTTA YR __foreach_loop_1'
+);
+
 // Summary
 console.log(`\n${passed} passed, ${failed} failed`);
 process.exit(failed > 0 ? 1 : 0);
