@@ -302,3 +302,129 @@ END
 
 **🎯 ACHIEVEMENT**: npm package fully prepared  
 **📊 PROGRESS**: 23 stories complete, 47/47 tests passing, ready for npm publish
+
+---
+
+## Session Update: 2026-05-20 - LCI Removal Progress
+
+### Major Changes: Replaced LCI with lol-coffee-lul
+
+**Why**: Preserve transpilation chain (LULCODE → LOLCODE → JavaScript)
+
+**What we did**:
+1. ✅ Forked and enhanced lol-coffee as `lol-coffee-lul`
+   - Added BUKKIT support with 'Z operator
+   - Fixed reversed function arguments (PR #3)
+   - Created npm package structure
+   
+2. ✅ Bundled runtime in LULCODE
+   - Location: `runtime/lol-coffee/` (compiled JS files)
+   - Wrapper: `src/utils/lolcoffee.js`
+   - Tests: `test-lolcoffee-runtime.js`, `test-full-chain.js`
+
+3. ✅ Fixed LULCODE transpiler issues
+   - `__LULCODE_*` → `LULCODE_*` (no leading underscores)
+   - `__*Loop` → `*Loop` (loop names)
+   - `HOW IZ I` → `HOW DUZ I` (function syntax)
+
+### Current Status
+
+**Working**:
+- ✅ Basic transpilation: LULCODE → LOLCODE ✓
+- ✅ Basic execution: Simple programs run with lol-coffee ✓
+- ✅ BUKKIT: Property access/assignment works ✓
+- ✅ Transpiler wrapper created ✓
+
+**Blocked**:
+- ❌ String operations: lol-coffee parser can't handle function parameters
+- ❌ Full chain test fails: `test-full-chain.js` blocked by parser bug
+
+### The Blocker: Function Parameter Parsing
+
+lol-coffee parser fails on:
+```lolcode
+HOW DUZ I add YR x AN YR y  BTW ❌ Parse error
+```
+
+But works on:
+```lolcode
+HOW DUZ I test  BTW ✅ Works (no parameters)
+```
+
+**Impact**: Our string operations library (indexOf, replace, etc.) can't work because they need parameters.
+
+### Next Steps
+
+**Option A: Fix lol-coffee parser** (2-4 hours)
+- Debug `src/parser.coffee` parameter parsing
+- Recompile with CoffeeScript 1.x
+- Test string operations
+
+**Option B: Redesign without parameters** (1-2 hours)
+- Use global variables instead of parameters
+- Less elegant but works around bug
+- Can fix parser later
+
+**Option C: Continue with Phase 2**
+- Update CLI to use lol-coffee
+- Remove LCI code
+- Accept no string operations for MVP
+
+### Files Modified
+
+**LULCODE**:
+- `src/transform.js` - Fixed identifier names, function syntax
+- `src/utils/lolcoffee.js` - NEW: Execution wrapper
+- `runtime/lol-coffee/*.js` - NEW: Bundled runtime
+- `test-lolcoffee-runtime.js` - NEW: Basic test (passing)
+- `test-full-chain.js` - NEW: Full chain test (blocked)
+- `PHASE1-PROGRESS.md` - NEW: Phase 1 documentation
+
+**lol-coffee-lul** (`/home/lib/Code/lol-coffee`):
+- All `src/*.coffee` - BUKKIT implementation, argument fix
+- All `src/*.js` - Recompiled
+- `package.json` - NEW: npm package
+- `README.md` - Updated for lol-coffee-lul
+- `STATUS.md` - Comprehensive state document
+
+### LCI Removal Status
+
+**Not yet removed** (waiting for parser fix):
+- `src/utils/lci.js` - Still exists
+- `install.sh` - Still has LCI build
+- `test-lci-capabilities.sh` - Still exists
+- CLI `--lci-path` options - Still exist
+
+**Plan**: Remove after lol-coffee parser works OR we choose Option B/C
+
+### Critical Decisions Pending
+
+1. How to handle function parameter bug? (A, B, or C above)
+2. When to publish lol-coffee-lul to npm?
+3. When to remove LCI code completely?
+
+### Testing
+
+```bash
+# Works ✅
+cd /home/lib/Code/LULCODE
+node test-lolcoffee-runtime.js
+
+# Blocked ❌
+node test-full-chain.js  # Parser error on string operations
+
+# lol-coffee-lul tests
+cd /home/lib/Code/lol-coffee
+node test-bukkit.js  # ✅ Passing
+```
+
+### For Next Session
+
+**Most urgent**: Decide on function parameter approach (A, B, or C)
+
+**Key files to check**:
+- `/home/lib/Code/lol-coffee/src/parser.coffee` - Parser bug location
+- `/home/lib/Code/LULCODE/src/transform.js` - String operations definitions
+- `/home/lib/Code/LULCODE/test-full-chain.js` - Full chain test
+
+**Recommended**: Option A (fix parser) - needed for self-hosting eventually
