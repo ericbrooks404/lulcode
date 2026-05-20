@@ -17,13 +17,13 @@ function generateRuntimeLibrary(options = {}) {
   if (options.slice) {
     library += `
 BTW String slice function: str[start:end]
-HOW IZ I __LULCODE_SLICE YR str AN YR start AN YR end
+HOW DUZ I LULCODE_SLICE YR str AN YR start AN YR end
   I HAS A result ITZ ""
   I HAS A i ITZ start
-  IM IN YR __slice_loop UPPIN YR i TIL BOTH SAEM i AN end
+  IM IN YR sliceLoop UPPIN YR i TIL BOTH SAEM i AN end
     I HAS A char ITZ str AT i
     result R SMOOSH result AN char MKAY
-  IM OUTTA YR __slice_loop
+  IM OUTTA YR sliceLoop
   FOUND YR result
 IF U SAY SO
 `;
@@ -33,7 +33,7 @@ IF U SAY SO
   if (options.arrayPush) {
     library += `
 BTW Array PUSH: Add element to end
-HOW IZ I __LULCODE_ARRAY_PUSH YR arr AN YR value
+HOW DUZ I LULCODE_ARRAY_PUSH YR arr AN YR value
   I HAS A len ITZ arr'Z __length
   I HAS A key ITZ SMOOSH "__" AN len MKAY
   arr'Z SRS key R value
@@ -46,7 +46,7 @@ IF U SAY SO
   if (options.arrayPop) {
     library += `
 BTW Array POP: Remove and return last element
-HOW IZ I __LULCODE_ARRAY_POP YR arr
+HOW DUZ I LULCODE_ARRAY_POP YR arr
   I HAS A len ITZ arr'Z __length
   BOTH SAEM len AN 0, O RLY?
     YA RLY
@@ -70,7 +70,7 @@ IF U SAY SO
   if (options.arrayShift) {
     library += `
 BTW Array SHIFT: Remove and return first element
-HOW IZ I __LULCODE_ARRAY_SHIFT YR arr
+HOW DUZ I LULCODE_ARRAY_SHIFT YR arr
   I HAS A len ITZ arr'Z __length
   BOTH SAEM len AN 0, O RLY?
     YA RLY
@@ -104,7 +104,7 @@ IF U SAY SO
   if (options.stringSplit) {
     library += `
 BTW String SPLIT: Split string by delimiter into array
-HOW IZ I __LULCODE_SPLIT YR str AN YR delim
+HOW DUZ I LULCODE_SPLIT YR str AN YR delim
   I HAS A result ITZ A BUKKIT
   result HAS A __length ITZ 0
   result HAS A __is_array ITZ WIN
@@ -183,7 +183,7 @@ function generateStringOpsLibrary(options = {}) {
   if (options.indexOf) {
     library += `
 BTW Find first occurrence of pattern in string
-HOW IZ I indexOf YR str AN YR pattern
+HOW DUZ I indexOf YR str AN YR pattern
   I HAS A strLen ITZ LENGZ OF str
   I HAS A patLen ITZ LENGZ OF pattern
 
@@ -197,7 +197,7 @@ HOW IZ I indexOf YR str AN YR pattern
   I HAS A i ITZ 0
   IM IN YR search UPPIN YR i TIL BOTH SAEM i AN SUM OF maxPos AN 1
     I HAS A endPos ITZ SUM OF i AN patLen
-    I HAS A sub ITZ I IZ __LULCODE_SLICE YR str AN YR i AN YR endPos MKAY
+    I HAS A sub ITZ I IZ LULCODE_SLICE YR str AN YR i AN YR endPos MKAY
     BOTH SAEM sub AN pattern, O RLY?
       YA RLY
         FOUND YR i
@@ -213,7 +213,7 @@ IF U SAY SO
   if (options.startsWith) {
     library += `
 BTW Check if string starts with prefix
-HOW IZ I startsWith YR str AN YR prefix
+HOW DUZ I startsWith YR str AN YR prefix
   I HAS A prefixLen ITZ LENGZ OF prefix
   I HAS A strLen ITZ LENGZ OF str
 
@@ -222,7 +222,7 @@ HOW IZ I startsWith YR str AN YR prefix
       FOUND YR FAIL
   OIC
 
-  I HAS A sub ITZ I IZ __LULCODE_SLICE YR str AN YR 0 AN YR prefixLen MKAY
+  I HAS A sub ITZ I IZ LULCODE_SLICE YR str AN YR 0 AN YR prefixLen MKAY
   BOTH SAEM sub AN prefix, O RLY?
     YA RLY
       FOUND YR WIN
@@ -236,7 +236,7 @@ IF U SAY SO
   if (options.contains) {
     library += `
 BTW Check if pattern exists in string
-HOW IZ I contains YR str AN YR pattern
+HOW DUZ I contains YR str AN YR pattern
   I HAS A pos ITZ I IZ indexOf YR str AN YR pattern MKAY
   BOTH SAEM pos AN -1, O RLY?
     YA RLY
@@ -252,7 +252,7 @@ IF U SAY SO
   if (options.replace) {
     library += `
 BTW Replace first occurrence of substring
-HOW IZ I replace YR str AN YR old AN YR new
+HOW DUZ I replace YR str AN YR old AN YR new
   I HAS A pos ITZ I IZ indexOf YR str AN YR old MKAY
 
   BOTH SAEM pos AN -1, O RLY?
@@ -260,11 +260,11 @@ HOW IZ I replace YR str AN YR old AN YR new
       FOUND YR str
   OIC
 
-  I HAS A before ITZ I IZ __LULCODE_SLICE YR str AN YR 0 AN YR pos MKAY
+  I HAS A before ITZ I IZ LULCODE_SLICE YR str AN YR 0 AN YR pos MKAY
   I HAS A oldLen ITZ LENGZ OF old
   I HAS A afterPos ITZ SUM OF pos AN oldLen
   I HAS A strLen ITZ LENGZ OF str
-  I HAS A after ITZ I IZ __LULCODE_SLICE YR str AN YR afterPos AN YR strLen MKAY
+  I HAS A after ITZ I IZ LULCODE_SLICE YR str AN YR afterPos AN YR strLen MKAY
   I HAS A result ITZ SMOOSH before AN new AN after MKAY
 
   FOUND YR result
@@ -276,7 +276,7 @@ IF U SAY SO
   if (options.replaceAll) {
     library += `
 BTW Replace all occurrences of substring
-HOW IZ I replaceAll YR str AN YR old AN YR new
+HOW DUZ I replaceAll YR str AN YR old AN YR new
   I HAS A result ITZ str
   I HAS A oldLen ITZ LENGZ OF old
 
@@ -340,9 +340,9 @@ function transform(source) {
   const strings = [];
   const comments = [];
   const arrayLiterals = [];
-  const STRING_PLACEHOLDER = '__LULCODE_STRING_';
-  const COMMENT_PLACEHOLDER = '__LULCODE_COMMENT_';
-  const ARRAY_PLACEHOLDER = '__LULCODE_ARRAY_';
+  const STRING_PLACEHOLDER = 'LULCODE_STRING_';
+  const COMMENT_PLACEHOLDER = 'LULCODE_COMMENT_';
+  const ARRAY_PLACEHOLDER = 'LULCODE_ARRAY_';
 
   // Extract and store all single-line comments (BTW)
   output = output.replace(/BTW\s+([^\n]*)/g, (match, content) => {
@@ -417,7 +417,7 @@ function transform(source) {
         finalEnd = `DIFF OF LENGZ OF ${str} AN ${offset}`;
       }
 
-      return `I IZ __LULCODE_SLICE YR ${str} AN YR ${finalStart} AN YR ${finalEnd} MKAY`;
+      return `I IZ LULCODE_SLICE YR ${str} AN YR ${finalStart} AN YR ${finalEnd} MKAY`;
     }
   );
 
@@ -427,7 +427,7 @@ function transform(source) {
     /\bSPLIT\s+(.+?)\s+BY\s+(.+?)(?=\n|$)/gm,
     (match, str, delim) => {
       needsStringSplit = true;
-      return `I IZ __LULCODE_SPLIT YR ${str} AN YR ${delim} MKAY`;
+      return `I IZ LULCODE_SPLIT YR ${str} AN YR ${delim} MKAY`;
     }
   );
 
@@ -662,7 +662,7 @@ function transform(source) {
     /\bPUSH\s+(.+?)\s+TO\s+(\w+)/g,
     (match, value, arr) => {
       needsArrayPush = true;
-      return `I IZ __LULCODE_ARRAY_PUSH YR ${arr} AN YR ${value} MKAY`;
+      return `I IZ LULCODE_ARRAY_PUSH YR ${arr} AN YR ${value} MKAY`;
     }
   );
 
@@ -673,7 +673,7 @@ function transform(source) {
     /\bPOP\s+FROM\s+(\w+)/g,
     (match, arr) => {
       needsArrayPop = true;
-      return `I IZ __LULCODE_ARRAY_POP YR ${arr} MKAY`;
+      return `I IZ LULCODE_ARRAY_POP YR ${arr} MKAY`;
     }
   );
 
@@ -682,7 +682,7 @@ function transform(source) {
     /\bSHIFT\s+FROM\s+(\w+)/g,
     (match, arr) => {
       needsArrayShift = true;
-      return `I IZ __LULCODE_ARRAY_SHIFT YR ${arr} MKAY`;
+      return `I IZ LULCODE_ARRAY_SHIFT YR ${arr} MKAY`;
     }
   );
 
@@ -720,7 +720,7 @@ function transform(source) {
   // Process array literals before restoration
   // Convert array placeholders in VAR declarations to BUKKIT initialization
   output = output.replace(
-    /I HAS A (\w+) ITZ __LULCODE_ARRAY_(\d+)__/g,
+    /I HAS A (\w+) ITZ LULCODE_ARRAY_(\d+)__/g,
     (match, varName, arrayIndex) => {
       const arrayContent = arrayLiterals[arrayIndex];
 
@@ -826,12 +826,12 @@ function transform(source) {
   }
 
   // Restore strings
-  output = output.replace(/__LULCODE_STRING_(\d+)__/g, (match, index) => {
+  output = output.replace(/LULCODE_STRING_(\d+)__/g, (match, index) => {
     return `"${strings[index]}"`;
   });
 
   // Restore comments
-  output = output.replace(/__LULCODE_COMMENT_(\d+)__/g, (match, index) => {
+  output = output.replace(/LULCODE_COMMENT_(\d+)__/g, (match, index) => {
     return comments[index];
   });
 
