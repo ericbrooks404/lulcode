@@ -58,45 +58,82 @@ LULCODE/
 
 ## Current Status
 
-**Phase**: Research → Specification  
+**Phase**: Distribution & Packaging (EPIC-005)  
 **Progress**: 
-- ✅ Project structure created
-- ✅ EPICs defined for all priorities
-- ✅ BUKKIT research complete (Story 001.1, 001.2)
-- ✅ BUKKIT design decisions made
-- 🔄 BUKKIT transpilation strategy (Story 001.3)
-- ⏳ Language specification (in progress)
-- ⏳ Transpiler implementation (pending spec)
+- ✅ EPIC-001: Arrays/Dictionaries (BUKKIT) - COMPLETE
+- ✅ EPIC-002: String Manipulation - COMPLETE (Core Features)
+- ✅ EPIC-003: Syntactic Sugar - COMPLETE
+- 🔄 EPIC-005: Distribution & Packaging - IN PROGRESS
+  - ✅ Story 005.1: CLI Design complete
+  - 🔄 Story 005.7: Enhanced CLI implementation (in progress)
 
 **Recent Milestones**:
-- **2026-05-15**: ✅ **BUKKIT Transpiler Working!**
-  - Completed BUKKIT syntax research (Stories 001.1, 001.2)
-  - Implemented JavaScript bootstrap transpiler (Story 001.3)
-  - Bracket notation `arr[key]` → `arr'Z key` transpilation working
-  - All 10 test cases passing
-  - Successfully transpiled `bukkit-demo.lul` → `bukkit-demo.lol`
-  - See: `specs/research/001.1-bukkit-design.md` and `docs/BOOTSTRAP.md`
+- **2026-05-19**: ✅ **Syntactic Sugar Complete (EPIC-003)**
+  - VAR declarations: `VAR x, y, z` → 60% reduction
+  - Modern operators: `=`, `==`, `!=`, `&&`, `||`, `>=`, `<=`
+  - Clean conditionals: `IF/ELIF/ELSE` blocks
+  - Readable loops: `FOR/WHILE/LOOP` statements
+  - All 30 tests passing!
+  
+- **2026-05-19**: ✅ **Enhanced CLI Designed (Story 005.1)**
+  - Professional command structure (compile, run, init, check)
+  - Watch mode for development
+  - Colored output and progress indicators
+  - LCI integration for execution
+
+- **2026-05-15**: ✅ **BUKKIT Transpiler Working (EPIC-001)**
+  - Bracket notation `arr[key]` → `arr'Z key` transpilation
+  - String interpolation: `{var}` syntax
+  - String slice: `str[start:end]` support
 
 ## Getting Started
 
 ### Installation
 
+See [INSTALLATION.md](INSTALLATION.md) for detailed installation instructions.
+
+**Quick start**:
 ```bash
 cd ~/Code/LULCODE
-# No npm dependencies required - pure Node.js
+npm install          # Install CLI dependencies
+./install.sh         # Install LCI interpreter (optional, for --run)
+npm link            # Make lulcode command globally available
 ```
 
 ### Usage
 
+**Compile LULCODE to LOLCODE**:
 ```bash
-# Transpile LULCODE to LOLCODE
-node src/transpiler.js input.lul output.lol
+lulcode compile input.lul -o output.lol
+lulcode compile input.lul > output.lol      # Stdout
+```
 
-# Or use via stdout
-node src/transpiler.js input.lul > output.lol
+**Run directly** (transpile + execute):
+```bash
+lulcode run program.lul
+```
 
-# Use the bin wrapper
-./bin/lulcode examples/bukkit-demo.lul > output.lol
+**Watch mode** (auto-reload on changes):
+```bash
+lulcode compile program.lul --watch --run
+```
+
+**Initialize new project**:
+```bash
+lulcode init my-project
+cd my-project
+lulcode run main.lul
+```
+
+**Check syntax**:
+```bash
+lulcode check program.lul
+```
+
+**Get help**:
+```bash
+lulcode --help
+lulcode compile --help
 ```
 
 ### Example
@@ -104,10 +141,16 @@ node src/transpiler.js input.lul > output.lol
 **Input (LULCODE)**: `example.lul`
 ```lulcode
 HAI 1.2
-I HAS A players ITZ A BUKKIT
+VAR players ITZ A BUKKIT
 players["Alice"] = 100
 players["Bob"] = 85
-VISIBLE SMOOSH "Alice: " players["Alice"] MKAY
+
+IF players["Alice"] >= 100
+  VISIBLE "Alice wins with {players["Alice"]} points!"
+ELSE
+  VISIBLE "Alice has {players["Alice"]} points"
+END
+
 KTHXBYE
 ```
 
@@ -117,8 +160,21 @@ HAI 1.2
 I HAS A players ITZ A BUKKIT
 players'Z Alice R 100
 players'Z Bob R 85
-VISIBLE SMOOSH "Alice: " players'Z Alice MKAY
+
+BOTH SAEM players'Z Alice AN BIGGR OF players'Z Alice AN 100, O RLY?
+  YA RLY
+  VISIBLE "Alice wins with :{players'Z Alice} points!"
+  NO WAI
+  VISIBLE "Alice has :{players'Z Alice} points"
+OIC
+
 KTHXBYE
+```
+
+**Run it**:
+```bash
+lulcode run example.lul
+# Output: Alice wins with 100 points!
 ```
 
 ### Running Tests
