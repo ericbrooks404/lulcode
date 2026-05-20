@@ -1,0 +1,45 @@
+HAI 1.2
+BTW FOREACH loop demonstration
+
+BTW Create array
+VAR colors ITZ ["red", "green", "blue"]
+
+VISIBLE "=== FOREACH without index ==="
+FOREACH color IN colors
+  VISIBLE color
+END
+
+VISIBLE ""
+VISIBLE "=== FOREACH with index ==="
+FOREACH i, color IN colors
+  VISIBLE "Index:"
+  VISIBLE i
+  VISIBLE "Color:"
+  VISIBLE color
+END
+
+VISIBLE ""
+VISIBLE "=== Building and iterating ==="
+VAR numbers ITZ AN ARRAY
+PUSH 10 TO numbers
+PUSH 20 TO numbers
+PUSH 30 TO numbers
+
+VISIBLE "Numbers:"
+FOREACH num IN numbers
+  VISIBLE num
+END
+
+VISIBLE ""
+VISIBLE "=== Sum with FOREACH ==="
+VAR sum ITZ 0
+VAR data ITZ [5, 10, 15, 20]
+
+FOREACH value IN data
+  sum = sum + value
+END
+
+VISIBLE "Sum:"
+VISIBLE sum
+
+KTHXBYE

@@ -321,6 +321,27 @@ test(
   'HAI 1.2\nBTW === LULCODE Runtime Library ===\n\nBTW Array PUSH: Add element to end\nHOW IZ I __LULCODE_ARRAY_PUSH YR arr AN YR value\n  I HAS A len ITZ arr\'Z __length\n  I HAS A key ITZ SMOOSH "__" AN len MKAY\n  arr\'Z SRS key R value\n  arr\'Z __length R SUM OF len AN 1\nIF U SAY SO\n\nBTW === End LULCODE Runtime ===\n\nI IZ __LULCODE_ARRAY_PUSH YR arr AN YR 1 MKAY'
 );
 
+// Test 42: FOREACH without index
+test(
+  'FOREACH element IN array',
+  'FOREACH x IN arr\n  VISIBLE x\nEND',
+  'I HAS A __foreach_idx_1 ITZ 0\nI HAS A __foreach_len_1 ITZ arr\'Z __length\nIM IN YR __foreach_loop_1 UPPIN YR __foreach_idx_1 TIL BOTH SAEM __foreach_idx_1 AN __foreach_len_1\n  I HAS A __foreach_key_1 ITZ SMOOSH "__" AN __foreach_idx_1 MKAY\n  I HAS A x ITZ arr\'Z SRS __foreach_key_1\n  VISIBLE x\nIM OUTTA YR __foreach_loop_1'
+);
+
+// Test 43: FOREACH with index
+test(
+  'FOREACH i, element IN array',
+  'FOREACH i, x IN arr\n  VISIBLE i\n  VISIBLE x\nEND',
+  'I HAS A i ITZ 0\nI HAS A __foreach_len_1 ITZ arr\'Z __length\nIM IN YR __foreach_loop_1 UPPIN YR i TIL BOTH SAEM i AN __foreach_len_1\n  I HAS A __foreach_key_1 ITZ SMOOSH "__" AN i MKAY\n  I HAS A x ITZ arr\'Z SRS __foreach_key_1\n  VISIBLE i\n  VISIBLE x\nIM OUTTA YR __foreach_loop_1'
+);
+
+// Test 44: FOREACH with array literal
+test(
+  'FOREACH with inline array',
+  'VAR arr ITZ [1, 2, 3]\nFOREACH num IN arr\n  VISIBLE num\nEND',
+  'I HAS A arr ITZ A BUKKIT\narr HAS A __length ITZ 3\narr HAS A __is_array ITZ WIN\narr HAS A __0 ITZ 1\narr HAS A __1 ITZ 2\narr HAS A __2 ITZ 3\nI HAS A __foreach_idx_1 ITZ 0\nI HAS A __foreach_len_1 ITZ arr\'Z __length\nIM IN YR __foreach_loop_1 UPPIN YR __foreach_idx_1 TIL BOTH SAEM __foreach_idx_1 AN __foreach_len_1\n  I HAS A __foreach_key_1 ITZ SMOOSH "__" AN __foreach_idx_1 MKAY\n  I HAS A num ITZ arr\'Z SRS __foreach_key_1\n  VISIBLE num\nIM OUTTA YR __foreach_loop_1'
+);
+
 // Summary
 console.log(`\n${passed} passed, ${failed} failed`);
 process.exit(failed > 0 ? 1 : 0);

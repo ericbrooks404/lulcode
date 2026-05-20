@@ -1,0 +1,99 @@
+HAI 1.2
+BTW Complete array feature demonstration
+BTW All array features working together!
+
+VISIBLE "╔══════════════════════════════════╗"
+VISIBLE "║  LULCODE Array Demo Complete    ║"
+VISIBLE "╚══════════════════════════════════╝"
+VISIBLE ""
+
+VISIBLE "1. Array Creation"
+VISIBLE "   VAR nums ITZ [10, 20, 30]"
+VAR nums ITZ [10, 20, 30]
+VISIBLE "   ✓ Created"
+
+VISIBLE ""
+VISIBLE "2. Array Access"
+VISIBLE "   nums[0]:"
+VISIBLE nums[0]
+VISIBLE "   nums[2]:"
+VISIBLE nums[2]
+
+VISIBLE ""
+VISIBLE "3. Variable Index"
+VAR idx ITZ 1
+VISIBLE "   idx = 1, nums[idx]:"
+VISIBLE nums[idx]
+
+VISIBLE ""
+VISIBLE "4. Array Length"
+VISIBLE "   Length:"
+VISIBLE nums'Z __length
+
+VISIBLE ""
+VISIBLE "5. PUSH Operation"
+VISIBLE "   PUSH 40 TO nums"
+PUSH 40 TO nums
+VISIBLE "   New length:"
+VISIBLE nums'Z __length
+
+VISIBLE ""
+VISIBLE "6. POP Operation"
+VAR popped ITZ POP FROM nums
+VISIBLE "   Popped:"
+VISIBLE popped
+
+VISIBLE ""
+VISIBLE "7. SHIFT Operation"
+VAR shifted ITZ SHIFT FROM nums
+VISIBLE "   Shifted:"
+VISIBLE shifted
+
+VISIBLE ""
+VISIBLE "8. FOREACH without index"
+VAR colors ITZ ["red", "green", "blue"]
+VISIBLE "   Iterating colors:"
+FOREACH color IN colors
+  VISIBLE color
+END
+
+VISIBLE ""
+VISIBLE "9. FOREACH with index"
+VISIBLE "   Indexed iteration:"
+FOREACH i, color IN colors
+  VISIBLE i
+  VISIBLE color
+END
+
+VISIBLE ""
+VISIBLE "10. Building Arrays Dynamically"
+VAR stack ITZ AN ARRAY
+PUSH "first" TO stack
+PUSH "second" TO stack
+PUSH "third" TO stack
+VISIBLE "   Stack built with 3 items"
+VISIBLE "   Contents:"
+FOREACH item IN stack
+  VISIBLE item
+END
+
+VISIBLE ""
+VISIBLE "11. Empty Array"
+VAR empty ITZ []
+VISIBLE "   Empty length:"
+VISIBLE empty'Z __length
+
+VISIBLE ""
+VISIBLE "12. Array Processing"
+VAR data ITZ [1, 2, 3, 4, 5]
+VISIBLE "   Processing array [1,2,3,4,5]:"
+FOREACH n IN data
+  VISIBLE n
+END
+
+VISIBLE ""
+VISIBLE "╔══════════════════════════════════╗"
+VISIBLE "║  All Features Working! ✓         ║"
+VISIBLE "╚══════════════════════════════════╝"
+
+KTHXBYE

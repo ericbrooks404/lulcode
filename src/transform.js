@@ -275,6 +275,46 @@ function transform(source) {
     }
   );
 
+  // FOREACH loops: Iterate over arrays
+  // Pattern 1: FOREACH i, element IN arr ... END (with index)
+  output = output.replace(
+    /FOREACH\s+(\w+)\s*,\s*(\w+)\s+IN\s+(\w+)\n([\s\S]*?)END/gm,
+    (match, indexVar, elementVar, arrayVar, body) => {
+      loopCounter++;
+      const loopLabel = `__foreach_loop_${loopCounter}`;
+      const lenVar = `__foreach_len_${loopCounter}`;
+      const keyVar = `__foreach_key_${loopCounter}`;
+
+      return `I HAS A ${indexVar} ITZ 0\n` +
+             `I HAS A ${lenVar} ITZ ${arrayVar}'Z __length\n` +
+             `IM IN YR ${loopLabel} UPPIN YR ${indexVar} TIL BOTH SAEM ${indexVar} AN ${lenVar}\n` +
+             `  I HAS A ${keyVar} ITZ SMOOSH "__" AN ${indexVar} MKAY\n` +
+             `  I HAS A ${elementVar} ITZ ${arrayVar}'Z SRS ${keyVar}\n` +
+             body +
+             `IM OUTTA YR ${loopLabel}`;
+    }
+  );
+
+  // Pattern 2: FOREACH element IN arr ... END (without index)
+  output = output.replace(
+    /FOREACH\s+(\w+)\s+IN\s+(\w+)\n([\s\S]*?)END/gm,
+    (match, elementVar, arrayVar, body) => {
+      loopCounter++;
+      const loopLabel = `__foreach_loop_${loopCounter}`;
+      const indexVar = `__foreach_idx_${loopCounter}`;
+      const lenVar = `__foreach_len_${loopCounter}`;
+      const keyVar = `__foreach_key_${loopCounter}`;
+
+      return `I HAS A ${indexVar} ITZ 0\n` +
+             `I HAS A ${lenVar} ITZ ${arrayVar}'Z __length\n` +
+             `IM IN YR ${loopLabel} UPPIN YR ${indexVar} TIL BOTH SAEM ${indexVar} AN ${lenVar}\n` +
+             `  I HAS A ${keyVar} ITZ SMOOSH "__" AN ${indexVar} MKAY\n` +
+             `  I HAS A ${elementVar} ITZ ${arrayVar}'Z SRS ${keyVar}\n` +
+             body +
+             `IM OUTTA YR ${loopLabel}`;
+    }
+  );
+
   // IF statements: Handle simple IF first, then IF/ELSE, then IF/ELIF/ELSE
   // Simple IF...END (no else)
   output = output.replace(
