@@ -114,16 +114,22 @@ Implement array support in transpiler:
 - Examples: arrays-simple.lul, arrays-basic.lul
 
 ### Story 006.4: Array Operations Library
-**Status**: Not Started (after 006.3)
+**Status**: ✅ Complete (2026-05-20)
 
 Implement essential array operations:
-- [ ] LENGZ OF array
-- [ ] PUSH element to array
-- [ ] POP from array
-- [ ] SHIFT from array
-- [ ] Iteration helpers
+- [x] PUSH element TO array - Add to end
+- [x] POP FROM array - Remove from end, returns value
+- [x] SHIFT FROM array - Remove from start, returns value
+- [x] Runtime library generation - Smart injection
+- [x] Empty array handling - Returns NOOB
+- [x] All tests passing (41/41)
 
 **Output**: Array operations runtime library
+- PUSH: Add to end with length tracking
+- POP: Remove from end, returns value
+- SHIFT: Remove from start, shifts all elements
+- Functions injected only when used
+- Examples: array-operations.lul, array-complete.lul
 
 ### Story 006.5: FOREACH Implementation
 **Status**: Not Started (after 006.4)

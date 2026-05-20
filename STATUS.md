@@ -7,9 +7,9 @@
 
 ## 🎯 Current Work
 
-**JUST COMPLETED**: Story 006.3 - Array Transpilation Implementation ✅  
-**CURRENT**: EPIC-006 True Arrays - Basic arrays working!  
-**NEXT**: Story 006.4 - Array Operations Library (PUSH, POP, SHIFT)
+**JUST COMPLETED**: Story 006.4 - Array Operations Library ✅  
+**CURRENT**: EPIC-006 True Arrays - Operations working!  
+**NEXT**: Story 006.5 - FOREACH Implementation (final array story)
 
 ---
 
@@ -155,8 +155,8 @@ and manipulate collections with numeric indices (strings[], comments[], etc.)
 | 006.1 | ✅ Complete | Array Implementation Strategy - Chose string-encoded BUKKIT |
 | 006.2 | ✅ Complete | Array Syntax Design - Comprehensive array syntax |
 | 006.3 | ✅ Complete | Array Transpilation Implementation - Working! |
-| 006.4 | ⏳ Next | Array Operations Library - PUSH, POP, SHIFT |
-| 006.5 | ⏳ Pending | FOREACH Implementation - Array iteration |
+| 006.4 | ✅ Complete | Array Operations Library - PUSH, POP, SHIFT |
+| 006.5 | ⏳ Next | FOREACH Implementation - Array iteration |
 
 **Implementation Strategy**:
 - ✅ **Chosen**: String-encoded BUKKIT keys (works with current LCI)
@@ -179,10 +179,10 @@ END
 - ✅ Chose practical solution (string-encoded BUKKIT)
 - ✅ Designed comprehensive array syntax
 - ✅ **Implemented basic arrays** (Story 006.3)
-- ✅ Array literals: `[1, 2, 3]` and `ITZ AN ARRAY`
-- ✅ Numeric access: `arr[0]` → `arr'Z __0`
-- ✅ Variable access: `arr[i]` → runtime key generation
-- ✅ All 36 tests passing
+- ✅ **Implemented array operations** (Story 006.4)
+- ✅ PUSH/POP/SHIFT with runtime library
+- ✅ Smart runtime injection (only what's used)
+- ✅ All 41 tests passing
 
 **Deliverables**:
 - Strategy: `specs/research/006.1-array-implementation-strategy.md` (270 lines)
@@ -210,11 +210,11 @@ END
 ## 📊 Overall Progress
 
 **EPICs**: 6 defined, 3 complete, 2 in progress  
-**Stories Complete**: 18 (001.1-003.5 + implementations + 005.1, 005.7, 006.1-006.3)  
+**Stories Complete**: 19 (001.1-003.5 + implementations + 005.1, 005.7, 006.1-006.4)  
 **Stories Deferred**: 2 (001.4, 002.2 - can now be unblocked!)  
-**Tests**: 36/36 passing ✅  
+**Tests**: 41/41 passing ✅  
 **Documentation**: 12,500+ lines  
-**Code**: ~2,100 lines (transpiler + CLI + arrays)
+**Code**: ~2,300 lines (transpiler + CLI + arrays + operations)
 
 ---
 
@@ -260,14 +260,15 @@ END
 3. ✅ ~~Array implementation strategy research (Story 006.1)~~
 4. ✅ ~~Array syntax design (Story 006.2)~~
 5. ✅ ~~Implement array transpilation (Story 006.3)~~
-6. 🎉 **Arrays working! Self-hosting 60% complete**
+6. ✅ ~~Implement array operations (Story 006.4)~~
+7. 🎉 **Array operations working! Self-hosting 70% complete**
 
 **Next Session**:
-- Add array operations library (Story 006.4) - PUSH, POP, SHIFT
-- Integrate FOREACH with arrays (Story 006.5)
+- Implement FOREACH iteration (Story 006.5)
+- Complete EPIC-006 (True Arrays)
 - Unblock String split (Story 002.2)
 - Test arrays with real transpiler code
-- Continue toward self-hosting capability
+- Move to parser-based architecture research
 
 ---
 
@@ -280,8 +281,8 @@ END
 
 ---
 
-**📌 CURRENT TASK**: Story 006.3 Complete - Arrays Working! ✅  
-**📌 NEXT TASK**: Story 006.4 - Array Operations Library
+**📌 CURRENT TASK**: Story 006.4 Complete - Array Operations! ✅  
+**📌 NEXT TASK**: Story 006.5 - FOREACH Implementation
 
 **🎯 GOAL**: Self-hosting - transpile the transpiler to LULCODE!  
-**📊 PROGRESS**: 60% complete (arrays unlocked!)
+**📊 PROGRESS**: 70% complete (array operations working!)
