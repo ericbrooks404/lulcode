@@ -37,25 +37,58 @@ function transform(source) {
   let output = source;
   let needsSliceFunction = false;
 
-  // String Interpolation: {var} → :{var}
-  // Match strings containing {var} and convert to LOLCODE :{var} syntax
+  // BUKKIT string literal transformations FIRST (before extracting strings)
+  // Pattern 1: Assignment with string literal key
+  // arr["key"] = value → arr'Z key R value
   output = output.replace(
-    /"([^"]*\{[^}]+\}[^"]*)"/g,
-    (match, content) => {
-      // First handle escaped braces: {{ → { and }} → }
-      let processed = content.replace(/\{\{/g, '\x00LEFTBRACE\x00')
-                             .replace(/\}\}/g, '\x00RIGHTBRACE\x00');
-
-      // Replace {var} with :{var}
-      processed = processed.replace(/\{(\w+)\}/g, ':{$1}');
-
-      // Restore escaped braces
-      processed = processed.replace(/\x00LEFTBRACE\x00/g, '{')
-                          .replace(/\x00RIGHTBRACE\x00/g, '}');
-
-      return `"${processed}"`;
-    }
+    /(\w+)\["(\w+)"\]\s*=\s*(.+)/g,
+    "$1'Z $2 R $3"
   );
+
+  // Pattern 4: Access with string literal key (in expressions)
+  // arr["key"] → arr'Z key
+  output = output.replace(
+    /(\w+)\["(\w+)"\]/g,
+    "$1'Z $2"
+  );
+
+  // Store strings and comments to protect them from other transformations
+  const strings = [];
+  const comments = [];
+  const STRING_PLACEHOLDER = '__LULCODE_STRING_';
+  const COMMENT_PLACEHOLDER = '__LULCODE_COMMENT_';
+
+  // Extract and store all single-line comments (BTW)
+  output = output.replace(/BTW\s+([^\n]*)/g, (match, content) => {
+    const index = comments.length;
+    comments.push(content);
+    return `BTW ${COMMENT_PLACEHOLDER}${index}__`;
+  });
+
+  // Extract and store all strings
+  output = output.replace(/"([^"]*)"/g, (match, content) => {
+    const index = strings.length;
+    strings.push(content);
+    return `${STRING_PLACEHOLDER}${index}__`;
+  });
+
+  // String Interpolation: Process stored strings with {var} → :{var}
+  for (let i = 0; i < strings.length; i++) {
+    let content = strings[i];
+
+    // Handle escaped braces: {{ → { and }} → }
+    let processed = content.replace(/\{\{/g, '\x00LEFTBRACE\x00')
+                           .replace(/\}\}/g, '\x00RIGHTBRACE\x00');
+
+    // Replace {var} with :{var}
+    processed = processed.replace(/\{(\w+)\}/g, ':{$1}');
+
+    // Restore escaped braces
+    processed = processed.replace(/\x00LEFTBRACE\x00/g, '{')
+                        .replace(/\x00RIGHTBRACE\x00/g, '}');
+
+    strings[i] = processed;
+  }
 
   // String Slice: str[start:end] → function call
   // Must come BEFORE BUKKIT patterns (which don't have colons)
@@ -91,13 +124,151 @@ function transform(source) {
     }
   );
 
-  // Pattern 1: Assignment with string literal key
-  // arr["key"] = value → arr'Z key R value
+  // === SYNTACTIC SUGAR TRANSFORMATIONS ===
+
+  // === BLOCK STATEMENTS (must come before simple operators) ===
+  let loopCounter = 0;
+
+  // FOR loops: FOR i FROM start TO end ... END
   output = output.replace(
-    /(\w+)\["(\w+)"\]\s*=\s*(.+)/g,
-    "$1'Z $2 R $3"
+    /FOR\s+(\w+)\s+FROM\s+(.+?)\s+TO\s+(.+?)(?:\s+STEP\s+(.+?))?\n([\s\S]*?)END/gm,
+    (match, varName, start, end, step, body) => {
+      loopCounter++;
+      const loopLabel = `__for_loop_${loopCounter}`;
+
+      if (step) {
+        // With STEP: manual loop
+        return `${varName} R ${start}\n` +
+               `IM IN YR ${loopLabel}\n` +
+               `  BOTH SAEM ${varName} AN BIGGR OF ${varName} AN ${end}, O RLY?\n` +
+               `    YA RLY\n` +
+               `      GTFO\n` +
+               `  OIC\n` +
+               body +
+               `  ${varName} R SUM OF ${varName} AN ${step}\n` +
+               `IM OUTTA YR ${loopLabel}`;
+      } else {
+        // Simple UPPIN
+        return `${varName} R ${start}\n` +
+               `IM IN YR ${loopLabel} UPPIN YR ${varName} TIL BOTH SAEM ${varName} AN ${end}\n` +
+               body +
+               `IM OUTTA YR ${loopLabel}`;
+      }
+    }
   );
 
+  // WHILE loops: WHILE condition ... END
+  output = output.replace(
+    /WHILE\s+(.+?)\n([\s\S]*?)END/gm,
+    (match, condition, body) => {
+      loopCounter++;
+      const loopLabel = `__while_loop_${loopCounter}`;
+      return `IM IN YR ${loopLabel}\n` +
+             `  NOT ${condition}, O RLY?\n` +
+             `    YA RLY\n` +
+             `      GTFO\n` +
+             `  OIC\n` +
+             body +
+             `IM OUTTA YR ${loopLabel}`;
+    }
+  );
+
+  // LOOP (infinite): LOOP ... END
+  output = output.replace(
+    /LOOP\n([\s\S]*?)END/gm,
+    (match, body) => {
+      loopCounter++;
+      const loopLabel = `__loop_${loopCounter}`;
+      return `IM IN YR ${loopLabel}\n` +
+             body +
+             `IM OUTTA YR ${loopLabel}`;
+    }
+  );
+
+  // IF statements: Handle simple IF first, then IF/ELSE, then IF/ELIF/ELSE
+  // Simple IF...END (no else)
+  output = output.replace(
+    /^IF\s+(.+?)\n([\s\S]*?)^END$/gm,
+    (match, condition, body) => {
+      // Check if body contains ELSE or ELIF - if so, don't match (let other patterns handle it)
+      if (body.match(/^(ELSE|ELIF)\b/m)) {
+        return match; // Don't transform, let other patterns handle it
+      }
+      return `${condition}, O RLY?\n  YA RLY\n${body}OIC`;
+    }
+  );
+
+  // IF...ELSE...END
+  output = output.replace(
+    /^IF\s+(.+?)\n([\s\S]*?)^ELSE\n([\s\S]*?)^END$/gm,
+    (match, condition, ifBody, elseBody) => {
+      // Check if contains ELIF - if so, let ELIF pattern handle it
+      if (ifBody.match(/^ELIF\b/m) || elseBody.match(/^ELIF\b/m)) {
+        return match;
+      }
+      return `${condition}, O RLY?\n  YA RLY\n${ifBody}  NO WAI\n${elseBody}OIC`;
+    }
+  );
+
+  // IF...ELIF...ELSE...END (most complex)
+  output = output.replace(
+    /^IF\s+(.+?)\n([\s\S]*?)^END$/gm,
+    (match, condition, body) => {
+      // This handles cases with ELIF
+      if (!body.match(/^ELIF\b/m)) {
+        return match; // Already handled by simpler patterns
+      }
+
+      let result = `${condition}, O RLY?\n  YA RLY\n`;
+
+      // Split body by ELIF and ELSE
+      const parts = body.split(/^(ELIF|ELSE)\b/m);
+      let currentSection = 'if';
+
+      for (let i = 0; i < parts.length; i++) {
+        const part = parts[i];
+        if (part === 'ELIF' && i + 1 < parts.length) {
+          const elifLine = parts[i + 1].split('\n')[0];
+          const elifBody = parts[i + 1].substring(elifLine.length + 1);
+          result += `  MEBBE ${elifLine.trim()}\n${elifBody}`;
+          i++; // Skip next part (already processed)
+        } else if (part === 'ELSE' && i + 1 < parts.length) {
+          result += `  NO WAI\n${parts[i + 1]}`;
+          i++; // Skip next part
+        } else if (i === 0) {
+          // First part is the IF body
+          result += part;
+        }
+      }
+
+      result += `OIC`;
+      return result;
+    }
+  );
+
+  // VAR declarations: VAR x, y, z → I HAS A x \n I HAS A y \n I HAS A z
+  // Must handle: VAR x, VAR x ITZ value, VAR x, y, z
+  output = output.replace(
+    /\bVAR\s+((?:\w+(?:\s+ITZ\s+[^\n,]+)?(?:\s*,\s*)?)+)(?=\n|$)/gm,
+    (match, varList) => {
+      // Split by comma
+      const vars = varList.split(',').map(v => v.trim());
+      return vars.map(v => {
+        // Check if has ITZ initializer
+        if (v.includes(' ITZ ')) {
+          const parts = v.split(/\s+ITZ\s+/);
+          return `I HAS A ${parts[0]} ITZ ${parts[1]}`;
+        } else {
+          return `I HAS A ${v}`;
+        }
+      }).join('\n');
+    }
+  );
+
+  // BREAK → GTFO
+  output = output.replace(/\bBREAK\b/g, 'GTFO');
+
+  // BUKKIT patterns (non-string-literal) - after string protection
   // Pattern 2: Assignment with numeric literal key
   // arr[0] = value → arr'Z SRS 0 R value
   output = output.replace(
@@ -110,13 +281,6 @@ function transform(source) {
   output = output.replace(
     /(\w+)\[(\w+)\]\s*=\s*(.+)/g,
     "$1'Z SRS $2 R $3"
-  );
-
-  // Pattern 4: Access with string literal key (in expressions)
-  // arr["key"] → arr'Z key
-  output = output.replace(
-    /(\w+)\["(\w+)"\]/g,
-    "$1'Z $2"
   );
 
   // Pattern 5: Access with numeric literal key
@@ -133,6 +297,37 @@ function transform(source) {
     "$1'Z SRS $2"
   );
 
+  // === COMPARISON AND LOGICAL OPERATORS ===
+  // Must come BEFORE general = operator to avoid confusing == with =
+
+  // Comparison operators (must be done BEFORE logical operators)
+  // Use word boundaries and non-greedy matching to avoid capturing too much
+  output = output.replace(/(\w+)\s*==\s*(\w+)/g, 'BOTH SAEM $1 AN $2');
+  output = output.replace(/(\w+)\s*!=\s*(\w+)/g, 'DIFFRINT $1 AN $2');
+  output = output.replace(/(\w+)\s*>=\s*(\w+)/g, 'BOTH SAEM $1 AN BIGGR OF $1 AN $2');
+  output = output.replace(/(\w+)\s*<=\s*(\w+)/g, 'BOTH SAEM $2 AN BIGGR OF $1 AN $2');
+  output = output.replace(/(\w+)\s*>\s*(\w+)/g, 'BOTH SAEM $1 AN BIGGR OF $1 AN $2');
+  output = output.replace(/(\w+)\s*<\s*(\w+)/g, 'BOTH SAEM $2 AN BIGGR OF $1 AN $2');
+
+  // Symbolic logical operators (after comparisons)
+  // Match expressions on either side - must be on same line
+  output = output.replace(/([^&|\n]+)\s*&&\s*([^&|\n]+)/g, (match, left, right) => {
+    return `BOTH OF ${left.trim()} AN ${right.trim()}`;
+  });
+  output = output.replace(/([^&|\n]+)\s*\|\|\s*([^&|\n]+)/g, (match, left, right) => {
+    return `EITHER OF ${left.trim()} AN ${right.trim()}`;
+  });
+
+  // Word-based logical operators
+  output = output.replace(/\bAND\b/g, 'AN');
+  output = output.replace(/\bOR\b/g, 'OREZ'); // Placeholder, may not use
+  output = output.replace(/\bNOT\b/g, 'NOT');
+
+  // General assignment: x = value → x R value
+  // Must use negative lookahead to avoid ==, !=, >=, <=
+  // And must come AFTER BUKKIT assignments
+  output = output.replace(/(\w+)\s*=\s+(?!=|!|>|<)(.+?)(?=\n|$)/gm, '$1 R $2');
+
   // Inject runtime library if needed
   if (needsSliceFunction) {
     // Insert runtime library after HAI line
@@ -141,6 +336,16 @@ function transform(source) {
       `$1${generateRuntimeLibrary()}`
     );
   }
+
+  // Restore strings
+  output = output.replace(/__LULCODE_STRING_(\d+)__/g, (match, index) => {
+    return `"${strings[index]}"`;
+  });
+
+  // Restore comments
+  output = output.replace(/__LULCODE_COMMENT_(\d+)__/g, (match, index) => {
+    return comments[index];
+  });
 
   return output;
 }

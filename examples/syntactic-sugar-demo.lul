@@ -1,0 +1,83 @@
+HAI 1.2
+BTW Syntactic Sugar Demo - LULCODE
+
+BTW ===== VARIABLE DECLARATIONS =====
+VISIBLE "=== Variable Declarations ==="
+VAR x, y, z
+VAR age ITZ 30
+VAR name ITZ "Alice"
+
+x = 10
+y = 20
+z = SUM OF x AN y
+
+VISIBLE "x={x}, y={y}, z={z}"
+VISIBLE "age={age}, name={name}"
+
+BTW ===== CONDITIONALS =====
+VISIBLE ""
+VISIBLE "=== Conditionals ==="
+
+IF x == 10
+  VISIBLE "x is 10"
+END
+
+IF age >= 18
+  VISIBLE "Adult"
+ELSE
+  VISIBLE "Minor"
+END
+
+IF z == 30
+  VISIBLE "z is 30"
+ELIF z > 30
+  VISIBLE "z is greater than 30"
+ELSE
+  VISIBLE "z is less than 30"
+END
+
+BTW ===== LOGICAL OPERATORS =====
+VISIBLE ""
+VISIBLE "=== Logical Operators ==="
+
+IF x > 0 && y > 0
+  VISIBLE "Both positive"
+END
+
+IF x == 10 || y == 10
+  VISIBLE "At least one is 10"
+END
+
+BTW ===== LOOPS =====
+VISIBLE ""
+VISIBLE "=== FOR Loop ==="
+
+FOR i FROM 0 TO 5
+  VISIBLE "Count: {i}"
+END
+
+VISIBLE ""
+VISIBLE "=== WHILE Loop ==="
+
+VAR count = 0
+WHILE count < 3
+  VISIBLE "While: {count}"
+  count = SUM OF count AN 1
+END
+
+VISIBLE ""
+VISIBLE "=== LOOP with BREAK ==="
+
+VAR n = 0
+LOOP
+  VISIBLE "Loop: {n}"
+  n = SUM OF n AN 1
+  IF n == 3
+    BREAK
+  END
+END
+
+VISIBLE ""
+VISIBLE "Syntactic sugar demo complete!"
+
+KTHXBYE

@@ -174,6 +174,76 @@ test(
   'HAI 1.2\nVISIBLE "Hello"'
 );
 
+// Test 21: VAR declaration - single
+test(
+  'VAR single declaration',
+  'VAR x',
+  'I HAS A x'
+);
+
+// Test 22: VAR declaration - with initialization
+test(
+  'VAR with ITZ initialization',
+  'VAR age ITZ 30',
+  'I HAS A age ITZ 30'
+);
+
+// Test 23: VAR declaration - multiple
+test(
+  'VAR multiple declarations',
+  'VAR x, y, z',
+  'I HAS A x\nI HAS A y\nI HAS A z'
+);
+
+// Test 24: BREAK statement
+test(
+  'BREAK to GTFO',
+  'BREAK',
+  'GTFO'
+);
+
+// Test 25: Assignment operator
+test(
+  'Assignment = to R',
+  'x = 5',
+  'x R 5'
+);
+
+// Test 26: Comparison operator ==
+test(
+  'Comparison ==',
+  'x == y',
+  'BOTH SAEM x AN y'
+);
+
+// Test 27: Comparison operator !=
+test(
+  'Comparison !=',
+  'x != y',
+  'DIFFRINT x AN y'
+);
+
+// Test 28: Comparison operator >=
+test(
+  'Comparison >=',
+  'x >= y',
+  'BOTH SAEM x AN BIGGR OF x AN y'
+);
+
+// Test 29: Logical operator &&
+test(
+  'Logical &&',
+  'x && y',
+  'BOTH OF x AN y'
+);
+
+// Test 30: Logical operator ||
+test(
+  'Logical ||',
+  'x || y',
+  'EITHER OF x AN y'
+);
+
 // Summary
 console.log(`\n${passed} passed, ${failed} failed`);
 process.exit(failed > 0 ? 1 : 0);
