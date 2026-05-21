@@ -31,16 +31,14 @@ program
   .command('compile <file>')
   .description('Transpile LULCODE to LOLCODE (default command)')
   .option('-o, --output <file>', 'Output file (default: stdout)')
-  .option('-r, --run', 'Execute with LCI after transpiling')
+  .option('-r, --run', 'Execute after transpiling')
   .option('-w, --watch', 'Watch for changes and re-transpile')
-  .option('--lci-path <path>', 'Custom LCI executable location')
   .action(compileCommand);
 
 program
   .command('run <file>')
   .description('Transpile and execute in one step')
   .option('--keep', 'Keep transpiled .lol file')
-  .option('--lci-path <path>', 'Custom LCI path')
   .action(runCommand);
 
 program

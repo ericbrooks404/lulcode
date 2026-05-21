@@ -51,16 +51,16 @@ function syntaxError(file, line, column, message, hint) {
 }
 
 /**
- * Format an LCI not found error
+ * Format a runtime not found error
  */
-function lciNotFoundError() {
-  errorLog('LCI interpreter not found\n');
+function runtimeNotFoundError() {
+  errorLog('LOLCODE runtime not found\n');
 
-  console.error('LULCODE requires LCI to run programs.\n');
-  console.error('To install LCI:');
-  console.error(colors.cyan('  ./install.sh'));
-  console.error('\nOr download manually from:');
-  console.error(colors.dim('  https://github.com/justinmeza/lci'));
+  console.error('The bundled lol-coffee runtime is missing or corrupted.\n');
+  console.error('Try reinstalling LULCODE:');
+  console.error(colors.cyan('  npm install -g lulcode'));
+  console.error('\nOr if installed from source:');
+  console.error(colors.cyan('  npm install'));
 }
 
 /**
@@ -97,5 +97,5 @@ function levenshteinDistance(a, b) {
 module.exports = {
   fileNotFoundError,
   syntaxError,
-  lciNotFoundError,
+  runtimeNotFoundError,
 };

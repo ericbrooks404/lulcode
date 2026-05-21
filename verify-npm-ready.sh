@@ -16,8 +16,9 @@ files=(
   "INSTALLATION.md"
   "bin/lulcode"
   "src/cli.js"
-  "src/transpiler.js"
   "src/transform.js"
+  "runtime/lol-coffee/ast.js"
+  "runtime/lol-coffee/machine.js"
 )
 
 for file in "${files[@]}"; do
@@ -132,5 +133,3 @@ echo "  • Examples: $example_count files"
 echo "  • License: MIT"
 echo ""
 echo "🚀 Ready to publish with: npm publish"
-echo ""
-echo "📚 See docs/NPM-PUBLISHING-GUIDE.md for publication steps"

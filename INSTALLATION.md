@@ -1,136 +1,112 @@
 # LULCODE Installation Guide
-## Or: "How To Get This AI Slop Running On Your Machine"
 
-So you want to write programs in a language based on 2007 lolcat memes? Excellent choice. Here's how to get LULCODE working.
+## Installation
 
-## Prerequisites
+LULCODE is a pure JavaScript package with a bundled LOLCODE runtime. No external dependencies, no compiling C code, no hassle.
 
-You'll need:
-- **Node.js** (v14.0.0 or higher) - for running the transpiler
-- **npm** (Node Package Manager) - comes with Node.js
-- **LCI** (LOLCODE Interpreter) - optional, but you'll need it if you want to actually run your lolcat programs
-
-## Installation Steps
-
-### 1. Install npm
-
-If you don't have npm installed:
-
-```bash
-# On Ubuntu/Debian
-sudo apt-get update
-sudo apt-get install npm
-
-# On macOS (using Homebrew)
-brew install node  # includes npm
-
-# On other systems, download from nodejs.org
-```
-
-### 2. Install LULCODE Dependencies
-
-From the LULCODE project directory:
-
-```bash
-npm install
-```
-
-This will install:
-- **commander** (CLI framework)
-- **chalk** (colored output)
-- **ora** (progress indicators)
-- **chokidar** (file watching)
-
-### 3. Install LCI (Optional but Recommended)
-
-LCI is required for the `lulcode run` command.
-
-**Option A: Use the provided installer**
-```bash
-./install.sh
-```
-
-**Option B: Manual installation**
-```bash
-# Install dependencies
-sudo apt-get install cmake libreadline-dev libncurses-dev
-
-# Clone and build LCI
-git clone https://github.com/justinmeza/lci.git
-cd lci
-cmake .
-make
-sudo make install
-```
-
-### 4. Make lulcode executable (if needed)
-
-```bash
-chmod +x bin/lulcode
-```
-
-### 5. Test the installation
-
-```bash
-# Test transpilation
-node src/cli.js --version
-
-# Or if installed globally/linked
-lulcode --version
-```
-
-## Global Installation (Optional)
-
-To use `lulcode` command anywhere:
-
-```bash
-npm link
-```
-
-Or install globally from npm (once published):
+### Via npm (Recommended)
 
 ```bash
 npm install -g lulcode
 ```
 
-## Verification
+That's it. You now have the `lulcode` command with everything bundled.
 
-Test that everything works:
+### From Source (For Development)
 
 ```bash
-# Create a test file
-echo 'HAI 1.2
-VISIBLE "Hello from LULCODE!"
-KTHXBYE' > test.lul
-
-# Transpile it
-lulcode compile test.lul -o test.lol
-
-# Run it (requires LCI)
-lulcode run test.lul
-
-# Clean up
-rm test.lul test.lol
+git clone https://github.com/ericbrooks404/lulcode.git
+cd lulcode
+npm install
+npm link
 ```
+
+The `lulcode` command is now available globally.
+
+## Verify Installation
+
+```bash
+lulcode --version
+```
+
+You should see the LULCODE version number.
+
+## Test It Out
+
+Create a test file:
+
+```bash
+cat > test.lul << 'EOF'
+HAI 1.2
+VISIBLE "Hello from LULCODE!"
+KTHXBYE
+EOF
+```
+
+Run it:
+
+```bash
+lulcode run test.lul
+```
+
+You should see: `Hello from LULCODE!`
+
+## What's Bundled
+
+LULCODE includes:
+- **Transpiler** - Converts .lul files to .lol files
+- **Runtime** - lol-coffee LOLCODE interpreter (JavaScript-based)
+- **CLI** - Full command-line interface with compile, run, init, check commands
+
+Everything runs in Node.js. No native binaries required.
+
+## Requirements
+
+- **Node.js** 14.0.0 or higher
+- **npm** (comes with Node.js)
+
+That's it!
 
 ## Troubleshooting
 
-### "Cannot find module 'chalk'" or similar errors
+### Command not found
 
-Run `npm install` to install dependencies.
+If `lulcode` command isn't found after npm install:
 
-### "LCI interpreter not found"
+1. Check npm global bin directory is in your PATH:
+   ```bash
+   npm config get prefix
+   ```
 
-Install LCI using `./install.sh` or manually as described above.
+2. Add npm bin to PATH if needed:
+   ```bash
+   # Add to ~/.bashrc or ~/.zshrc
+   export PATH="$(npm config get prefix)/bin:$PATH"
+   ```
 
-### "lulcode: command not found"
+### Runtime errors
 
-- Make sure `bin/lulcode` is executable: `chmod +x bin/lulcode`
-- Run `npm link` to create a global symlink
-- Or use `node src/cli.js` directly
+If you get "LOLCODE runtime not found" errors:
 
-## Next Steps
+1. Reinstall the package:
+   ```bash
+   npm install -g lulcode --force
+   ```
 
-- Read the [README](README.md) for usage examples
-- Try the examples in `examples/`
-- Check out the [CLI Design](specs/research/005.1-cli-design.md) document
+2. Or if from source:
+   ```bash
+   cd lulcode
+   npm install
+   ```
+
+The runtime files should be in `node_modules/lulcode/runtime/lol-coffee/` (or `runtime/lol-coffee/` if installed from source).
+
+## Uninstall
+
+```bash
+npm uninstall -g lulcode
+```
+
+## Need Help?
+
+Report issues at: https://github.com/ericbrooks404/lulcode/issues

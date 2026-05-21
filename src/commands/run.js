@@ -7,8 +7,8 @@ const path = require('path');
 const os = require('os');
 const { transform } = require('../transform');
 const { success, error, emoji, colors } = require('../utils/colors');
-const { fileNotFoundError, lciNotFoundError } = require('../utils/errors');
-const { findLCI, executeLCI } = require('../utils/lci');
+const { fileNotFoundError, runtimeNotFoundError } = require('../utils/errors');
+const { hasLOLCOFFEE, executeLOLCOFFEE } = require('../utils/lolcoffee');
 
 async function run(file, options) {
   // Validate input file
@@ -17,10 +17,9 @@ async function run(file, options) {
     process.exit(1);
   }
 
-  // Find LCI
-  const lciPath = options.lciPath || findLCI();
-  if (!lciPath) {
-    lciNotFoundError();
+  // Check for bundled runtime
+  if (!hasLOLCOFFEE()) {
+    runtimeNotFoundError();
     process.exit(1);
   }
 
@@ -55,7 +54,7 @@ async function run(file, options) {
     console.log(colors.dim('─'.repeat(40)));
 
     const startTime = Date.now();
-    const result = await executeLCI(tempFile, lciPath);
+    const result = await executeLOLCOFFEE(tempFile, { verbose: options.verbose });
     const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
 
     console.log(colors.dim('─'.repeat(40)));

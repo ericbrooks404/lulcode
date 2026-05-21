@@ -2,21 +2,21 @@
   "name": "lulcode",
   "version": "0.2.0",
   "description": "AI-generated transpiler for LULCODE: A superset of LOLCODE that's actually usable (arrays! strings! syntax sugar!)",
-  "main": "src/transpiler.js",
+  "main": "src/transform.js",
   "bin": {
     "lulcode": "./bin/lulcode"
   },
   "files": [
     "src/",
     "bin/",
+    "runtime/",
     "examples/",
     "README.md",
     "LICENSE",
     "INSTALLATION.md"
   ],
   "scripts": {
-    "test": "node tests/transform.test.js",
-    "transpile": "node src/transpiler.js"
+    "test": "node tests/transform.test.js"
   },
   "keywords": [
     "lolcode",

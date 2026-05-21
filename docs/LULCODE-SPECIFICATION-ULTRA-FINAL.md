@@ -69,7 +69,7 @@ LULCODE is a **strict superset** of LOLCODE 1.2:
 │ LOLCODE 1.2 │  .lol output file
 │ (.lol)      │
 └──────┬──────┘
-       │ LOLCODE Interpreter (LCI, lol-coffee)
+       │ LOLCODE Interpreter (lol-coffee)
        ▼
 ┌─────────────┐
 │ Execution   │
@@ -1244,13 +1244,12 @@ Where possible, the transpiler preserves line structure:
 
 **No Breaking Changes**: LULCODE never modifies or removes LOLCODE features.
 
-### 12.2 Target Interpreters
+### 12.2 Target Interpreter
 
-LULCODE transpiles to LOLCODE 1.2 compatible with:
-- **LCI** (LOLCODE Interpreter, C implementation)
-- **lol-coffee** (CoffeeScript-based interpreter with BUKKIT support)
+LULCODE includes a bundled LOLCODE interpreter:
+- **lol-coffee** (JavaScript-based interpreter with full BUKKIT support)
 
-**Requirement**: Target interpreter MUST support `BUKKIT` type.
+The lol-coffee runtime is bundled with LULCODE, so no external interpreter installation is required. The transpiled LOLCODE can also be executed by any LOLCODE 1.2 interpreter that supports the `BUKKIT` type.
 
 ### 12.3 Known Limitations
 

@@ -8,8 +8,8 @@ const ora = require('ora');
 const chokidar = require('chokidar');
 const { transform } = require('../transform');
 const { success, error, emoji, colors } = require('../utils/colors');
-const { fileNotFoundError } = require('../utils/errors');
-const { findLCI, executeLCI } = require('../utils/lci');
+const { fileNotFoundError, runtimeNotFoundError } = require('../utils/errors');
+const { hasLOLCOFFEE, executeLOLCOFFEE } = require('../utils/lolcoffee');
 
 async function compile(file, options) {
   // Validate input file
@@ -100,21 +100,18 @@ async function watchMode(file, options) {
 }
 
 async function runAfterCompile(sourceFile, outputFile, options) {
-  const lciPath = options.lciPath || findLCI();
-
-  if (!lciPath) {
-    const { lciNotFoundError } = require('../utils/errors');
-    lciNotFoundError();
+  if (!hasLOLCOFFEE()) {
+    runtimeNotFoundError();
     process.exit(1);
   }
 
-  console.log(`\n${emoji.rocket} Running with LCI...`);
+  console.log(`\n${emoji.rocket} Running with bundled runtime...`);
   console.log(colors.dim('─'.repeat(40)));
 
   const startTime = Date.now();
 
   try {
-    const result = await executeLCI(outputFile, lciPath);
+    const result = await executeLOLCOFFEE(outputFile, { verbose: options.verbose });
     const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
 
     console.log(colors.dim('─'.repeat(40)));
