@@ -174,13 +174,21 @@ lulcode run example.lul
 # Output: Alice wins with 100 points!
 ```
 
+## Language Specification
+
+Want to know exactly how LULCODE works? We wrote an actual formal language specification:
+
+📘 **[LULCODE Language Specification Ultra Final v1.0](docs/LULCODE-SPECIFICATION-ULTRA-FINAL.md)**
+
+It's 1,200+ lines of formal grammar, transpilation rules, and examples. Yes, for a meme language. We're committed to the bit.
+
 ## Testing This Nonsense
 
 ```bash
 node tests/transform.test.js
 ```
 
-47 tests. All pass. I'm as surprised as you are.
+47 tests. All pass. All validated against the formal spec. I'm as surprised as you are.
 
 ## Helpful Links
 
