@@ -1,7 +1,7 @@
 {
   "name": "lulcode",
   "version": "0.2.0",
-  "description": "LULCODE transpiler - A superset language that transpiles to LOLCODE with modern syntax, arrays, and string operations",
+  "description": "AI-generated transpiler for LULCODE: A superset of LOLCODE that's actually usable (arrays! strings! syntax sugar!)",
   "main": "src/transpiler.js",
   "bin": {
     "lulcode": "./bin/lulcode"
@@ -26,17 +26,20 @@
     "compiler",
     "arrays",
     "string-manipulation",
-    "syntactic-sugar"
+    "syntactic-sugar",
+    "ai-generated",
+    "meme-language",
+    "lolcat"
   ],
-  "author": "LULCODE Project",
+  "author": "Eric Brooks (with substantial help from Claude Sonnet 4.5)",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/lulcode/lulcode.git"
+    "url": "https://github.com/ericbrooks404/lulcode.git"
   },
-  "homepage": "https://github.com/lulcode/lulcode#readme",
+  "homepage": "https://github.com/ericbrooks404/lulcode#readme",
   "bugs": {
-    "url": "https://github.com/lulcode/lulcode/issues"
+    "url": "https://github.com/ericbrooks404/lulcode/issues"
   },
   "engines": {
     "node": ">=14.0.0"

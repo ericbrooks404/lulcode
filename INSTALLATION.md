@@ -1,10 +1,14 @@
 # LULCODE Installation Guide
+## Or: "How To Get This AI Slop Running On Your Machine"
+
+So you want to write programs in a language based on 2007 lolcat memes? Excellent choice. Here's how to get LULCODE working.
 
 ## Prerequisites
 
-- **Node.js** (v14.0.0 or higher)
-- **npm** (Node Package Manager)
-- **LCI** (LOLCODE Interpreter) - optional, required for `--run` functionality
+You'll need:
+- **Node.js** (v14.0.0 or higher) - for running the transpiler
+- **npm** (Node Package Manager) - comes with Node.js
+- **LCI** (LOLCODE Interpreter) - optional, but you'll need it if you want to actually run your lolcat programs
 
 ## Installation Steps
 
