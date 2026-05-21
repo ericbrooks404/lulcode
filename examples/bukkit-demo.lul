@@ -1,12 +1,13 @@
 HAI 1.2
-BTW BUKKIT Demo - Arrays and Dictionaries in LULCODE
-BTW This file demonstrates both standard LOLCODE and LULCODE sugar syntax
+BTW BUKKIT Demo - dictionaries and arrays in LULCODE
+BTW Shows both LOLCODE-style and LULCODE bracket-sugar access for dictionaries,
+BTW plus the array encoding used by LULCODE numeric brackets.
 
 BTW ===== CREATION =====
 VISIBLE "Creating BUKKIT..."
-I HAS A players ITZ A BUKKIT
+WTV players ITZ A BUKKIT
 
-BTW ===== ADDING VALUES (Dictionary-style) =====
+BTW ===== DICTIONARY USAGE =====
 VISIBLE "Adding players as dictionary..."
 
 BTW Standard LOLCODE property creation
@@ -18,33 +19,34 @@ BTW Standard LOLCODE property update
 players'Z Alice R 5
 players'Z Bob R 8
 
-BTW LULCODE bracket sugar (transpiles to 'Z syntax)
+BTW LULCODE bracket sugar (transpiles to the same 'Z key)
 players["Charlie"] = 3
 
-BTW ===== READING VALUES =====
 VISIBLE "Reading player scores..."
 VISIBLE SMOOSH "Alice: " players'Z Alice MKAY
 VISIBLE SMOOSH "Bob: " players["Bob"] MKAY
 VISIBLE SMOOSH "Charlie: " players'Z Charlie MKAY
 
-BTW ===== ARRAY-STYLE USAGE =====
+BTW ===== ARRAY USAGE =====
+BTW LULCODE numeric brackets encode keys as __0, __1, ... — use bracket
+BTW notation throughout so reads and writes land in the same slot.
+BTW Build the array with YEET so __length stays in sync.
 VISIBLE "Using BUKKIT as array..."
-I HAS A fruits ITZ A BUKKIT
+WTV fruits ITZ AN ARRAY
 
-BTW Standard numeric indexing
-fruits'Z SRS 0 R "apple"
-fruits'Z SRS 1 R "banana"
+YEET "apple" INTO fruits
+YEET "banana" INTO fruits
+YEET "cherry" INTO fruits
 
-BTW LULCODE bracket sugar for numeric indices
-fruits[2] = "cherry"
-
-VISIBLE SMOOSH "Fruit 0: " fruits'Z SRS 0 MKAY
+VISIBLE SMOOSH "Fruit 0: " fruits[0] MKAY
 VISIBLE SMOOSH "Fruit 1: " fruits[1] MKAY
-VISIBLE SMOOSH "Fruit 2: " fruits'Z SRS 2 MKAY
+VISIBLE SMOOSH "Fruit 2: " fruits[2] MKAY
 
 BTW ===== MIXED USAGE (Hybrid) =====
+BTW Numeric brackets and string brackets live in different namespaces on the
+BTW same BUKKIT: [0] stores at "__0", ["name"] stores at "name".
 VISIBLE "Mixed array/dictionary usage..."
-I HAS A mixed ITZ A BUKKIT
+WTV mixed ITZ A BUKKIT
 
 mixed[0] = "index zero"
 mixed["name"] = "hybrid BUKKIT"
@@ -52,16 +54,15 @@ mixed[1] = "index one"
 mixed["count"] = 42
 
 VISIBLE SMOOSH "mixed[0]: " mixed[0] MKAY
-VISIBLE SMOOSH "mixed.name: " mixed'Z name MKAY
+VISIBLE SMOOSH "mixed.name: " mixed["name"] MKAY
 VISIBLE SMOOSH "mixed[1]: " mixed[1] MKAY
 VISIBLE SMOOSH "mixed.count: " mixed["count"] MKAY
 
-BTW ===== ITERATION (Standard LOLCODE) =====
+BTW ===== ITERATION =====
 VISIBLE "Iterating over numeric array..."
-I HAS A i ITZ 0
-IM IN YR loop UPPIN YR i TIL BOTH SAEM i AN 3
-  VISIBLE SMOOSH "  fruits[" i "]: " fruits'Z SRS i MKAY
-IM OUTTA YR loop
+IM CHECKIN YR fruits FER fruit AT i
+  VISIBLE SMOOSH "  fruits[" i "]: " fruit MKAY
+KTHX
 
 BTW ===== KEY EXISTENCE CHECK =====
 VISIBLE "Checking key existence..."
@@ -78,10 +79,6 @@ players HAS A David, O RLY?
   NO WAI
     VISIBLE "David not found"
 OIC
-
-BTW ===== LENGTH (if supported) =====
-BTW Note: LENGZ OF for BUKKIT may require implementation
-BTW VISIBLE SMOOSH "Player count: " LENGZ OF players MKAY
 
 VISIBLE "BUKKIT demo complete!"
 

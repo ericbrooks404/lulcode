@@ -172,140 +172,6 @@ IF U SAY SO
 }
 
 /**
- * Generate string operations library functions
- * @param {Object} options - Which functions to include
- * @returns {string} - LOLCODE function definitions
- */
-function generateStringOpsLibrary(options = {}) {
-  let library = '\nBTW === String Operations Library ===\n';
-
-  // indexOf - find first occurrence of pattern
-  if (options.indexOf) {
-    library += `
-BTW Find first occurrence of pattern in string
-HOW DUZ I indexOf YR str AN YR pattern
-  I HAS A strLen ITZ LENGZ OF str
-  I HAS A patLen ITZ LENGZ OF pattern
-
-  BTW Edge case: pattern longer than string
-  BOTH SAEM patLen AN BIGGR OF patLen AN strLen, O RLY?
-    YA RLY
-      FOUND YR -1
-  OIC
-
-  I HAS A maxPos ITZ DIFF OF strLen AN patLen
-  I HAS A i ITZ 0
-  IM IN YR search UPPIN YR i TIL BOTH SAEM i AN SUM OF maxPos AN 1
-    I HAS A endPos ITZ SUM OF i AN patLen
-    I HAS A sub ITZ LULCODE_SLICE str i endPos
-    BOTH SAEM sub AN pattern, O RLY?
-      YA RLY
-        FOUND YR i
-    OIC
-  IM OUTTA YR search
-
-  FOUND YR -1
-IF U SAY SO
-`;
-  }
-
-  // startsWith - check if string begins with prefix
-  if (options.startsWith) {
-    library += `
-BTW Check if string starts with prefix
-HOW DUZ I startsWith YR str AN YR prefix
-  I HAS A prefixLen ITZ LENGZ OF prefix
-  I HAS A strLen ITZ LENGZ OF str
-
-  BOTH SAEM prefixLen AN BIGGR OF prefixLen AN strLen, O RLY?
-    YA RLY
-      FOUND YR FAIL
-  OIC
-
-  I HAS A sub ITZ LULCODE_SLICE str 0 prefixLen
-  BOTH SAEM sub AN prefix, O RLY?
-    YA RLY
-      FOUND YR WIN
-  OIC
-  FOUND YR FAIL
-IF U SAY SO
-`;
-  }
-
-  // contains - check if pattern exists
-  if (options.contains) {
-    library += `
-BTW Check if pattern exists in string
-HOW DUZ I contains YR str AN YR pattern
-  I HAS A pos ITZ indexOf str pattern
-  BOTH SAEM pos AN -1, O RLY?
-    YA RLY
-      FOUND YR FAIL
-    NO WAI
-      FOUND YR WIN
-  OIC
-IF U SAY SO
-`;
-  }
-
-  // replace - replace first occurrence
-  if (options.replace) {
-    library += `
-BTW Replace first occurrence of substring
-HOW DUZ I replace YR str AN YR old AN YR new
-  I HAS A pos ITZ indexOf str old
-
-  BOTH SAEM pos AN -1, O RLY?
-    YA RLY
-      FOUND YR str
-  OIC
-
-  I HAS A before ITZ LULCODE_SLICE str 0 pos
-  I HAS A oldLen ITZ LENGZ OF old
-  I HAS A afterPos ITZ SUM OF pos AN oldLen
-  I HAS A strLen ITZ LENGZ OF str
-  I HAS A after ITZ LULCODE_SLICE str afterPos strLen
-  I HAS A result ITZ SMOOSH before AN new AN after MKAY
-
-  FOUND YR result
-IF U SAY SO
-`;
-  }
-
-  // replaceAll - replace all occurrences
-  if (options.replaceAll) {
-    library += `
-BTW Replace all occurrences of substring
-HOW DUZ I replaceAll YR str AN YR old AN YR new
-  I HAS A result ITZ str
-  I HAS A oldLen ITZ LENGZ OF old
-
-  BOTH SAEM oldLen AN 0, O RLY?
-    YA RLY
-      FOUND YR result
-  OIC
-
-  I HAS A iterations ITZ 0
-  IM IN YR replaceLoop UPPIN YR iterations TIL BOTH SAEM iterations AN 1000
-    I HAS A pos ITZ indexOf result old
-    BOTH SAEM pos AN -1, O RLY?
-      YA RLY
-        GTFO
-    OIC
-
-    result R replace result old new
-  IM OUTTA YR replaceLoop
-
-  FOUND YR result
-IF U SAY SO
-`;
-  }
-
-  library += '\nBTW === End String Operations ===\n';
-  return library;
-}
-
-/**
  * Transform LULCODE source to LOLCODE
  * @param {string} source - LULCODE source code
  * @returns {string} - LOLCODE output
@@ -430,18 +296,6 @@ function transform(source) {
   // === BLOCK STATEMENTS (must come before simple operators) ===
   let loopCounter = 0;
 
-  // LOOP (infinite): LOOP ... KTHX
-  output = output.replace(
-    /LOOP\n([\s\S]*?)END/gm,
-    (match, body) => {
-      loopCounter++;
-      const loopLabel = `__loop_${loopCounter}`;
-      return `IM IN YR ${loopLabel}\n` +
-             body +
-             `IM OUTTA YR ${loopLabel}`;
-    }
-  );
-
   // IM CHECKIN YR: Iterate over arrays
   // Pattern 1: IM CHECKIN YR arr FER element AT index ... KTHX (with index)
   output = output.replace(
@@ -541,6 +395,15 @@ function transform(source) {
       result += `OIC`;
       return result;
     }
+  );
+
+  // IM IN YR <label> ... KTHX → IM IN YR <label> ... IM OUTTA YR <label>
+  // Per spec §9.3: KTHX is a universal closer that also terminates IM IN YR loops.
+  // This runs AFTER IM CHECKIN YR and ORLY handlers, so any KTHX still paired
+  // with an IM IN YR header here belongs to a real LOLCODE loop.
+  output = output.replace(
+    /^(IM[ \t]+IN[ \t]+YR[ \t]+(\w+)[^\n]*\n[\s\S]*?)^KTHX$/gm,
+    (match, body, label) => `${body}IM OUTTA YR ${label}`
   );
 
   // WTV declarations: WTV x, y, z → I HAS A x \n I HAS A y \n I HAS A z
@@ -706,30 +569,12 @@ function transform(source) {
   // For arrays, users should access arr'Z __length directly
   // We can't distinguish strings from arrays at transpile time without type tracking
 
-  // Detect string operations usage (BEFORE runtime injection so dependencies work)
-  let needsIndexOf = /\bindexOf\b/.test(output);
-  let needsStartsWith = /\bstartsWith\b/.test(output);
-  let needsContains = /\bcontains\b/.test(output);
-  let needsReplace = /\breplace\b/.test(output);
-  let needsReplaceAll = /\breplaceAll\b/.test(output);
-
-  // Auto-enable dependencies
-  if (needsContains) needsIndexOf = true;
-  if (needsReplace) needsIndexOf = true;
-  if (needsReplaceAll) {
-    needsIndexOf = true;
-    needsReplace = true;
-  }
-  // String operations need slice function
-  if (needsIndexOf || needsStartsWith || needsReplace) {
-    needsSliceFunction = true;
-  }
-
-  // Inject runtime library if needed
+  // Inject runtime library if needed. Per spec §10.1, only LULCODE_* calls
+  // trigger auto-injection. Other helpers (indexOf, startsWith, etc.) are
+  // self-hosting tools and are included manually by callers that want them.
   const needsRuntime = needsSliceFunction || needsArrayPush || needsArrayPop || needsArrayShift || needsStringSplit;
 
   if (needsRuntime) {
-    // Insert runtime library after HAI line
     const runtimeOptions = {
       slice: needsSliceFunction,
       arrayPush: needsArrayPush,
@@ -742,34 +587,6 @@ function transform(source) {
       /(HAI\s+[\d.]+)/,
       `$1${generateRuntimeLibrary(runtimeOptions)}`
     );
-  }
-
-  // Inject string operations if needed
-  const needsStringOps = needsIndexOf || needsStartsWith || needsContains ||
-    needsReplace || needsReplaceAll;
-
-  if (needsStringOps) {
-    const stringOpsOptions = {
-      indexOf: needsIndexOf,
-      startsWith: needsStartsWith,
-      contains: needsContains,
-      replace: needsReplace,
-      replaceAll: needsReplaceAll
-    };
-
-    // Inject after existing runtime library (or after HAI if no runtime)
-    if (output.includes('BTW === End LULCODE Runtime ===')) {
-      output = output.replace(
-        /(BTW === End LULCODE Runtime ===\n)/,
-        `${generateStringOpsLibrary(stringOpsOptions)}$1`
-      );
-    } else {
-      // No existing runtime, inject after HAI
-      output = output.replace(
-        /(HAI\s+[\d.]+)/,
-        `$1${generateStringOpsLibrary(stringOpsOptions)}`
-      );
-    }
   }
 
   // Restore strings

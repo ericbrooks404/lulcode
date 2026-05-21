@@ -97,13 +97,15 @@ echo ""
 
 # Run tests
 echo "🧪 Running tests..."
+test_summary=""
 if command -v node &> /dev/null; then
-  if node tests/transform.test.js > /dev/null 2>&1; then
-    test_result=$(node tests/transform.test.js 2>&1 | tail -1)
-    echo "  ✅ Tests passed: $test_result"
+  test_output=$(node tests/transform.test.js 2>&1)
+  if [ $? -eq 0 ]; then
+    test_summary=$(echo "$test_output" | tail -1)
+    echo "  ✅ Tests passed: $test_summary"
   else
     echo "  ❌ Tests failed!"
-    node tests/transform.test.js
+    echo "$test_output"
     exit 1
   fi
 else
@@ -128,7 +130,7 @@ echo "✨ Package verification complete!"
 echo ""
 echo "📋 Summary:"
 echo "  • Version: $(grep '"version"' package.json | sed 's/.*: "\(.*\)".*/\1/')"
-echo "  • Tests: 47 passing"
+echo "  • Tests: ${test_summary:-not run}"
 echo "  • Examples: $example_count files"
 echo "  • License: MIT"
 echo ""

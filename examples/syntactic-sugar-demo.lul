@@ -18,21 +18,21 @@ BTW ===== CONDITIONALS =====
 VISIBLE ""
 VISIBLE "=== Conditionals ==="
 
-IF x == 10
+ORLY x == 10
   VISIBLE "x is 10"
 KTHX
 
-IF age >= 18
+ORLY age >= 18
   VISIBLE "Adult"
-ELSE
+NOWAI
   VISIBLE "Minor"
 KTHX
 
-IF z == 30
+ORLY z == 30
   VISIBLE "z is 30"
-ELIF z > 30
+MEBE z > 30
   VISIBLE "z is greater than 30"
-ELSE
+NOWAI
   VISIBLE "z is less than 30"
 KTHX
 
@@ -40,40 +40,31 @@ BTW ===== LOGICAL OPERATORS =====
 VISIBLE ""
 VISIBLE "=== Logical Operators ==="
 
-IF x > 0 && y > 0
+ORLY x > 0 && y > 0
   VISIBLE "Both positive"
 KTHX
 
-IF x == 10 || y == 10
+ORLY x == 10 || y == 10
   VISIBLE "At least one is 10"
 KTHX
 
 BTW ===== LOOPS =====
 VISIBLE ""
-VISIBLE "=== FOR Loop ==="
+VISIBLE "=== Count-up loop (UPPIN) ==="
 
-FOR i FROM 0 TO 5
+WTV i ITZ 0
+IM IN YR counter UPPIN YR i TIL BOTH SAEM i AN 5
   VISIBLE "Count: {i}"
 KTHX
 
 VISIBLE ""
-VISIBLE "=== WHILE Loop ==="
+VISIBLE "=== Loop with early exit (GTFO) ==="
 
-WTV count = 0
-WHILE count < 3
-  VISIBLE "While: {count}"
-  count = SUM OF count AN 1
-KTHX
-
-VISIBLE ""
-VISIBLE "=== LOOP with BREAK ==="
-
-WTV n = 0
-LOOP
+WTV n ITZ 0
+IM IN YR escaper UPPIN YR n TIL BOTH SAEM n AN 100
   VISIBLE "Loop: {n}"
-  n = SUM OF n AN 1
-  IF n == 3
-    BREAK
+  ORLY n == 3
+    GTFO
   KTHX
 KTHX
 

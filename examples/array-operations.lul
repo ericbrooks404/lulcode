@@ -8,24 +8,24 @@ VISIBLE stack[0]
 VISIBLE stack[1]
 VISIBLE stack[2]
 
-BTW PUSH - add to end
-PUSH 40 TO stack
-VISIBLE "After PUSH 40:"
+BTW YEET - add to end
+YEET 40 INTO stack
+VISIBLE "After YEET 40:"
 VISIBLE stack[3]
 VISIBLE stack'Z __length
 
-BTW POP - remove from end
-WTV last ITZ POP FROM stack
-VISIBLE "Popped:"
+BTW YOINK LAST - remove from end
+WTV last ITZ YOINK LAST FROM stack
+VISIBLE "Yoinked from last:"
 VISIBLE last
-VISIBLE "Length after POP:"
+VISIBLE "Length after YOINK LAST:"
 VISIBLE stack'Z __length
 
-BTW SHIFT - remove from beginning
-WTV first ITZ SHIFT FROM stack
-VISIBLE "Shifted:"
+BTW YOINK FIRST - remove from beginning
+WTV first ITZ YOINK FIRST FROM stack
+VISIBLE "Yoinked from first:"
 VISIBLE first
-VISIBLE "After SHIFT, first element is:"
+VISIBLE "After YOINK FIRST, first element is:"
 VISIBLE stack[0]
 
 BTW Final length

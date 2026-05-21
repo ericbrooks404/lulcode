@@ -512,6 +512,13 @@ arr[index]           →    arr'Z SRS SMOOSH "__" AN index MKAY
 
 **Rationale**: Variable indices require runtime key generation because we can't know the value at transpile-time.
 
+**Constraint**: Only a single identifier (`\w+`) is accepted between the brackets. Expressions like `arr[i + 1]` or `arr[SUM OF i AN 1]` will not transpile correctly — assign the index to a variable first:
+
+```lulcode
+WTV next ITZ SUM OF i AN 1
+arr[next]
+```
+
 #### 6.2.4 Assignment with Brackets
 
 **String key**:
@@ -1029,47 +1036,17 @@ All runtime library functions use this prefix. User code MUST NOT define functio
 
 **Used by**: String slice syntax `str[start:end]`
 
-#### 10.3.2 indexOf (Self-Hosting)
+#### 10.3.2 Self-Hosting String Helpers
 
-**Signature**: `HOW DUZ I indexOf YR str AN YR pattern`
+The following helpers (`indexOf`, `startsWith`, `contains`, `replace`, `replaceAll`) are **not** auto-injected by the transpiler — no LULCODE surface syntax compiles to them, and the auto-injection mechanism in §10.1 detects only `LULCODE_*` names. They are documented here as recommended building blocks for self-hosted tooling (e.g., a LULCODE transpiler written in LULCODE) that needs string scanning beyond `AT`/`SMOOSH`/`LENGZ OF`. Code that wants them must include them manually.
 
-**Returns**: Index of first occurrence of *pattern* in *str*, or -1 if not found (NUMBR)
-
-**Used by**: Self-hosted transpiler (not user-facing sugar)
-
-#### 10.3.3 startsWith (Self-Hosting)
-
-**Signature**: `HOW DUZ I startsWith YR str AN YR prefix`
-
-**Returns**: `WIN` if *str* starts with *prefix*, else `FAIL` (TROOF)
-
-**Used by**: Self-hosted transpiler
-
-#### 10.3.4 contains (Self-Hosting)
-
-**Signature**: `HOW DUZ I contains YR str AN YR pattern`
-
-**Returns**: `WIN` if *pattern* exists in *str*, else `FAIL` (TROOF)
-
-**Used by**: Self-hosted transpiler
-
-#### 10.3.5 replace (Self-Hosting)
-
-**Signature**: `HOW DUZ I replace YR str AN YR old AN YR new`
-
-**Returns**: String with first occurrence of *old* replaced by *new* (YARN)
-
-**Used by**: Self-hosted transpiler
-
-#### 10.3.6 replaceAll (Self-Hosting)
-
-**Signature**: `HOW DUZ I replaceAll YR str AN YR old AN YR new`
-
-**Returns**: String with all occurrences of *old* replaced by *new* (YARN)
-
-**Safety**: Max 1000 iterations to prevent infinite loops
-
-**Used by**: Self-hosted transpiler
+| Name | Signature | Returns |
+|------|-----------|---------|
+| `indexOf` | `HOW DUZ I indexOf YR str AN YR pattern` | Index of first occurrence of *pattern* in *str*, or `-1` (NUMBR) |
+| `startsWith` | `HOW DUZ I startsWith YR str AN YR prefix` | `WIN` if *str* starts with *prefix*, else `FAIL` (TROOF) |
+| `contains` | `HOW DUZ I contains YR str AN YR pattern` | `WIN` if *pattern* appears anywhere in *str* (TROOF) |
+| `replace` | `HOW DUZ I replace YR str AN YR old AN YR new` | *str* with the first occurrence of *old* replaced (YARN) |
+| `replaceAll` | `HOW DUZ I replaceAll YR str AN YR old AN YR new` | *str* with every occurrence replaced; bounded at 1000 iterations (YARN) |
 
 ### 10.4 Array Functions
 
@@ -1154,16 +1131,17 @@ All runtime library functions use this prefix. User code MUST NOT define functio
 
 ### 10.5 Dependency Management
 
-Runtime functions may depend on each other. The transpiler automatically includes dependencies:
+Auto-injected `LULCODE_*` runtime functions are self-contained — none of them call into each other. The transpiler turns each surface feature on or off independently:
 
-**Dependency Graph**:
-```
-contains → indexOf → LULCODE_SLICE
-replace → indexOf → LULCODE_SLICE
-replaceAll → replace → indexOf → LULCODE_SLICE
-```
+| Surface feature | Injects |
+|-----------------|---------|
+| `str[start:end]` | `LULCODE_SLICE` |
+| `YEET ... INTO arr` | `LULCODE_ARRAY_PUSH` |
+| `YOINK LAST FROM arr` | `LULCODE_ARRAY_POP` |
+| `YOINK FIRST FROM arr` | `LULCODE_ARRAY_SHIFT` |
+| `UNSMOOSH str BY delim` | `LULCODE_SPLIT` |
 
-**Example**: If `replaceAll` is used, the transpiler injects: `replaceAll`, `replace`, `indexOf`, and `LULCODE_SLICE`.
+The self-hosting helpers in §10.3.2 *do* have an internal dependency chain (`replaceAll → replace → indexOf → LULCODE_SLICE`) and callers that pull them in manually must include the chain themselves.
 
 ---
 
@@ -1173,14 +1151,14 @@ replaceAll → replace → indexOf → LULCODE_SLICE
 
 Transformations are applied in this order:
 
-1. **Extract strings** (protect from transformation)
+1. **BUKKIT string keys** (`arr["key"]` → `arr'Z key`) — done before string extraction because the pattern requires the literal quotes
 2. **Extract comments** (protect from transformation)
-3. **Extract array literals** (protect from transformation)
-4. **String interpolation** (process extracted strings)
-5. **BUKKIT string keys** (`arr["key"]` → `arr'Z key`)
+3. **Extract strings** (protect from transformation)
+4. **Extract array literals** (protect from transformation)
+5. **String interpolation** (process extracted strings)
 6. **String slicing** (`str[start:end]`)
 7. **String splitting** (`UNSMOOSH`)
-8. **Block statements** (`IM CHECKIN YR`, `ORLY`)
+8. **Block statements** — `IM CHECKIN YR`, then `ORLY`/`MEBE`/`NOWAI`, then `IM IN YR ... KTHX`
 9. **WTV declarations**
 10. **BUKKIT numeric keys** (`arr[0]`, `arr[i]`)
 11. **Array operations** (`YEET`, `YOINK`)
@@ -1192,7 +1170,7 @@ Transformations are applied in this order:
 17. **Restore strings**
 18. **Restore comments**
 
-**Rationale**: Order matters to avoid incorrect transformations. For example, strings must be extracted before operators are processed, or `"x == y"` would be transformed incorrectly.
+**Rationale**: Order matters to avoid incorrect transformations. For example, strings must be extracted before operators are processed, or `"x == y"` would be transformed incorrectly. BUKKIT string-key access is handled first because once strings are extracted the literal `"key"` is gone, and the closer-resolution passes for blocks must run innermost-first so that the universal `KTHX` can be matched to its real opener.
 
 ### 11.2 Context-Dependent Closers
 
@@ -1422,7 +1400,7 @@ WTV total ITZ 0
 WTV count ITZ scores'Z __length
 
 IM CHECKIN YR scores FER score
-  total = total + score
+  total = SUM OF total AN score
 KTHX
 
 WTV avg ITZ QUOSHUNT OF total AN count

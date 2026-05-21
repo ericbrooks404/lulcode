@@ -357,6 +357,20 @@ test(
   'I HAS A parts ITZ LULCODE_SPLIT "a:b" ":"\nI HAS A __foreach_idx_1 ITZ 0\nI HAS A __foreach_len_1 ITZ parts\'Z __length\nIM IN YR __foreach_loop_1 UPPIN YR __foreach_idx_1 TIL BOTH SAEM __foreach_idx_1 AN __foreach_len_1\n  I HAS A __foreach_key_1 ITZ SMOOSH "__" AN __foreach_idx_1 MKAY\n  I HAS A part ITZ parts\'Z SRS __foreach_key_1\n  VISIBLE part\nIM OUTTA YR __foreach_loop_1'
 );
 
+// Test 48: KTHX closes IM IN YR loop (spec §9.3)
+test(
+  'KTHX closes IM IN YR loop',
+  'IM IN YR loop UPPIN YR i TIL BOTH SAEM i AN 10\n  VISIBLE i\nKTHX',
+  'IM IN YR loop UPPIN YR i TIL BOTH SAEM i AN 10\n  VISIBLE i\nIM OUTTA YR loop'
+);
+
+// Test 49: KTHX still closes IM CHECKIN YR (not stolen by IM IN YR pattern)
+test(
+  'IM CHECKIN YR still closes with its generated label',
+  'IM CHECKIN YR arr FER x\n  VISIBLE x\nKTHX',
+  'I HAS A __foreach_idx_1 ITZ 0\nI HAS A __foreach_len_1 ITZ arr\'Z __length\nIM IN YR __foreach_loop_1 UPPIN YR __foreach_idx_1 TIL BOTH SAEM __foreach_idx_1 AN __foreach_len_1\n  I HAS A __foreach_key_1 ITZ SMOOSH "__" AN __foreach_idx_1 MKAY\n  I HAS A x ITZ arr\'Z SRS __foreach_key_1\n  VISIBLE x\nIM OUTTA YR __foreach_loop_1'
+);
+
 // Summary
 console.log(`\n${passed} passed, ${failed} failed`);
 process.exit(failed > 0 ? 1 : 0);

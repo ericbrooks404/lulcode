@@ -1,25 +1,25 @@
 HAI 1.2
 BTW String split demonstration
 
-VISIBLE "=== String Split Demo ==="
+VISIBLE "=== UNSMOOSH Demo ==="
 
 VISIBLE ""
 VISIBLE "1. Split by comma"
 WTV csv ITZ "apple,banana,cherry"
-WTV fruits ITZ SPLIT csv BY ","
+WTV fruits ITZ UNSMOOSH csv BY ","
 
 VISIBLE "Parts:"
-FOREACH fruit IN fruits
+IM CHECKIN YR fruits FER fruit
   VISIBLE fruit
 KTHX
 
 VISIBLE ""
 VISIBLE "2. Split by space"
 WTV sentence ITZ "Hello World From LULCODE"
-WTV words ITZ SPLIT sentence BY " "
+WTV words ITZ UNSMOOSH sentence BY " "
 
 VISIBLE "Words:"
-FOREACH i, word IN words
+IM CHECKIN YR words FER word AT i
   VISIBLE i
   VISIBLE word
 KTHX
@@ -27,7 +27,7 @@ KTHX
 VISIBLE ""
 VISIBLE "3. Split by dash"
 WTV date ITZ "2026-05-20"
-WTV parts ITZ SPLIT date BY "-"
+WTV parts ITZ UNSMOOSH date BY "-"
 
 VISIBLE "Date parts:"
 VISIBLE "Year:"
@@ -40,21 +40,21 @@ VISIBLE parts[2]
 VISIBLE ""
 VISIBLE "4. Split every character (empty delimiter)"
 WTV name ITZ "LULCODE"
-WTV chars ITZ SPLIT name BY ""
+WTV chars ITZ UNSMOOSH name BY ""
 
 VISIBLE "Characters:"
-FOREACH char IN chars
+IM CHECKIN YR chars FER char
   VISIBLE char
 KTHX
 
 VISIBLE ""
 VISIBLE "5. Array length after split"
 WTV data ITZ "a:b:c:d:e"
-WTV items ITZ SPLIT data BY ":"
+WTV items ITZ UNSMOOSH data BY ":"
 VISIBLE "Split into parts:"
 VISIBLE items'Z __length
 
 VISIBLE ""
-VISIBLE "=== Split Complete! ==="
+VISIBLE "=== UNSMOOSH Complete ==="
 
 KTHXBYE

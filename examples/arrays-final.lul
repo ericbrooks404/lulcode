@@ -2,15 +2,13 @@ HAI 1.2
 BTW Complete array feature demonstration
 BTW All array features working together!
 
-VISIBLE "╔══════════════════════════════════╗"
-VISIBLE "║  LULCODE Array Demo Complete    ║"
-VISIBLE "╚══════════════════════════════════╝"
+VISIBLE "=== LULCODE Array Demo ==="
 VISIBLE ""
 
 VISIBLE "1. Array Creation"
 VISIBLE "   WTV nums ITZ [10, 20, 30]"
 WTV nums ITZ [10, 20, 30]
-VISIBLE "   ✓ Created"
+VISIBLE "   Created"
 
 VISIBLE ""
 VISIBLE "2. Array Access"
@@ -31,36 +29,36 @@ VISIBLE "   Length:"
 VISIBLE nums'Z __length
 
 VISIBLE ""
-VISIBLE "5. PUSH Operation"
-VISIBLE "   PUSH 40 TO nums"
-PUSH 40 TO nums
+VISIBLE "5. YEET (push)"
+VISIBLE "   YEET 40 INTO nums"
+YEET 40 INTO nums
 VISIBLE "   New length:"
 VISIBLE nums'Z __length
 
 VISIBLE ""
-VISIBLE "6. POP Operation"
-WTV popped ITZ POP FROM nums
+VISIBLE "6. YOINK LAST (pop)"
+WTV popped ITZ YOINK LAST FROM nums
 VISIBLE "   Popped:"
 VISIBLE popped
 
 VISIBLE ""
-VISIBLE "7. SHIFT Operation"
-WTV shifted ITZ SHIFT FROM nums
+VISIBLE "7. YOINK FIRST (shift)"
+WTV shifted ITZ YOINK FIRST FROM nums
 VISIBLE "   Shifted:"
 VISIBLE shifted
 
 VISIBLE ""
-VISIBLE "8. FOREACH without index"
+VISIBLE "8. Foreach without index"
 WTV colors ITZ ["red", "green", "blue"]
 VISIBLE "   Iterating colors:"
-FOREACH color IN colors
+IM CHECKIN YR colors FER color
   VISIBLE color
 KTHX
 
 VISIBLE ""
-VISIBLE "9. FOREACH with index"
+VISIBLE "9. Foreach with index"
 VISIBLE "   Indexed iteration:"
-FOREACH i, color IN colors
+IM CHECKIN YR colors FER color AT i
   VISIBLE i
   VISIBLE color
 KTHX
@@ -68,12 +66,12 @@ KTHX
 VISIBLE ""
 VISIBLE "10. Building Arrays Dynamically"
 WTV stack ITZ AN ARRAY
-PUSH "first" TO stack
-PUSH "second" TO stack
-PUSH "third" TO stack
+YEET "first" INTO stack
+YEET "second" INTO stack
+YEET "third" INTO stack
 VISIBLE "   Stack built with 3 items"
 VISIBLE "   Contents:"
-FOREACH item IN stack
+IM CHECKIN YR stack FER item
   VISIBLE item
 KTHX
 
@@ -87,13 +85,11 @@ VISIBLE ""
 VISIBLE "12. Array Processing"
 WTV data ITZ [1, 2, 3, 4, 5]
 VISIBLE "   Processing array [1,2,3,4,5]:"
-FOREACH n IN data
+IM CHECKIN YR data FER n
   VISIBLE n
 KTHX
 
 VISIBLE ""
-VISIBLE "╔══════════════════════════════════╗"
-VISIBLE "║  All Features Working! ✓         ║"
-VISIBLE "╚══════════════════════════════════╝"
+VISIBLE "=== All Features Working ==="
 
 KTHXBYE

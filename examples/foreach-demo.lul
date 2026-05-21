@@ -1,17 +1,17 @@
 HAI 1.2
-BTW FOREACH loop demonstration
+BTW IM CHECKIN YR (foreach) demonstration
 
 BTW Create array
 WTV colors ITZ ["red", "green", "blue"]
 
-VISIBLE "=== FOREACH without index ==="
-FOREACH color IN colors
+VISIBLE "=== Iterating without index ==="
+IM CHECKIN YR colors FER color
   VISIBLE color
 KTHX
 
 VISIBLE ""
-VISIBLE "=== FOREACH with index ==="
-FOREACH i, color IN colors
+VISIBLE "=== Iterating with index ==="
+IM CHECKIN YR colors FER color AT i
   VISIBLE "Index:"
   VISIBLE i
   VISIBLE "Color:"
@@ -21,22 +21,22 @@ KTHX
 VISIBLE ""
 VISIBLE "=== Building and iterating ==="
 WTV numbers ITZ AN ARRAY
-PUSH 10 TO numbers
-PUSH 20 TO numbers
-PUSH 30 TO numbers
+YEET 10 INTO numbers
+YEET 20 INTO numbers
+YEET 30 INTO numbers
 
 VISIBLE "Numbers:"
-FOREACH num IN numbers
+IM CHECKIN YR numbers FER num
   VISIBLE num
 KTHX
 
 VISIBLE ""
-VISIBLE "=== Sum with FOREACH ==="
+VISIBLE "=== Sum with foreach ==="
 WTV sum ITZ 0
 WTV data ITZ [5, 10, 15, 20]
 
-FOREACH value IN data
-  sum = sum + value
+IM CHECKIN YR data FER value
+  sum = SUM OF sum AN value
 KTHX
 
 VISIBLE "Sum:"

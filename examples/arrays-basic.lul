@@ -3,11 +3,13 @@ BTW Basic array demonstration
 
 BTW Create empty array
 WTV empty ITZ []
-VISIBLE "Empty array length: {LENGZ OF empty}"
+WTV emptyLen ITZ empty'Z __length
+VISIBLE "Empty array length: {emptyLen}"
 
 BTW Create array with literals
 WTV numbers ITZ [10, 20, 30]
-VISIBLE "Numbers length: {LENGZ OF numbers}"
+WTV numbersLen ITZ numbers'Z __length
+VISIBLE "Numbers length: {numbersLen}"
 
 BTW Access by literal index
 VISIBLE "First: {numbers[0]}"
@@ -25,8 +27,9 @@ VISIBLE "Index 0: {numbers[i]}"
 WTV j ITZ 2
 VISIBLE "Index 2: {numbers[j]}"
 
-BTW Create array with LOLCODE style
+BTW Create array with AN ARRAY shorthand
 WTV list ITZ AN ARRAY
-VISIBLE "List length: {LENGZ OF list}"
+WTV listLen ITZ list'Z __length
+VISIBLE "List length: {listLen}"
 
 KTHXBYE
